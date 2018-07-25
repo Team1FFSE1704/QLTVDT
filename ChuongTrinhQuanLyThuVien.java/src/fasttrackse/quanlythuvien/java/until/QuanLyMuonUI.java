@@ -35,10 +35,9 @@ import javax.swing.table.TableColumnModel;
 
 public class QuanLyMuonUI extends JFrame {
 	private JLabel lblTitle, lbWestTS, lblCodeGD, lblCodeTV, lblCodeSL, lblNM, lblNT, lblMS, lbWestMS;
-	private JButton btnqltv, btnqlmt, btnqls, btnqldm, btnkt, btntk, btnSubmit, btnoo;
+	private JButton btnqltv, btnqlmt, btnqls, btnqldm, btnkt, btntk, btnSubmit, btnts, btnms;
 	private JTextField txtCodeTV, txtCodeGD, txtSL, txtNM, txtNT;
 	private DefaultTableModel table = new DefaultTableModel();
-	private DefaultListModel fruitsName = new DefaultListModel();
 	private JTable tbl;
 	// private JList fruitList;
 	DateFormat ngay;
@@ -47,7 +46,7 @@ public class QuanLyMuonUI extends JFrame {
 	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
 	private Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
 
-	QuanLyThanhVienUI myui = new QuanLyThanhVienUI();
+	QuanLyTraUI myui = new QuanLyTraUI();
 	JPanel pnCenterCon = new JPanel();
 
 	// tạo console
@@ -113,16 +112,17 @@ public class QuanLyMuonUI extends JFrame {
 
 		JPanel pnWestCon1 = new JPanel();
 		pnWestCon1.setPreferredSize(new Dimension(110, 30));
-		lbWestMS = new JLabel("mượn sách");
-		
+		btnms = new JButton("Mượn sách");
+		btnms.setPreferredSize(new Dimension(100, 20));
 
 		JPanel pnWestCon2 = new JPanel();
 		pnWestCon2.setPreferredSize(new Dimension(110, 30));
-		lbWestTS = new JLabel("Trả sách");
-		
+		btnts = new JButton("Trả sách");
+		btnts.setPreferredSize(new Dimension(100, 20));
+
 		pnWestCon.setBorder(borderTitle);
-		pnWestCon1.add(lbWestMS);
-		pnWestCon2.add(lbWestTS);
+		pnWestCon1.add(btnms);
+		pnWestCon2.add(btnts);
 
 		pnWestCon.add(pnWestCon1);
 		pnWestCon.add(pnWestCon2);
@@ -149,7 +149,7 @@ public class QuanLyMuonUI extends JFrame {
 		btnqltv.setMargin(new Insets(5, 18, 5, 30));
 
 		ImageIcon update2 = new ImageIcon(
-				new ImageIcon("icon/danhmuc.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
+				new ImageIcon("icon/qlmuontra.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
 		btnqlmt = new JButton("Quản lý mượn trả ", update2);
 		btnqlmt.setMargin(new Insets(5, 20, 5, 30));
 
@@ -207,11 +207,7 @@ public class QuanLyMuonUI extends JFrame {
 		// phần center chính nhập thông tin mượn sách
 		JPanel pnCenter = new JPanel();
 		pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
-
-		// pnCenter.setPreferredSize(new Dimension(500, 400));
 		pnCenter.setBackground(Color.gray);
-
-		// pnCenterCon.setBackground(Color.white);
 		Border border1 = BorderFactory.createLineBorder(Color.darkGray);
 		TitledBorder borderTitle1 = BorderFactory.createTitledBorder(border1, "Nhập Thông Tin");
 		pnCenterCon.setBorder(borderTitle1);
@@ -232,7 +228,7 @@ public class QuanLyMuonUI extends JFrame {
 
 		JPanel pnCenterCon3 = new JPanel();
 		lblMS = new JLabel("         Mã sách: ");
-		fruitsName = new DefaultListModel();
+		DefaultListModel fruitsName = new DefaultListModel();
 
 		fruitsName.addElement("Apple");
 		fruitsName.addElement("Grapes");
@@ -248,7 +244,7 @@ public class QuanLyMuonUI extends JFrame {
 		fruitList.setVisibleRowCount(3);
 
 		fruitListScrollPane = new JScrollPane(fruitList);
-		fruitListScrollPane.setPreferredSize(new Dimension(225,55));
+		fruitListScrollPane.setPreferredSize(new Dimension(225, 55));
 		pnCenterCon3.add(lblMS);
 		pnCenterCon3.add(fruitListScrollPane);
 
@@ -288,7 +284,6 @@ public class QuanLyMuonUI extends JFrame {
 		pnCenterCon.add(pnCenterCon6);
 		pnCenterCon.add(lbkc5);
 
-
 		pnCenter.add(pnCenterCon);
 		pnCenter.add(myui);
 		myui.setVisible(false);
@@ -300,19 +295,19 @@ public class QuanLyMuonUI extends JFrame {
 
 	public void addEvents() {
 
-		btnqldm.addActionListener(btnExitClick);
-		btntk.addActionListener(btnThongKeClick);
+		btnms.addActionListener(btnMuonSachClick);
+		btnts.addActionListener(btnTraSachClick);
 
 	}
 
-	ActionListener btnExitClick = new ActionListener() {
+	ActionListener btnTraSachClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			pnCenterCon.setVisible(false);
 			myui.setVisible(true);
 		}
 	};
 
-	ActionListener btnThongKeClick = new ActionListener() {
+	ActionListener btnMuonSachClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			myui.setVisible(false);
 			pnCenterCon.setVisible(true);
