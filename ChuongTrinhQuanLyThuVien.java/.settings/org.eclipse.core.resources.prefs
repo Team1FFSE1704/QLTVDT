@@ -1,3 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/fasttrackse/quanlythuvien/java/main/QuanLyThuVien.java=UTF-8
-encoding//src/fasttrackse/quanlythuvien/java/until/QuanLyThuVienUI.java=UTF-8
+encoding//src/fasttrackse/quanlythuvien/java/until/QuanLyDanhMucUI.java=UTF-8
+encoding//src/fasttrackse/quanlythuvien/java/until/QuanLyMuonUI.java=UTF-8
+encoding//src/fasttrackse/quanlythuvien/java/until/QuanLyThanhVienUI.java=UTF-8
+encoding//src/fasttrackse/quanlythuvien/java/until/QuanLyTraUI.java=UTF-8
