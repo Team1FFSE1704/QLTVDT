@@ -45,7 +45,7 @@ public class QuanLyTraUI extends JPanel {
 
 		// phần trung tâm nhập thông tin
 		JPanel pnCenter = new JPanel();
-		// pnCenter.setPreferredSize(new Dimension(630, 330));
+		 pnCenter.setPreferredSize(new Dimension(650, 330));
 		pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
 		pnCenter.setBackground(Color.LIGHT_GRAY);
 

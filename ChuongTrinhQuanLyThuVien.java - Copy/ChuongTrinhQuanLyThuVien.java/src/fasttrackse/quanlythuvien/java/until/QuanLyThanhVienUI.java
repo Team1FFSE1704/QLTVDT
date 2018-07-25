@@ -28,6 +28,7 @@ import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JYearChooser;
 
 public class QuanLyThanhVienUI extends  JPanel{
+	private static final String EXIT_ON_CLOSE = null;
 	private JLabel lblTitle, lblCodeMTV, lblHT, lblDC, lblP, lblQ, lblTP, lblSDT, lblEmail;
 	private JButton btnqltv, btnqlmt, btnqls, btnqldm, btnkt, btntk,btnreset,btnsua,btnthem,btnxoa;
 	private JTextField txtCodeMTV, txtHT, txtDC, txtP, txtQ, txtTP, txtSDT, txtEmail;
@@ -258,6 +259,19 @@ public class QuanLyThanhVienUI extends  JPanel{
 
 		// thêm vào main
 		this.add(pnBorder);
+	}
+
+	public void showView() {
+		this.setSize(1100, 650);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setLocation(null);
+		this.setVisible(true);
+		
+	}
+
+	private void setDefaultCloseOperation(String exitOnClose) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
