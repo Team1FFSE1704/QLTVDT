@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -27,108 +25,22 @@ import javax.swing.table.TableColumnModel;
 import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JYearChooser;
 
-public class QuanLyThanhVienUI extends  JPanel{
-	private static final String EXIT_ON_CLOSE = null;
-	private JLabel lblTitle, lblCodeMTV, lblHT, lblDC, lblP, lblQ, lblTP, lblSDT, lblEmail;
-	private JButton btnqltv, btnqlmt, btnqls, btnqldm, btnkt, btntk,btnreset,btnsua,btnthem,btnxoa;
+public class QuanLyThanhVienUI extends JPanel {
+	private JLabel lblCodeMTV, lblHT, lblDC, lblP, lblQ, lblTP, lblSDT, lblEmail;
+	private JButton btnreset, btnsua, btnthem, btnxoa;
 	private JTextField txtCodeMTV, txtHT, txtDC, txtP, txtQ, txtTP, txtSDT, txtEmail;
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
-	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
-	private Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
-	JMonthChooser jmc; 
-	JYearChooser jyc;
+	private	JMonthChooser jmc;
+	private JYearChooser jyc;
 
-	public void addControls() {
+	public QuanLyThanhVienUI() {
+
 		// tạo container và boder chính
 		JPanel pnBorder = new JPanel();
+		pnBorder.setPreferredSize(new Dimension(820, 700));
 		pnBorder.setLayout(new BorderLayout());
-
-		// phần header
-		JPanel pnNorth = new JPanel();
-		pnNorth.setBorder(raisedEtched);
-		pnNorth.setPreferredSize(new Dimension(100, 60));
-		lblTitle = new JLabel("Chương Trình Quản Lý Thư Viện Thành Viên");
-		pnNorth.setBackground(Color.ORANGE);
-		lblTitle.setForeground(Color.RED);
-		Font fontTitle = new Font("Monospaced", Font.BOLD | Font.ITALIC, 35);
-		lblTitle.setFont(fontTitle);
-		pnNorth.add(lblTitle);
-		pnBorder.add(pnNorth, BorderLayout.NORTH);
-
-		// phần footer màn hình
-		JPanel pnSouth = new JPanel();
-		pnSouth.setLayout(new BoxLayout(pnSouth, BoxLayout.Y_AXIS));
-		pnSouth.setPreferredSize(new Dimension(900, 200));
-		pnSouth.setBackground(Color.white);
-		// bảng table
-		table.addColumn("Mã thành viên");
-		table.addColumn("Tên thành viên");
-		table.addColumn("Địa chỉ nhà");
-		table.addColumn("Phường");
-		table.addColumn("Quận");
-		table.addColumn("Tỉnh/Thành phố");
-		table.addColumn("Điện Thoại");
-		table.addColumn("Email");
-		tbl = new JTable(table);
-		TableColumnModel columnModel = tbl.getColumnModel();
-		columnModel.getColumn(0).setPreferredWidth(30);
-		columnModel.getColumn(1).setPreferredWidth(110);
-		columnModel.getColumn(3).setPreferredWidth(50);
-		columnModel.getColumn(4).setPreferredWidth(50);
-		JScrollPane sc = new JScrollPane(tbl);
-		pnSouth.add(sc);
-		pnBorder.add(pnSouth, BorderLayout.SOUTH);
-
-		// phần bên phải và các button chính
-		JPanel pnEast = new JPanel();
-		pnEast.setBorder(raisedBevel);
-		pnEast.setPreferredSize(new Dimension(250, 50));
-		pnEast.setBackground(Color.ORANGE);
-		// pannel con pnEastCon
-		JPanel pnEastCon = new JPanel();
-		pnEastCon.setLayout(new BoxLayout(pnEastCon, BoxLayout.Y_AXIS));
-		btnqltv = new JButton("Quản lý thành viên ");
-		btnqltv.setPreferredSize(new Dimension(170, 40));
-
-		btnqlmt = new JButton("Quản lý mượn trả ");
-		btnqlmt.setPreferredSize(new Dimension(170, 40));
-
-		btnqls = new JButton("Quản lý sách  ");
-		btnqls.setPreferredSize(new Dimension(170, 40));
-
-		btnqldm = new JButton("Quản lý danh mục ");
-		btnqldm.setPreferredSize(new Dimension(170, 40));
-
-		btntk = new JButton("Thông kê ");
-		btntk.setPreferredSize(new Dimension(170, 40));
-
-		btnkt = new JButton("Kết thúc");
-		btnkt.setPreferredSize(new Dimension(171, 40));
-
-		JLabel lbkc = new JLabel("        ");
-		JLabel lbkc1 = new JLabel("        ");
-		JLabel lbkc2 = new JLabel("        ");
-		JLabel lbkc3 = new JLabel("        ");
-		JLabel lbkc4 = new JLabel("        ");
-		JLabel lbkc6 = new JLabel("       ");
-
-		// add button vào pnEast
-		pnEast.add(btnqltv);
-		pnEast.add(lbkc);
-		pnEast.add(btnqlmt);
-		pnEast.add(lbkc1);
-		pnEast.add(btnqls);
-		pnEast.add(lbkc2);
-		pnEast.add(btnqldm);
-		pnEast.add(lbkc3);
-		pnEast.add(btntk);
-		pnEast.add(lbkc4);
-		pnEast.add(btnkt);
-		pnEast.add(lbkc6);
-
-		pnEast.add(pnEastCon);
-		pnBorder.add(pnEast, BorderLayout.EAST);
+		pnBorder.setLayout(new BoxLayout(pnBorder, BoxLayout.Y_AXIS));
 
 		// phần trung tâm nhập thông tin
 		JPanel pnCenter = new JPanel();
@@ -140,7 +52,7 @@ public class QuanLyThanhVienUI extends  JPanel{
 		Border border = BorderFactory.createLineBorder(Color.DARK_GRAY);
 		TitledBorder borderTitle = BorderFactory.createTitledBorder(border, "Mời Nhập thông tin thành viên");
 		pnCenterCon.setBorder(borderTitle);
-		pnCenterCon.setPreferredSize(new Dimension(800, 150));
+		// pnCenterCon.setPreferredSize(new Dimension(300, 300));
 		pnCenterCon.setBackground(Color.LIGHT_GRAY);
 
 		// text nhập thông tin
@@ -198,37 +110,37 @@ public class QuanLyThanhVienUI extends  JPanel{
 		pnCenterCon8.add(lblEmail);
 		pnCenterCon8.add(txtEmail);
 
-		//phần button thêm,sửa,xóa.....
+		// phần button thêm,sửa,xóa.....
 		JPanel pnButton = new JPanel();
 		pnButton.setLayout(new BoxLayout(pnButton, BoxLayout.X_AXIS));
 		pnButton.setPreferredSize(new Dimension(1000, 50));
 		pnButton.setBackground(Color.LIGHT_GRAY);
-
+ 
 		ImageIcon update = new ImageIcon(
 				new ImageIcon("icon/them.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-		btnthem = new JButton("thêm ",update);
-		btnthem.setMargin(new Insets(5,10,5,10));
-		
+		btnthem = new JButton("thêm ", update);
+		btnthem.setMargin(new Insets(5, 10, 5, 10));
+
 		ImageIcon update1 = new ImageIcon(
 				new ImageIcon("icon/sua.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-		btnsua = new JButton("sửa ",update1);
-		btnsua.setMargin(new Insets(5,10,5,10));
-		
+		btnsua = new JButton("sửa ", update1);
+		btnsua.setMargin(new Insets(5, 10, 5, 10));
+
 		ImageIcon update2 = new ImageIcon(
 				new ImageIcon("icon/xoa.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-		btnxoa = new JButton("xóa ",update2);
-		btnxoa.setMargin(new Insets(5,10,5,10));
-		
+		btnxoa = new JButton("xóa ", update2);
+		btnxoa.setMargin(new Insets(5, 10, 5, 10));
+
 		ImageIcon update3 = new ImageIcon(
 				new ImageIcon("icon/reset.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-		btnreset = new JButton("reset",update3);
-		btnreset.setMargin(new Insets(5,10,5,10));
+		btnreset = new JButton("reset", update3);
+		btnreset.setMargin(new Insets(5, 10, 5, 10));
 		JLabel lbkc7 = new JLabel("");
 		JLabel lbkc8 = new JLabel("        ");
 		JLabel lbkc9 = new JLabel("        ");
 		JLabel lbkc10 = new JLabel("        ");
-		
-		//add các ô text nhập thông tin
+
+		// add các ô text nhập thông tin
 		pnLeft.add(pnCenterCon1);
 		pnLeft.add(pnCenterCon2);
 		pnLeft.add(pnCenterCon3);
@@ -237,9 +149,9 @@ public class QuanLyThanhVienUI extends  JPanel{
 		pnRight.add(pnCenterCon6);
 		pnRight.add(pnCenterCon7);
 		pnRight.add(pnCenterCon8);
-		
-		//add các buttton them sửa xóa
-	//	pnButton.add(ro);
+
+		// add các buttton them sửa xóa
+		// pnButton.add(ro);
 		pnButton.add(lbkc7);
 		pnButton.add(btnthem);
 		pnButton.add(lbkc8);
@@ -257,22 +169,30 @@ public class QuanLyThanhVienUI extends  JPanel{
 		pnBorder.add(pnCenter, BorderLayout.CENTER);
 		// hết phần center
 
+		// phần footer màn hình
+		JPanel pnSouth = new JPanel();
+		pnSouth.setLayout(new BoxLayout(pnSouth, BoxLayout.Y_AXIS));
+		// bảng table
+		table.addColumn("Mã thành viên");
+		table.addColumn("Tên thành viên");
+		table.addColumn("Địa chỉ nhà");
+		table.addColumn("Phường");
+		table.addColumn("Quận");
+		table.addColumn("Tỉnh/Thành phố");
+		table.addColumn("Điện Thoại");
+		table.addColumn("Email");
+		tbl = new JTable(table);
+		TableColumnModel columnModel = tbl.getColumnModel();
+		columnModel.getColumn(0).setPreferredWidth(50);
+		columnModel.getColumn(1).setPreferredWidth(110);
+		columnModel.getColumn(3).setPreferredWidth(50);
+		columnModel.getColumn(4).setPreferredWidth(50);
+		JScrollPane sc = new JScrollPane(tbl);
+		pnSouth.add(sc);
+		pnBorder.add(pnSouth, BorderLayout.SOUTH);
+
 		// thêm vào main
 		this.add(pnBorder);
 	}
 
-	public void showView() {
-		this.setSize(1100, 650);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setLocation(null);
-		this.setVisible(true);
-		
-	}
-
-	private void setDefaultCloseOperation(String exitOnClose) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
 }
