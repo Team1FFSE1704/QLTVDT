@@ -61,12 +61,13 @@ public class QuanLyMuonUI extends JFrame {
 		layout.setVgap(10);
 		pnBorder.setLayout(layout);
 		pnBorder.setBackground(Color.gray);
+		
 		// phần header
 		JPanel pnNorth = new JPanel();
 		pnNorth.setBorder(raisedEtched);
 		pnNorth.setPreferredSize(new Dimension(100, 60));
 		pnNorth.setBackground(Color.orange);
-		lblTitle = new JLabel("Chương Trình Quản Lý Thư Viện ");
+		lblTitle = new JLabel("Quản lý mượn trả sách ");
 		lblTitle.setForeground(Color.RED);
 		Font fontTitle = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
 		lblTitle.setFont(fontTitle);
@@ -114,6 +115,7 @@ public class QuanLyMuonUI extends JFrame {
 		pnWestCon1.setPreferredSize(new Dimension(110, 30));
 		btnms = new JButton("Mượn sách");
 		btnms.setPreferredSize(new Dimension(100, 20));
+		btnms.setEnabled(false);
 
 		JPanel pnWestCon2 = new JPanel();
 		pnWestCon2.setPreferredSize(new Dimension(110, 30));
@@ -152,6 +154,8 @@ public class QuanLyMuonUI extends JFrame {
 				new ImageIcon("icon/qlmuontra.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
 		btnqlmt = new JButton("Quản lý mượn trả ", update2);
 		btnqlmt.setMargin(new Insets(5, 20, 5, 30));
+		btnqlmt.setEnabled(false);
+		//btnqlmt.setForeground(Color.RED);
 
 		ImageIcon update3 = new ImageIcon(
 				new ImageIcon("icon/sach.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
@@ -302,6 +306,8 @@ public class QuanLyMuonUI extends JFrame {
 
 	ActionListener btnTraSachClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			btnms.setEnabled(true);
+			btnts.setEnabled(false);
 			pnCenterCon.setVisible(false);
 			myui.setVisible(true);
 		}
@@ -309,6 +315,8 @@ public class QuanLyMuonUI extends JFrame {
 
 	ActionListener btnMuonSachClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			btnms.setEnabled(false);
+			btnts.setEnabled(true);
 			myui.setVisible(false);
 			pnCenterCon.setVisible(true);
 		}

@@ -48,11 +48,12 @@ public class QuanLyTraUI extends JPanel {
 		 pnCenter.setPreferredSize(new Dimension(650, 330));
 		pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
 		pnCenter.setBackground(Color.LIGHT_GRAY);
+		
 
 		JPanel pnCenterCon = new JPanel();
 		pnCenterCon.setLayout(new BoxLayout(pnCenterCon, BoxLayout.X_AXIS));
 		Border border = BorderFactory.createLineBorder(Color.DARK_GRAY);
-		TitledBorder borderTitle = BorderFactory.createTitledBorder(border, "Mời Nhập thông tin thành viên");
+		TitledBorder borderTitle = BorderFactory.createTitledBorder(border, "Nhập Thông Tin Trả sách");
 		pnCenterCon.setBorder(borderTitle);
 		// pnCenterCon.setPreferredSize(new Dimension(800, 150));
 		pnCenterCon.setBackground(Color.LIGHT_GRAY);
