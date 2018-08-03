@@ -39,8 +39,8 @@ public class QuanLyTraUI extends JPanel {
 	private JScrollPane fruitListScrollPane1;
 	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
 	private Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
-	private JMonthChooser jmc;
-	private JYearChooser jyc;
+//	private JMonthChooser jmc;
+//	private JYearChooser jyc;
 
 	public QuanLyTraUI() {
 		//  boder chính

@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 public class QuanLyDanhMucUI extends JPanel {
+	private static final String EXIT_ON_CLOSE = null;
 	private JLabel lblTitle, lbWestTS, lblCodeGD, lblCodeTV, lblCodeSL, lblNM, lblNT, lblMS, lbWestMS;
 	private JButton btntg, btnnxb, btnqh, btntp, btnkt, btntk, btnSubmit, btnts, btnms;
 	private JTextField txtCodeTV, txtCodeGD, txtSL, txtNM, txtNT;
@@ -69,8 +70,7 @@ public class QuanLyDanhMucUI extends JPanel {
 		JScrollPane sc = new JScrollPane(tbl);
 		pnSouth.add(sc);
 		pnBorder.add(pnSouth, BorderLayout.SOUTH);
-		
-		
+
 		// phần bên trái màn hình
 		pnWest.setBackground(Color.orange);
 		pnWest.setBorder(raisedBevel);
@@ -201,4 +201,8 @@ public class QuanLyDanhMucUI extends JPanel {
 		this.add(pnBorder);
 	}
 
+	
+	
+
+	
 }
