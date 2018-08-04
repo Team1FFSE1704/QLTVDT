@@ -1,4 +1,4 @@
-package fasttrackse.team1.qlthuviendientu.dao;
+package fasttrackse.quanlythuvien.entity;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -6,22 +6,24 @@ import java.util.Properties;
 
 import com.mysql.jdbc.Driver;
 
-public class QuanLyThuVienDAO {
+public class TacGia {
 	Connection conn = null;
 
-	//kết nối database
-	public QuanLyThuVienDAO() {
-		this.getConnect("localhost", "team1_qlthuvien", "team1qltvdt", "team1qltvdt");
+	public  TacGia() {
+		this.getConnect("localhost", "quanlythuvien", "quanlythuvien", "123456");
+		 if (this.getConn() != null) {
+		 System.err.println("Kết nối MYSQL thành công");
+		 } else {
+		 System.err.println("Kết nối MYSQL thất bại");
+		 }
 	}
 
-	//ngắt kết nối database
-	public void disConnection() {
+	public void stopConnect() {
 		if (conn != null) {
 			try {
 				conn.close();
-			} catch (SQLException e) {
-
-				e.printStackTrace();
+			} catch (Exception e) {
+				System.out.println(e);
 			}
 		}
 	}
@@ -36,8 +38,7 @@ public class QuanLyThuVienDAO {
 
 	public void getConnect(String strServer, String strDatabase, String strUser, String strPwd) {
 
-		String strConnect = "jdbc:mysql://" + strServer + "/" + strDatabase
-				+ "?useUnicode=true&characterEncoding=utf-8";
+		String strConnect = "jdbc:mysql://" + strServer + "/" + strDatabase+ "?useUnicode=true&characterEncoding=utf-8";
 		Properties pro = new Properties();
 		pro.put("user", strUser);
 		pro.put("password", strPwd);
@@ -50,7 +51,4 @@ public class QuanLyThuVienDAO {
 
 	}
 
-	public static void main(String[] args) {
-		quanLyTraUI.setVisible(false);
-	}
 }
