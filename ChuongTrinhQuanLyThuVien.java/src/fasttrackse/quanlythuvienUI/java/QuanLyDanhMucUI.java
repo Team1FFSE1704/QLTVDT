@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -40,7 +44,40 @@ public class QuanLyDanhMucUI extends JPanel {
 	public static TacGiaModel tacGiaDAO = new TacGiaModel();
 	public static ArrayList<TacGia> arr = new ArrayList<TacGia>();
 
-	public QuanLyDanhMucUI() {
+	MouseListener tblUserClick = new MouseListener() {
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		public void mousePressed(MouseEvent e) {
+		}
+
+		public void mouseExited(MouseEvent e) {
+		}
+
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		public void mouseClicked(MouseEvent e) {
+
+			txtCodetg.setEditable(false);
+			int row = tbl.getSelectedRow();
+
+			String maTacGia = (String) tbl.getValueAt(row, 0);
+			txtCodetg.setText(maTacGia);
+
+			String tenTacGia = (String) tbl.getValueAt(row, 1);
+			txtttg.setText(tenTacGia);
+
+			btnthem.setEnabled(false);
+			btnsua.setEnabled(true);
+			btnxoa.setEnabled(true);
+		}
+	};
+public QuanLyDanhMucUI() {
+	addControls();
+	addEvents();
+}
+	public void addControls() {
 		// Container con = getContentPane();
 		JPanel pnBorder = new JPanel();
 		pnBorder.setPreferredSize(new Dimension(650, 550));
@@ -64,13 +101,16 @@ public class QuanLyDanhMucUI extends JPanel {
 		// table.addColumn("Ghi chú");
 		this.getTable();
 		tbl = new JTable(table);
+
 		TableColumnModel columnModel = tbl.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(2);
-		//columnModel.getColumn(1).setPreferredWidth(10);
+		// columnModel.getColumn(1).setPreferredWidth(10);
 		// columnModel.getColumn(4).setPreferredWidth(5);
 		// columnModel.getColumn(5).setPreferredWidth(5);
 		// columnModel.getColumn(6).setPreferredWidth(6);
 		JScrollPane sc = new JScrollPane(tbl);
+		tbl.addMouseListener(tblUserClick);
+		
 		pnSouth.add(sc);
 		pnBorder.add(pnSouth, BorderLayout.SOUTH);
 
@@ -111,11 +151,13 @@ public class QuanLyDanhMucUI extends JPanel {
 				new ImageIcon("icon/sua.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		btnsua = new JButton("sửa ", update1);
 		btnsua.setMargin(new Insets(5, 10, 5, 10));
+		btnsua.setEnabled(false);
 
 		ImageIcon update2 = new ImageIcon(
 				new ImageIcon("icon/xoa.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		btnxoa = new JButton("xóa ", update2);
 		btnxoa.setMargin(new Insets(5, 10, 5, 10));
+		btnxoa.setEnabled(false);
 
 		ImageIcon update3 = new ImageIcon(
 				new ImageIcon("icon/reset.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
@@ -161,5 +203,23 @@ public class QuanLyDanhMucUI extends JPanel {
 	//
 	// }
 	// }
+
+	ActionListener btnResetClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			btnthem.setEnabled(true);
+			btnsua.setEnabled(false);
+			btnxoa.setEnabled(false);
+			
+			txtCodetg.setText("");
+			txtttg.setText("");
+		}
+	};
+
+	// phần add sự kiện
+	public void addEvents() {
+		// các menu chính
+		btnreset.addActionListener(btnResetClick);
+
+	}
 
 }
