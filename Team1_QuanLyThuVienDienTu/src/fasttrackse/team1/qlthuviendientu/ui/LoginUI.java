@@ -186,15 +186,15 @@ public class LoginUI extends JFrame {
 							admin.remove(0);
 							admin.add(new Admin(user, pass, status));
 							SerializeFileFactory.luuFile(admin, "admin.txt");
-							QuanLyThuVienUI thuvienui = new QuanLyThuVienUI("Quản lý sinh viên");
-							thuvienui.showWindow();
+							QuanLyMuonUI thuvienui = new QuanLyMuonUI("Quản lý thư viện Đà Nẵng");
+							thuvienui.showView();
 							this.setVisible(false);
 
 						} else {
 							admin.add(new Admin(user, pass, status));
 							SerializeFileFactory.luuFile(admin, "admin.txt");
-							QuanLyThuVienUI thuvienui = new QuanLyThuVienUI("Quản lý sinh viên");
-							thuvienui.showWindow();
+							QuanLyMuonUI thuvienui = new QuanLyMuonUI("Quản lý thư viện Đà Nẵn");
+							thuvienui.showView();
 							this.setVisible(false);
 						}
 
@@ -202,8 +202,8 @@ public class LoginUI extends JFrame {
 						String status2 = loadding();
 						admin.get(0).setStatus(status2);
 						SerializeFileFactory.luuFile(admin, "admin.txt");
-						QuanLyThuVienUI thuvienui = new QuanLyThuVienUI("Quản lý sinh viên");
-						thuvienui.showWindow();
+						QuanLyMuonUI thuvienui = new QuanLyMuonUI("Quản lý thư viện Đà Nẵn");
+						thuvienui.showView();
 						this.setVisible(false);
 
 					}
