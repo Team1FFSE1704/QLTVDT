@@ -24,8 +24,7 @@ public class TacGiaModel {
 			System.err.println("Kết nối MYSQL thất bại");
 		}
 	}
-
-
+//
 	public void stopConnect() {
 		if (conn != null) {
 			try {
