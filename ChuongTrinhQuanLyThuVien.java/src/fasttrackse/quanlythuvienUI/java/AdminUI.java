@@ -54,6 +54,7 @@ public class AdminUI extends JPanel {
 		pnSouth.setLayout(new BoxLayout(pnSouth, BoxLayout.Y_AXIS));
 		pnSouth.setPreferredSize(new Dimension(820, 235));
 		// bảng table
+		table.addColumn("Stt");
 		table.addColumn("Tên admin");
 		this.getTable();
 		tbl = new JTable(table);
@@ -144,6 +145,7 @@ public class AdminUI extends JPanel {
 
 		this.add(pnBorder);
 	}
+	//
 	public void getTable() {
 		arr = adminDAO.getDSAdmin();
 		for (int i = 0; i < arr.size(); i++) {
