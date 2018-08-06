@@ -16,11 +16,11 @@ public class AdminModel {
 
 	public AdminModel() {
 		this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");
-//		if (this.getConn() != null) {
-//			System.err.println("Kết nối MYSQL thành công");
-//		} else {
-//			System.err.println("Kết nối MYSQL thất bại");
-//		}
+		// if (this.getConn() != null) {
+		// System.err.println("Kết nối MYSQL thành công");
+		// } else {
+		// System.err.println("Kết nối MYSQL thất bại");
+		// }
 	}
 
 	public void stopConnect() {
@@ -58,7 +58,7 @@ public class AdminModel {
 	}
 
 	public ArrayList<Admin> getDSAdmin() {
-		ArrayList<Admin> dsAdmin= new ArrayList<Admin>();
+		ArrayList<Admin> dsAdmin = new ArrayList<Admin>();
 
 		try {
 			String queryString = "SELECT * FROM admin";
@@ -67,11 +67,10 @@ public class AdminModel {
 			ResultSet result = statement.executeQuery();
 
 			while (result.next()) {
-
-				String tenAdmin= result.getString("username");
-				
-
-				dsAdmin.add(new Admin( tenAdmin));
+				//int id = result.getInt("id");
+				String tenAdmin = result.getString("username");
+				String passWord = result.getString("password");
+				dsAdmin.add(new Admin(tenAdmin,passWord));
 			}
 
 		} catch (Exception e) {

@@ -29,7 +29,7 @@ public class AdminUI extends JPanel {
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
 	private JLabel lblCodeAD, lblAD, lblPW;
-	private JButton  btnreset, btnsua, btnthem, btnxoa;
+	private JButton btnreset, btnsua, btnthem, btnxoa;
 	private JTextField txtCodeAD, txtPW, txtAD;
 	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
 
@@ -38,8 +38,9 @@ public class AdminUI extends JPanel {
 	JPanel pnSouth = new JPanel();
 	JPanel pnWest = new JPanel();
 
-	public static AdminModel adminDAO=new AdminModel();
-	public static ArrayList<Admin> arr =new ArrayList<Admin>();
+	public static AdminModel adminDAO = new AdminModel();
+	public static ArrayList<Admin> arr = new ArrayList<Admin>();
+
 	public AdminUI() {
 		JPanel pnBorder = new JPanel();
 		pnBorder.setPreferredSize(new Dimension(650, 550));
@@ -54,16 +55,17 @@ public class AdminUI extends JPanel {
 		pnSouth.setLayout(new BoxLayout(pnSouth, BoxLayout.Y_AXIS));
 		pnSouth.setPreferredSize(new Dimension(820, 235));
 		// bảng table
-		table.addColumn("Stt");
+
 		table.addColumn("Tên admin");
+		table.addColumn("Password");
 		this.getTable();
 		tbl = new JTable(table);
 		TableColumnModel columnModel = tbl.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(2);
-//		columnModel.getColumn(3).setPreferredWidth(4);
-//		columnModel.getColumn(4).setPreferredWidth(5);
-//		columnModel.getColumn(5).setPreferredWidth(5);
-//		columnModel.getColumn(6).setPreferredWidth(6);
+		// columnModel.getColumn(3).setPreferredWidth(4);
+		// columnModel.getColumn(4).setPreferredWidth(5);
+		// columnModel.getColumn(5).setPreferredWidth(5);
+		// columnModel.getColumn(6).setPreferredWidth(6);
 		JScrollPane sc = new JScrollPane(tbl);
 		pnSouth.add(sc);
 		pnBorder.add(pnSouth, BorderLayout.SOUTH);
@@ -138,19 +140,19 @@ public class AdminUI extends JPanel {
 
 		pnCenterCon.add(pnCenterCon1);
 		pnCenterCon.add(pnCenterCon2);
-		//pnCenterCon.add(pnCenterCon3);
+		// pnCenterCon.add(pnCenterCon3);
 		pnCenterCon.add(pnButton);
 		pnCenter.add(pnCenterCon);
 		pnBorder.add(pnCenter, BorderLayout.CENTER);
 
 		this.add(pnBorder);
 	}
-	//
+
 	public void getTable() {
 		arr = adminDAO.getDSAdmin();
 		for (int i = 0; i < arr.size(); i++) {
 
-			table.addRow(new String[] { arr.get(i).getTenAdmin(), });
+			table.addRow(new String[] { arr.get(i).getTenAdmin(), arr.get(i).getPassWord() });
 		}
 	}
 

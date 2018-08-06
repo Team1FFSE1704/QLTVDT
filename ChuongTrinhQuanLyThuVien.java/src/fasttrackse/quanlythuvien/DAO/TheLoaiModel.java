@@ -7,9 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.Driver;
 
-import fasttrackse.quanlythuvien.entity.NhaXuatBan;
 import fasttrackse.quanlythuvien.entity.TheLoai;
 
 public class TheLoaiModel {
@@ -17,11 +18,11 @@ public class TheLoaiModel {
 
 	public TheLoaiModel() {
 		this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");
-//		if (this.getConn() != null) {
-//			System.err.println("Kết nối MYSQL thành công");
-//		} else {
-//			System.err.println("Kết nối MYSQL thất bại");
-//		}
+		// if (this.getConn() != null) {
+		// System.err.println("Kết nối MYSQL thành công");
+		// } else {
+		// System.err.println("Kết nối MYSQL thất bại");
+		// }
 	}
 
 	public void stopConnect() {
@@ -80,5 +81,58 @@ public class TheLoaiModel {
 		}
 
 		return dsTheLoai;
+	}
+
+	// xóa phần tử trong database
+	public void delete(String matheloai) {
+		try {
+			String queryString = "delete from theloaisach where matheloai=?";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, matheloai);
+
+			int x = statement.executeUpdate();
+			if (x > 0) {
+				JOptionPane.showMessageDialog(null, "Bạn đã xóa thành công ");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void edit(TheLoai tl) {
+		try {
+			String queryString = "UPDATE theloaisach SET matheloai=? ,theloaisach=? WHERE maSV=?";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+
+			statement.setString(1, tl.getMaTheLoai());
+			statement.setString(2, tl.getTenTheLoai());
+			
+			int x = statement.executeUpdate();
+			if (x > 0) {
+				JOptionPane.showMessageDialog(null, "Bạn đã update thành công ");
+			} else {
+				System.out.println("chưa được");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	// thêm một phần tử vào database
+	public void add(TheLoai tl) {
+		try {
+			String queryString = "insert into theloaisach(matheloai,theloaisach) values(?,?)";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, tl.getMaTheLoai());
+			statement.setString(2, tl.getTenTheLoai());
+
+			int x = statement.executeUpdate();
+			if (x > 0) {
+				JOptionPane.showMessageDialog(null, "Bạn đã thêm thành công ");
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }
