@@ -381,7 +381,7 @@ public class QuanLyMuonUI extends JFrame {
 			nhaXuatBan.setVisible(false);
 			admin.setVisible(false);
 
-			// pnWestCon3.setVisible(true);
+			pnWestCon3.setVisible(true);
 			pnWestCon1.setVisible(false);
 			pnWestCon2.setVisible(false);
 			pnWestCon4.setVisible(true);
