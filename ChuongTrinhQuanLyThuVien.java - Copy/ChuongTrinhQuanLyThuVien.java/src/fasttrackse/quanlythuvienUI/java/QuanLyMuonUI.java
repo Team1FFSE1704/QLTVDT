@@ -53,9 +53,9 @@ public class QuanLyMuonUI extends JFrame {
 	QuanLySachUI quanLySachUI = new QuanLySachUI();
 	QuanLyTraUI quanLyTraUI = new QuanLyTraUI();
 	QuanLyThanhVienUI quanLyThanhVienUI = new QuanLyThanhVienUI();
-	Admin admin = new Admin();
-	DiaChi diachi = new DiaChi();
-	NhaXuatBan nhaXuatBan = new NhaXuatBan();
+	AdminUI admin = new AdminUI();
+	TheLoaiUI theloai = new TheLoaiUI();
+	NhaXuatBanUI nhaXuatBan = new NhaXuatBanUI();
 	// các Jpanel
 	JPanel pnCenterCon = new JPanel();
 	JPanel pnCenter = new JPanel();
@@ -151,7 +151,7 @@ public class QuanLyMuonUI extends JFrame {
 
 		pnWestCon5 = new JPanel();
 		pnWestCon5.setPreferredSize(new Dimension(130, 30));
-		btndc = new JButton("Địa chỉ");
+		btndc = new JButton("Thể loại");
 		btndc.setPreferredSize(new Dimension(110, 20));
 
 		pnWestCon6 = new JPanel();
@@ -341,10 +341,10 @@ public class QuanLyMuonUI extends JFrame {
 		pnCenter.add(thongKeUI);
 		// phần quản lý danh mục
 		pnCenter.add(nhaXuatBan);
-		pnCenter.add(diachi);
+		pnCenter.add(theloai);
 		pnCenter.add(admin);
 
-		diachi.setVisible(false);
+		theloai.setVisible(false);
 		nhaXuatBan.setVisible(false);
 		admin.setVisible(false);
 		// các trang quản lý chính
@@ -377,7 +377,7 @@ public class QuanLyMuonUI extends JFrame {
 			quanLyThanhVienUI.setVisible(false);
 			quanLyTraUI.setVisible(false);
 
-			diachi.setVisible(false);
+			theloai.setVisible(false);
 			nhaXuatBan.setVisible(false);
 			admin.setVisible(false);
 
@@ -402,7 +402,7 @@ public class QuanLyMuonUI extends JFrame {
 			pnSouth.setVisible(false);
 			pnWest.setVisible(false);
 
-			diachi.setVisible(false);
+			theloai.setVisible(false);
 			nhaXuatBan.setVisible(false);
 			admin.setVisible(false);
 		}
@@ -417,7 +417,7 @@ public class QuanLyMuonUI extends JFrame {
 			quanLyThanhVienUI.setVisible(false);
 			thongKeUI.setVisible(false);
 			pnSouth.setVisible(false);
-			diachi.setVisible(false);
+			theloai.setVisible(false);
 			nhaXuatBan.setVisible(false);
 			admin.setVisible(false);
 		}
@@ -433,7 +433,7 @@ public class QuanLyMuonUI extends JFrame {
 			quanLyThanhVienUI.setVisible(false);
 			thongKeUI.setVisible(false);
 
-			diachi.setVisible(false);
+			theloai.setVisible(false);
 			nhaXuatBan.setVisible(false);
 			admin.setVisible(false);
 
@@ -456,7 +456,7 @@ public class QuanLyMuonUI extends JFrame {
 			thongKeUI.setVisible(false);
 			quanLyTraUI.setVisible(false);
 
-			diachi.setVisible(false);
+			theloai.setVisible(false);
 			nhaXuatBan.setVisible(false);
 			admin.setVisible(false);
 		}
@@ -472,7 +472,7 @@ public class QuanLyMuonUI extends JFrame {
 			quanLyTraUI.setVisible(false);
 			thongKeUI.setVisible(false);
 
-			diachi.setVisible(false);
+			theloai.setVisible(false);
 			nhaXuatBan.setVisible(false);
 			admin.setVisible(false);
 
@@ -493,7 +493,7 @@ public class QuanLyMuonUI extends JFrame {
 			pnWest.setVisible(false);
 			thongKeUI.setVisible(false);
 
-			diachi.setVisible(false);
+			theloai.setVisible(false);
 			nhaXuatBan.setVisible(false);
 			admin.setVisible(false);
 		}
@@ -514,7 +514,7 @@ public class QuanLyMuonUI extends JFrame {
 			nhaXuatBan.setVisible(false);
 			pnCenterCon.setVisible(true);
 			pnSouth.setVisible(true);
-			diachi.setVisible(false);
+			theloai.setVisible(false);
 			admin.setVisible(false);
 
 			quanLyDanhMucUI.setVisible(false);
@@ -528,7 +528,7 @@ public class QuanLyMuonUI extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			nhaXuatBan.setVisible(false);
 			pnCenterCon.setVisible(false);
-			diachi.setVisible(true);
+			theloai.setVisible(true);
 			admin.setVisible(false);
 			pnSouth.setVisible(false);
 
@@ -543,7 +543,7 @@ public class QuanLyMuonUI extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			nhaXuatBan.setVisible(true);
 			pnCenterCon.setVisible(false);
-			diachi.setVisible(false);
+			theloai.setVisible(false);
 			pnSouth.setVisible(false);
 			admin.setVisible(false);
 
@@ -559,7 +559,7 @@ public class QuanLyMuonUI extends JFrame {
 			admin.setVisible(true);
 			nhaXuatBan.setVisible(false);
 			pnCenterCon.setVisible(false);
-			diachi.setVisible(false);
+			theloai.setVisible(false);
 			pnSouth.setVisible(false);
 
 			quanLyDanhMucUI.setVisible(false);

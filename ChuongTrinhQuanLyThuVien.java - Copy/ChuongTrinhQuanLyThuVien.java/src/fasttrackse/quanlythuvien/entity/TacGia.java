@@ -1,54 +1,28 @@
 package fasttrackse.quanlythuvien.entity;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Properties;
-
-import com.mysql.jdbc.Driver;
-
 public class TacGia {
-	Connection conn = null;
+	private String maTacGia;
+	private String tenTacGia;
 
-	public  TacGia() {
-		this.getConnect("localhost", "quanlythuvien", "quanlythuvien", "123456");
-		 if (this.getConn() != null) {
-		 System.err.println("Kết nối MYSQL thành công");
-		 } else {
-		 System.err.println("Kết nối MYSQL thất bại");
-		 }
+	public TacGia(String maTacGia, String tenTacGia) {
+		this.maTacGia = maTacGia;
+		this.tenTacGia = tenTacGia;
 	}
 
-	public void stopConnect() {
-		if (conn != null) {
-			try {
-				conn.close();
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-		}
+	public String getMaTacGia() {
+		return maTacGia;
 	}
 
-	public Connection getConn() {
-		return conn;
+	public void setMaTacGia(String maTacGia) {
+		this.maTacGia = maTacGia;
 	}
 
-	public void setConn(Connection conn) {
-		this.conn = conn;
+	public String getTenTacGia() {
+		return tenTacGia;
 	}
 
-	public void getConnect(String strServer, String strDatabase, String strUser, String strPwd) {
-
-		String strConnect = "jdbc:mysql://" + strServer + "/" + strDatabase+ "?useUnicode=true&characterEncoding=utf-8";
-		Properties pro = new Properties();
-		pro.put("user", strUser);
-		pro.put("password", strPwd);
-		try {
-			com.mysql.jdbc.Driver driver = new Driver();
-			conn = driver.connect(strConnect, pro);
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-
+	public void setTenTacGia(String tenTacGia) {
+		this.tenTacGia = tenTacGia;
 	}
 
 }

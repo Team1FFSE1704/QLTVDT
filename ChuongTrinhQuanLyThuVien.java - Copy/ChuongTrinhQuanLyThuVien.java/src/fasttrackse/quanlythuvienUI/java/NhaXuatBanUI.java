@@ -21,15 +21,15 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import fasttrackse.quanlythuvien.DAO.TacGiaModel;
-import fasttrackse.quanlythuvien.entity.TacGia;
+import fasttrackse.quanlythuvien.DAO.NhaXuatBanModel;
+import fasttrackse.quanlythuvien.entity.NhaXuatBan;
 
-public class QuanLyDanhMucUI extends JPanel {
-	private JLabel lblCodetg, lblttg;
-	private JButton btnreset, btnsua, btnthem, btnxoa;
-	private JTextField txtttg, txtCodetg;
+public class NhaXuatBanUI extends JPanel {
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
+	private JLabel lblCodeDC, lblTP, lblQP;
+	private JButton btntg, btnnxb, btnadmin, btndc, btnreset, btnsua, btnthem, btnxoa;
+	private JTextField txtCodeDC, txtQP, txtTP;
 	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
 
 	JPanel pnCenterCon = new JPanel();
@@ -37,14 +37,13 @@ public class QuanLyDanhMucUI extends JPanel {
 	JPanel pnSouth = new JPanel();
 	JPanel pnWest = new JPanel();
 
-	public static TacGiaModel tacGiaDAO = new TacGiaModel();
-	public static ArrayList<TacGia> arr = new ArrayList<TacGia>();
+	public static NhaXuatBanModel nhaXuatBanDAO = new NhaXuatBanModel();
+	public static ArrayList<NhaXuatBan> arr = new ArrayList<NhaXuatBan>();
 
-	public QuanLyDanhMucUI() {
-		// Container con = getContentPane();
+	public NhaXuatBanUI() {
 		JPanel pnBorder = new JPanel();
-		pnBorder.setPreferredSize(new Dimension(650, 550));
 		pnBorder.setLayout(new BorderLayout());
+		pnBorder.setPreferredSize(new Dimension(650, 550));
 		BorderLayout layout = new BorderLayout();
 		layout.setHgap(5);
 		layout.setVgap(5);
@@ -55,18 +54,13 @@ public class QuanLyDanhMucUI extends JPanel {
 		pnSouth.setLayout(new BoxLayout(pnSouth, BoxLayout.Y_AXIS));
 		pnSouth.setPreferredSize(new Dimension(820, 235));
 		// bảng table
-		table.addColumn("Mã tác giả");
-		table.addColumn("Tên tác giả");
-		// table.addColumn("");
-		// table.addColumn("Số lượng");
-		// table.addColumn("Ngày mượn");
-		// table.addColumn("Ngày trả");
-		// table.addColumn("Ghi chú");
+		table.addColumn("Mã nhà xuất bản");
+		table.addColumn("Tên nhà xuất bản");
 		this.getTable();
 		tbl = new JTable(table);
 		TableColumnModel columnModel = tbl.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(2);
-		//columnModel.getColumn(1).setPreferredWidth(10);
+		// columnModel.getColumn(3).setPreferredWidth(4);
 		// columnModel.getColumn(4).setPreferredWidth(5);
 		// columnModel.getColumn(5).setPreferredWidth(5);
 		// columnModel.getColumn(6).setPreferredWidth(6);
@@ -78,23 +72,23 @@ public class QuanLyDanhMucUI extends JPanel {
 		pnCenter = new JPanel();
 		pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
 		Border border1 = BorderFactory.createLineBorder(Color.darkGray);
-		TitledBorder borderTitle1 = BorderFactory.createTitledBorder(border1, "Nhập Thông Tin Tác Giả");
+		TitledBorder borderTitle1 = BorderFactory.createTitledBorder(border1, "Nhập Thông Tin Nhà Xuất Bản");
 		pnCenterCon.setBorder(borderTitle1);
 
 		pnCenterCon.setPreferredSize(new Dimension(650, 300));
 		pnCenterCon.setLayout(new BoxLayout(pnCenterCon, BoxLayout.Y_AXIS));
 		// text nhập thông tin
 		JPanel pnCenterCon1 = new JPanel();
-		txtCodetg = new JTextField(20);
-		lblCodetg = new JLabel("   Mã tác giả:");
-		pnCenterCon1.add(lblCodetg);
-		pnCenterCon1.add(txtCodetg);
+		txtCodeDC = new JTextField(20);
+		lblCodeDC = new JLabel("   Mã nhà xuất bản:");
+		pnCenterCon1.add(lblCodeDC);
+		pnCenterCon1.add(txtCodeDC);
 
 		JPanel pnCenterCon2 = new JPanel();
-		txtttg = new JTextField(20);
-		lblttg = new JLabel("Tên tác giả:");
-		pnCenterCon2.add(lblttg);
-		pnCenterCon2.add(txtttg);
+		txtTP = new JTextField(20);
+		lblTP = new JLabel("Tên nhà xuất bản:");
+		pnCenterCon2.add(lblTP);
+		pnCenterCon2.add(txtTP);
 
 		// phần button thêm,sửa,xóa.....
 		JPanel pnButton = new JPanel();
@@ -146,20 +140,10 @@ public class QuanLyDanhMucUI extends JPanel {
 	}
 
 	public void getTable() {
-		arr = tacGiaDAO.getDSTacGia();
+		arr = nhaXuatBanDAO.getDSNhaXuatBan();
 		for (int i = 0; i < arr.size(); i++) {
 
-			table.addRow(new String[] { arr.get(i).getMaTacGia(), arr.get(i).getTenTacGia(), });
+			table.addRow(new String[] { arr.get(i).getMaNhaXuatBan(), arr.get(i).getTenNhaXuatBan(), });
 		}
 	}
-	// public void xoaSinhVien() {
-	// String maTacGia = txtCodetg.getText();
-	// int[] rows = tbl.getSelectedRows();
-	// for (int i = 0; i < rows.length; i++) {
-	// tacGiaDAO.delete(maTacGia);
-	// table.removeRow(rows[i] - i);
-	//
-	// }
-	// }
-
 }

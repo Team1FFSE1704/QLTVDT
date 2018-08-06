@@ -53,7 +53,7 @@ public class QuanLyTraUI extends JPanel {
 		JPanel pnBorder = new JPanel();
 		pnBorder.setLayout(new BorderLayout());
 		pnBorder.setPreferredSize(new Dimension(650, 550));
-		
+
 		JPanel pnCenter = new JPanel();
 		pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
 		// pnCenter.setBackground(Color.gray);
@@ -141,7 +141,7 @@ public class QuanLyTraUI extends JPanel {
 		table.addColumn("Ghi chú");
 		tbl = new JTable(table);
 		TableColumnModel columnModel = tbl.getColumnModel();
-		columnModel.getColumn(0).setPreferredWidth(2);
+		//columnModel.getColumn(0).setPreferredWidth(15);
 		columnModel.getColumn(3).setPreferredWidth(4);
 		// columnModel.getColumn(4).setPreferredWidth(5);
 		// columnModel.getColumn(5).setPreferredWidth(5);
