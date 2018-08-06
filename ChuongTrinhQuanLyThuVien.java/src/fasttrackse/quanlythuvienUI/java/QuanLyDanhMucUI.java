@@ -73,10 +73,12 @@ public class QuanLyDanhMucUI extends JPanel {
 			btnxoa.setEnabled(true);
 		}
 	};
-public QuanLyDanhMucUI() {
-	addControls();
-	addEvents();
-}
+
+	public QuanLyDanhMucUI() {
+		addControls();
+		addEvents();
+	}
+
 	public void addControls() {
 		// Container con = getContentPane();
 		JPanel pnBorder = new JPanel();
@@ -110,7 +112,7 @@ public QuanLyDanhMucUI() {
 		// columnModel.getColumn(6).setPreferredWidth(6);
 		JScrollPane sc = new JScrollPane(tbl);
 		tbl.addMouseListener(tblUserClick);
-		
+
 		pnSouth.add(sc);
 		pnBorder.add(pnSouth, BorderLayout.SOUTH);
 
@@ -209,7 +211,7 @@ public QuanLyDanhMucUI() {
 			btnthem.setEnabled(true);
 			btnsua.setEnabled(false);
 			btnxoa.setEnabled(false);
-			
+
 			txtCodetg.setText("");
 			txtttg.setText("");
 		}

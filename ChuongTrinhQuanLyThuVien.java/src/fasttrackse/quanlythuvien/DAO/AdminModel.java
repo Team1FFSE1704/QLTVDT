@@ -16,11 +16,11 @@ public class AdminModel {
 
 	public AdminModel() {
 		this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");
-		if (this.getConn() != null) {
-			System.err.println("Kết nối MYSQL thành công");
-		} else {
-			System.err.println("Kết nối MYSQL thất bại");
-		}
+//		if (this.getConn() != null) {
+//			System.err.println("Kết nối MYSQL thành công");
+//		} else {
+//			System.err.println("Kết nối MYSQL thất bại");
+//		}
 	}
 
 	public void stopConnect() {
