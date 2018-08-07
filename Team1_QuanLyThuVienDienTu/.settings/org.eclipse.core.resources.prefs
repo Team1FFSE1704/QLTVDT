@@ -1,2 +1,10 @@
 eclipse.preferences.version=1
-encoding//src/fasttrackse/team1/qlthuviendientu/dao/TacGiaDAO.java=UTF-8
+encoding//src/fasttrackse/team1/qlthuviendientu/dao/QuanLyThuVienDAO.java=UTF-8
+encoding//src/fasttrackse/team1/qlthuviendientu/main/QuanLyThuVienMain.java=UTF-8
+encoding//src/fasttrackse/team1/qlthuviendientu/ui/LoginUI.java=UTF-8
+encoding//src/fasttrackse/team1/qlthuviendientu/ui/QuanLyDanhMucUI.java=UTF-8
+encoding//src/fasttrackse/team1/qlthuviendientu/ui/QuanLyMuonUI.java=UTF-8
+encoding//src/fasttrackse/team1/qlthuviendientu/ui/QuanLySachUI.java=UTF-8
+encoding//src/fasttrackse/team1/qlthuviendientu/ui/QuanLyThanhVienUI.java=UTF-8
+encoding//src/fasttrackse/team1/qlthuviendientu/ui/QuanLyTraUI.java=UTF-8
+encoding//src/fasttrackse/team1/qlthuviendientu/ui/ThongKeUI.java=UTF-8
