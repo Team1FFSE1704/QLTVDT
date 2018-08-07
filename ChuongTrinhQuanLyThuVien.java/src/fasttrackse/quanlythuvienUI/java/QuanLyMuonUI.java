@@ -35,7 +35,7 @@ import javax.swing.table.TableColumnModel;
 
 public class QuanLyMuonUI extends JFrame {
 	private JLabel lblTitle, lblCodeGD, lblCodeTV, lblCodeSL, lblNM, lblNT, lblMS;
-	private JButton btntg, btnnxb, btnadmin, btndc, btnqltv, btnqlmt, btnqls, btnqldm, btnkt, btntk, btnSubmit, btnts,
+	private JButton btntg, btnnxb, btnadmin, btntl, btnqltv, btnqlmt, btnqls, btnqldm, btnkt, btntk, btnSubmit, btnts,
 			btnms;
 	private JTextField txtCodeTV, txtCodeGD, txtSL, txtNM, txtNT;
 	private DefaultTableModel table = new DefaultTableModel();
@@ -151,8 +151,8 @@ public class QuanLyMuonUI extends JFrame {
 
 		pnWestCon5 = new JPanel();
 		pnWestCon5.setPreferredSize(new Dimension(130, 30));
-		btndc = new JButton("Thể loại");
-		btndc.setPreferredSize(new Dimension(110, 20));
+		btntl = new JButton("Thể loại");
+		btntl.setPreferredSize(new Dimension(110, 20));
 
 		pnWestCon6 = new JPanel();
 		pnWestCon6.setPreferredSize(new Dimension(130, 30));
@@ -164,7 +164,7 @@ public class QuanLyMuonUI extends JFrame {
 		pnWestCon2.add(btnts);
 		// pnWestCon3.add(btntg);
 		pnWestCon4.add(btnnxb);
-		pnWestCon5.add(btndc);
+		pnWestCon5.add(btntl);
 		pnWestCon6.add(btnadmin);
 
 		pnWestCon.add(pnWestCon1);
@@ -355,9 +355,6 @@ public class QuanLyMuonUI extends JFrame {
 		quanLyDanhMucUI.setVisible(false);
 
 		// phần menu con quan lý danh mục
-		// pnWestCon1.setVisible(false);
-		// pnWestCon2.setVisible(false);
-		// pnWestCon3.setVisible(false);
 		pnWestCon4.setVisible(false);
 		pnWestCon5.setVisible(false);
 		pnWestCon6.setVisible(false);
@@ -381,12 +378,14 @@ public class QuanLyMuonUI extends JFrame {
 			nhaXuatBan.setVisible(false);
 			admin.setVisible(false);
 
-			pnWestCon3.setVisible(true);
+			// pnWestCon3.setVisible(true);
 			pnWestCon1.setVisible(false);
 			pnWestCon2.setVisible(false);
 			pnWestCon4.setVisible(true);
 			pnWestCon5.setVisible(true);
 			pnWestCon6.setVisible(true);
+			
+			
 
 		}
 	};
@@ -524,7 +523,7 @@ public class QuanLyMuonUI extends JFrame {
 			thongKeUI.setVisible(false);
 		}
 	};
-	ActionListener btndiachiClick = new ActionListener() {
+	ActionListener btnTheLoaiClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			nhaXuatBan.setVisible(false);
 			pnCenterCon.setVisible(false);
@@ -537,6 +536,11 @@ public class QuanLyMuonUI extends JFrame {
 			quanLySachUI.setVisible(false);
 			quanLyThanhVienUI.setVisible(false);
 			thongKeUI.setVisible(false);
+
+			// setEnabled cho các button danhmuc
+			btnnxb.setEnabled(true);
+			btntl.setEnabled(false);
+			btnadmin.setEnabled(true);
 		}
 	};
 	ActionListener btnNhaXuatBanClick = new ActionListener() {
@@ -552,6 +556,11 @@ public class QuanLyMuonUI extends JFrame {
 			quanLySachUI.setVisible(false);
 			quanLyThanhVienUI.setVisible(false);
 			thongKeUI.setVisible(false);
+
+			// setEnabled cho các button danhmuc
+			btnnxb.setEnabled(false);
+			btntl.setEnabled(true);
+			btnadmin.setEnabled(true);
 		}
 	};
 	ActionListener btnAdminClick = new ActionListener() {
@@ -567,6 +576,11 @@ public class QuanLyMuonUI extends JFrame {
 			quanLySachUI.setVisible(false);
 			quanLyThanhVienUI.setVisible(false);
 			thongKeUI.setVisible(false);
+
+			// setEnabled cho các button danhmuc
+			btnnxb.setEnabled(true);
+			btntl.setEnabled(true);
+			btnadmin.setEnabled(false);
 		}
 	};
 
@@ -585,7 +599,7 @@ public class QuanLyMuonUI extends JFrame {
 		// btntg.addActionListener(btnTacGiaClick);
 		btnnxb.addActionListener(btnNhaXuatBanClick);
 		btnadmin.addActionListener(btnAdminClick);
-		btndc.addActionListener(btndiachiClick);
+		btntl.addActionListener(btnTheLoaiClick);
 
 	}
 

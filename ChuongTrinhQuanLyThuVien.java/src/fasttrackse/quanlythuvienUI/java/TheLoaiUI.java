@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -12,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import fasttrackse.quanlythuvien.DAO.TheLoaiModel;
+import fasttrackse.quanlythuvien.entity.NhaXuatBan;
 import fasttrackse.quanlythuvien.entity.TheLoai;
 
 public class TheLoaiUI extends JPanel {
@@ -40,7 +46,105 @@ public class TheLoaiUI extends JPanel {
 	public static TheLoaiModel theLoaiDAO = new TheLoaiModel();
 	public static ArrayList<TheLoai> arr = new ArrayList<TheLoai>();
 
+	// houver mouseListener
+	MouseListener tblUserClick = new MouseListener() {
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		public void mousePressed(MouseEvent e) {
+		}
+
+		public void mouseExited(MouseEvent e) {
+		}
+
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		public void mouseClicked(MouseEvent e) {
+
+			txtCodeTL.setEditable(false);
+			int row = tbl.getSelectedRow();
+
+			String maTheLoai = (String) tbl.getValueAt(row, 0);
+			txtCodeTL.setText(maTheLoai);
+
+			String tenTheLoai = (String) tbl.getValueAt(row, 1);
+			txtTL.setText(tenTheLoai);
+
+			btnthem.setEnabled(false);
+			btnsua.setEnabled(true);
+			btnxoa.setEnabled(true);
+		}
+	};
+
+	// nhập thông tin mới
+	ActionListener btnResetClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			txtCodeTL.setEditable(true);
+			btnthem.setEnabled(true);
+			btnsua.setEnabled(false);
+			btnxoa.setEnabled(false);
+
+			txtCodeTL.setText("");
+			txtTL.setText("");
+		}
+	};
+
+	// Sự kiện thêm một phần tử vào database
+	ActionListener btnAddClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+
+			if (txtCodeTL.getText().equals("") || txtTL.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			} else {
+				btnthem.setEnabled(true);
+				btnsua.setEnabled(false);
+				btnxoa.setEnabled(false);
+				themTheLoai();
+
+			}
+
+		}
+	};
+
+	// sửa một phần tử trong database
+	ActionListener btnEditClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+
+			if (txtTL.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			} else {
+
+				suaTheLoai();
+
+			}
+		}
+	};
+
+	// xóa một phần tử trong database
+	ActionListener btnDeleteClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			xoaTheLoai();
+		}
+	};
+
+	// phần add sự kiện
+	public void addEvents() {
+		// các menu chính
+		tbl.addMouseListener(tblUserClick);
+		btnreset.addActionListener(btnResetClick);
+		btnxoa.addActionListener(btnDeleteClick);
+		btnthem.addActionListener(btnAddClick);
+		btnsua.addActionListener(btnEditClick);
+
+	}
+
 	public TheLoaiUI() {
+		addControl();
+		addEvents();
+	}
+
+	public void addControl() {
 		JPanel pnBorder = new JPanel();
 		pnBorder.setPreferredSize(new Dimension(650, 550));
 		pnBorder.setLayout(new BorderLayout());
@@ -105,11 +209,13 @@ public class TheLoaiUI extends JPanel {
 				new ImageIcon("icon/sua.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		btnsua = new JButton("sửa ", update1);
 		btnsua.setMargin(new Insets(5, 10, 5, 10));
+		btnsua.setEnabled(false);
 
 		ImageIcon update2 = new ImageIcon(
 				new ImageIcon("icon/xoa.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		btnxoa = new JButton("xóa ", update2);
 		btnxoa.setMargin(new Insets(5, 10, 5, 10));
+		btnxoa.setEnabled(false);
 
 		ImageIcon update3 = new ImageIcon(
 				new ImageIcon("icon/reset.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
@@ -137,6 +243,36 @@ public class TheLoaiUI extends JPanel {
 		pnBorder.add(pnCenter, BorderLayout.CENTER);
 
 		this.add(pnBorder);
+	}
+
+	public void xoaTheLoai() {
+		String maTheLoai = txtCodeTL.getText();
+		int[] rows = tbl.getSelectedRows();
+		for (int i = 0; i < rows.length; i++) {
+			theLoaiDAO.delete(maTheLoai);
+			table.removeRow(rows[i] - i);
+
+		}
+	}
+
+	public void themTheLoai() {
+		String maTheLoai = txtCodeTL.getText();
+		String tenTheLoai = txtTL.getText();
+		theLoaiDAO.add(new TheLoai(maTheLoai, tenTheLoai));
+		table.addRow(new String[] { maTheLoai, tenTheLoai });
+
+	}
+
+	public void suaTheLoai() {
+		String maTheLoai = txtCodeTL.getText();
+		String tenTheLoai = txtTL.getText();
+		TheLoai ad = new TheLoai(maTheLoai, tenTheLoai);
+		theLoaiDAO.edit(ad);
+
+		int row = tbl.getSelectedRow();
+		tbl.setValueAt(maTheLoai, row, 0);
+		tbl.setValueAt(tenTheLoai, row, 1);
+
 	}
 
 	public void getTable() {

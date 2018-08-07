@@ -7,9 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.Driver;
 
 import fasttrackse.quanlythuvien.entity.Admin;
+import fasttrackse.quanlythuvien.entity.TheLoai;
 
 public class AdminModel {
 	Connection conn = null;
@@ -79,4 +82,58 @@ public class AdminModel {
 
 		return dsAdmin;
 	}
+	
+	// xóa phần tử trong database
+		public void delete(String id) {
+			try {
+				String queryString = "delete from admin where username=?";
+				PreparedStatement statement = conn.prepareStatement(queryString);
+				statement.setString(1, id);
+
+				int x = statement.executeUpdate();
+				if (x > 0) {
+					JOptionPane.showMessageDialog(null, "Bạn đã xóa thành công ");
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		//thêm phần tử vào database
+		public void edit(Admin ad) {
+			try {
+				String queryString = "UPDATE admin SET password=? WHERE username=?";
+				PreparedStatement statement = conn.prepareStatement(queryString);
+
+
+				statement.setString(1, ad.getPassWord());
+				statement.setString(2, ad.getTenAdmin());				
+				int x = statement.executeUpdate();
+				if (x > 0) {
+					JOptionPane.showMessageDialog(null, "Bạn đã update thành công ");
+				} else {
+					System.out.println("chưa được");
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		// thêm một phần tử vào database
+		public void add(Admin ad) {
+			try {
+				String queryString = "insert into admin(username,password) values(?,?)";
+				PreparedStatement statement = conn.prepareStatement(queryString);
+				statement.setString(1, ad.getTenAdmin());
+				statement.setString(2, ad.getPassWord());
+
+				int x = statement.executeUpdate();
+				if (x > 0) {
+					JOptionPane.showMessageDialog(null, "Bạn đã thêm thành công ");
+				}
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 }

@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -12,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,7 +33,7 @@ public class AdminUI extends JPanel {
 
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
-	private JLabel lblCodeAD, lblAD, lblPW;
+	private JLabel lblAD, lblPW;
 	private JButton btnreset, btnsua, btnthem, btnxoa;
 	private JTextField txtCodeAD, txtPW, txtAD;
 	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
@@ -41,7 +46,104 @@ public class AdminUI extends JPanel {
 	public static AdminModel adminDAO = new AdminModel();
 	public static ArrayList<Admin> arr = new ArrayList<Admin>();
 
+	// houver mouseListener
+	MouseListener tblUserClick = new MouseListener() {
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		public void mousePressed(MouseEvent e) {
+		}
+
+		public void mouseExited(MouseEvent e) {
+		}
+
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		public void mouseClicked(MouseEvent e) {
+
+			txtAD.setEditable(false);
+			int row = tbl.getSelectedRow();
+
+			String maTacGia = (String) tbl.getValueAt(row, 0);
+			txtAD.setText(maTacGia);
+
+			String tenTacGia = (String) tbl.getValueAt(row, 1);
+			txtPW.setText(tenTacGia);
+
+			btnthem.setEnabled(false);
+			btnsua.setEnabled(true);
+			btnxoa.setEnabled(true);
+		}
+	};
+
 	public AdminUI() {
+		addContros();
+		addEvents();
+	}
+
+	// nhập thông tin mới
+	ActionListener btnResetClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			txtAD.setEditable(true);
+			btnthem.setEnabled(true);
+			btnsua.setEnabled(false);
+			btnxoa.setEnabled(false);
+
+			txtAD.setText("");
+			txtPW.setText("");
+		}
+	};
+
+	// Sự kiện thêm một phần tử vào database
+	ActionListener btnAddClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+
+			if (txtAD.getText().equals("") || txtPW.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			} else {
+				btnthem.setEnabled(true);
+				btnsua.setEnabled(false);
+				btnxoa.setEnabled(false);
+				themAdmin();
+
+			}
+
+		}
+	};
+
+	// sửa một phần tử trong database
+	ActionListener btnEditClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+
+			if (txtPW.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			} else {
+
+				suaAdmin();
+
+			}
+		}
+	};
+
+	// xóa một phần tử trong database
+	ActionListener btnDeleteClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			xoaAdmin();
+		}
+	};
+
+	// phần add sự kiện
+	public void addEvents() {
+		// các menu chính
+		btnreset.addActionListener(btnResetClick);
+		btnxoa.addActionListener(btnDeleteClick);
+		btnthem.addActionListener(btnAddClick);
+		btnsua.addActionListener(btnEditClick);
+
+	}
+
+	public void addContros() {
 		JPanel pnBorder = new JPanel();
 		pnBorder.setPreferredSize(new Dimension(650, 550));
 		pnBorder.setLayout(new BorderLayout());
@@ -67,6 +169,8 @@ public class AdminUI extends JPanel {
 		// columnModel.getColumn(5).setPreferredWidth(5);
 		// columnModel.getColumn(6).setPreferredWidth(6);
 		JScrollPane sc = new JScrollPane(tbl);
+		tbl.addMouseListener(tblUserClick);
+
 		pnSouth.add(sc);
 		pnBorder.add(pnSouth, BorderLayout.SOUTH);
 
@@ -80,11 +184,6 @@ public class AdminUI extends JPanel {
 		pnCenterCon.setPreferredSize(new Dimension(650, 300));
 		pnCenterCon.setLayout(new BoxLayout(pnCenterCon, BoxLayout.Y_AXIS));
 		// text nhập thông tin
-		JPanel pnCenterCon1 = new JPanel();
-		txtCodeAD = new JTextField(20);
-		lblCodeAD = new JLabel("Mã admin:");
-		pnCenterCon1.add(lblCodeAD);
-		pnCenterCon1.add(txtCodeAD);
 
 		JPanel pnCenterCon2 = new JPanel();
 		txtAD = new JTextField(20);
@@ -113,11 +212,13 @@ public class AdminUI extends JPanel {
 				new ImageIcon("icon/sua.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		btnsua = new JButton("sửa ", update1);
 		btnsua.setMargin(new Insets(5, 10, 5, 10));
+		btnsua.setEnabled(false);
 
 		ImageIcon update2 = new ImageIcon(
 				new ImageIcon("icon/xoa.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		btnxoa = new JButton("xóa ", update2);
 		btnxoa.setMargin(new Insets(5, 10, 5, 10));
+		btnxoa.setEnabled(false);
 
 		ImageIcon update3 = new ImageIcon(
 				new ImageIcon("icon/reset.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
@@ -138,14 +239,43 @@ public class AdminUI extends JPanel {
 		pnButton.add(lbkc10);
 		pnButton.add(btnreset);
 
-		pnCenterCon.add(pnCenterCon1);
 		pnCenterCon.add(pnCenterCon2);
-		// pnCenterCon.add(pnCenterCon3);
+		pnCenterCon.add(pnCenterCon3);
 		pnCenterCon.add(pnButton);
 		pnCenter.add(pnCenterCon);
 		pnBorder.add(pnCenter, BorderLayout.CENTER);
 
 		this.add(pnBorder);
+	}
+
+	public void xoaAdmin() {
+		String maAdmin = txtAD.getText();
+		int[] rows = tbl.getSelectedRows();
+		for (int i = 0; i < rows.length; i++) {
+			adminDAO.delete(maAdmin);
+			table.removeRow(rows[i] - i);
+
+		}
+	}
+
+	public void themAdmin() {
+		String tenAdmin = txtAD.getText();
+		String passWord = txtPW.getText();
+		adminDAO.add(new Admin(tenAdmin, passWord));
+		table.addRow(new String[] { tenAdmin, passWord });
+
+	}
+
+	public void suaAdmin() {
+		String tenAdmin = txtAD.getText();
+		String passWord = txtPW.getText();
+		Admin ad = new Admin(tenAdmin, passWord);
+		adminDAO.edit(ad);
+
+		int row = tbl.getSelectedRow();
+		tbl.setValueAt(tenAdmin, row, 0);
+		tbl.setValueAt(passWord, row, 1);
+
 	}
 
 	public void getTable() {

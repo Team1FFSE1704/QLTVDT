@@ -84,11 +84,11 @@ public class TheLoaiModel {
 	}
 
 	// xóa phần tử trong database
-	public void delete(String matheloai) {
+	public void delete(String id) {
 		try {
 			String queryString = "delete from theloaisach where matheloai=?";
 			PreparedStatement statement = conn.prepareStatement(queryString);
-			statement.setString(1, matheloai);
+			statement.setString(1, id);
 
 			int x = statement.executeUpdate();
 			if (x > 0) {
@@ -99,14 +99,14 @@ public class TheLoaiModel {
 		}
 	}
 
+	// thêm phần tử vào database
 	public void edit(TheLoai tl) {
 		try {
-			String queryString = "UPDATE theloaisach SET matheloai=? ,theloaisach=? WHERE maSV=?";
+			String queryString = "UPDATE theloaisach SET theloaisach=? WHERE matheloai=?";
 			PreparedStatement statement = conn.prepareStatement(queryString);
 
-			statement.setString(1, tl.getMaTheLoai());
-			statement.setString(2, tl.getTenTheLoai());
-			
+			statement.setString(1, tl.getTenTheLoai());
+			statement.setString(2, tl.getMaTheLoai());
 			int x = statement.executeUpdate();
 			if (x > 0) {
 				JOptionPane.showMessageDialog(null, "Bạn đã update thành công ");

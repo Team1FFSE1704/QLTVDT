@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.Driver;
 
 import fasttrackse.quanlythuvien.entity.NhaXuatBan;
@@ -16,11 +18,11 @@ public class NhaXuatBanModel {
 
 	public NhaXuatBanModel() {
 		this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");
-//		if (this.getConn() != null) {
-//			System.err.println("Kết nối MYSQL thành công");
-//		} else {
-//			System.err.println("Kết nối MYSQL thất bại");
-//		}
+		// if (this.getConn() != null) {
+		// System.err.println("Kết nối MYSQL thành công");
+		// } else {
+		// System.err.println("Kết nối MYSQL thất bại");
+		// }
 	}
 
 	public void stopConnect() {
@@ -57,6 +59,7 @@ public class NhaXuatBanModel {
 
 	}
 
+	//show thông tin trong database 
 	public ArrayList<NhaXuatBan> getDSNhaXuatBan() {
 		ArrayList<NhaXuatBan> dsNhaXuatBan = new ArrayList<NhaXuatBan>();
 
@@ -79,5 +82,59 @@ public class NhaXuatBanModel {
 		}
 
 		return dsNhaXuatBan;
+	}
+
+	// xóa phần tử trong database
+	public void delete(String id) {
+		try {
+			String queryString = "delete from nxb where maNXB=?";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, id);
+
+			int x = statement.executeUpdate();
+			if (x > 0) {
+				JOptionPane.showMessageDialog(null, "Bạn đã xóa thành công ");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	// thêm phần tử vào database
+	public void edit(NhaXuatBan nxb) {
+		try {
+			String queryString = "UPDATE nxb SET  tenNXB=? WHERE maNXB=?";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+
+			
+			statement.setString(1, nxb.getTenNhaXuatBan());
+			statement.setString(2, nxb.getMaNhaXuatBan());
+			int x = statement.executeUpdate();
+			if (x > 0) {
+				JOptionPane.showMessageDialog(null, "Bạn đã update thành công ");
+			} else {
+				System.out.println("chưa được");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	// thêm một phần tử vào database
+	public void addNXB(NhaXuatBan nxb) {
+		try {
+			String queryString = "insert into nxb(maNXB,tenNXB) values(?,?)";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, nxb.getMaNhaXuatBan());
+			statement.setString(2, nxb.getTenNhaXuatBan());
+
+			int x = statement.executeUpdate();
+			if (x > 0) {
+				JOptionPane.showMessageDialog(null, "Bạn đã thêm thành công ");
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

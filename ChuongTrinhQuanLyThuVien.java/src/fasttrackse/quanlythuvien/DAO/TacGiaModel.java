@@ -84,7 +84,7 @@ public class TacGiaModel {
 		return dsTacGia;
 	}
 	
-	
+	//xóa một phần tử trong database
 	public void delete(String maTacGia) {
 		try {
 			String queryString = "delete from tacgia where matacgia=?";
@@ -99,4 +99,41 @@ public class TacGiaModel {
 			ex.printStackTrace();
 		}
 	}
+	
+	// thêm phần tử vào database
+		public void edit(TacGia tg) {
+			try {
+				String queryString = "UPDATE tacgia SET tentacgia=? WHERE matacgia=?";
+				PreparedStatement statement = conn.prepareStatement(queryString);
+
+				statement.setString(1, tg.getTenTacGia());
+				statement.setString(2, tg.getMaTacGia());
+				int x = statement.executeUpdate();
+				if (x > 0) {
+					JOptionPane.showMessageDialog(null, "Bạn đã update thành công ");
+				} else {
+					System.out.println("chưa được");
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		// thêm một phần tử vào database
+		public void add(TacGia tg) {
+			try {
+				String queryString = "insert into tacgia(matacgia,tentacgia) values(?,?)";
+				PreparedStatement statement = conn.prepareStatement(queryString);
+				statement.setString(1, tg.getMaTacGia());
+				statement.setString(2, tg.getTenTacGia());
+
+				int x = statement.executeUpdate();
+				if (x > 0) {
+					JOptionPane.showMessageDialog(null, "Bạn đã thêm thành công ");
+				}
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 }
