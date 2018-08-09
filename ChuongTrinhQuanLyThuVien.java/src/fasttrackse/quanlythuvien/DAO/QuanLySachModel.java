@@ -11,12 +11,12 @@ import javax.swing.JOptionPane;
 
 import com.mysql.jdbc.Driver;
 
-import fasttrackse.quanlythuvien.entity.TacGia;
+import fasttrackse.quanlythuvien.entity.QuanLySach;
 
-public class TacGiaModel {
+public class QuanLySachModel {
 	Connection conn = null;
 
-	public TacGiaModel() {
+	public QuanLySachModel() {
 		this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");
 		// if (this.getConn() != null) {
 		// System.err.println("Kết nối MYSQL thành công");
@@ -60,21 +60,29 @@ public class TacGiaModel {
 
 	}
 
-	public ArrayList<TacGia> getDSTacGia() {
-		ArrayList<TacGia> dsTacGia = new ArrayList<TacGia>();
+	public ArrayList<QuanLySach> getDSQuanLySach() {
+		ArrayList<QuanLySach> dsSach = new ArrayList<QuanLySach>();
 
 		try {
-			String queryString = "SELECT * FROM tacgia";
+			String queryString = "SELECT quanlysach.masach, quanlysach.tensach, tacgia.tentacgia, theloaisach.theloaisach, nxb.tenNXB, quanlysach.namXB, quanlysach.soluong\r\n"
+					+ "FROM quanlysach\r\n" + "INNER JOIN tacgia\r\n" + "on quanlysach.tacgia = tacgia.matacgia\r\n"
+					+ "INNER JOIN theloaisach\r\n" + "ON quanlysach.theloai = theloaisach.matheloai\r\n"
+					+ "INNER JOIN nxb\r\n" + "on quanlysach.NXB = nxb.maNXB";
 			PreparedStatement statement = conn.prepareStatement(queryString);
 
 			ResultSet result = statement.executeQuery();
 
 			while (result.next()) {
 
-				String maTacGia = result.getString("matacgia");
-				String tenTacGia = result.getString("tentacgia");
+				String maSach = result.getString("masach");
+				String tenSach = result.getString("tensach");
+				String tacGia = result.getString("tacgia.tentacgia");
+				String nhaXuatBan = result.getString("nxb.tenNXB");
+				String theLoai = result.getString("theloaisach.theloaisach");
+				String namXuatBan = result.getString("namXB");
+				String soLuong = result.getString("soluong");
 
-				dsTacGia.add(new TacGia(maTacGia, tenTacGia));
+				dsSach.add(new QuanLySach(maSach, tenSach, tacGia, nhaXuatBan, theLoai, namXuatBan, soLuong));
 			}
 
 		} catch (Exception e) {
@@ -82,15 +90,16 @@ public class TacGiaModel {
 			JOptionPane.showMessageDialog(null, "kết nối ko thành công ");
 		}
 
-		return dsTacGia;
+		return dsSach;
 	}
 
+	
 	// xóa một phần tử trong database
-	public void delete(String maTacGia) {
+	public void delete(String maSach) {
 		try {
-			String queryString = "delete from tacgia where matacgia=?";
+			String queryString = "delete from quanlysach where masach=?";
 			PreparedStatement statement = conn.prepareStatement(queryString);
-			statement.setString(1, maTacGia);
+			statement.setString(1, maSach);
 
 			int x = statement.executeUpdate();
 			if (x > 0) {
@@ -102,13 +111,19 @@ public class TacGiaModel {
 	}
 
 	// thêm phần tử vào database
-	public void edit(TacGia tg) {
+	public void edit(QuanLySach qls) {
 		try {
-			String queryString = "UPDATE tacgia SET tentacgia=? WHERE matacgia=?";
+			String queryString = "UPDATE tacgia SET tensach=?, tacgia=?, NXB=?, theloai=?, soluong=?   WHERE matacgia=?";
 			PreparedStatement statement = conn.prepareStatement(queryString);
 
-			statement.setString(1, tg.getTenTacGia());
-			statement.setString(2, tg.getMaTacGia());
+			statement.setString(1, qls.getTenSach());
+			statement.setString(2, qls.getTacGia());
+			statement.setString(3, qls.getNhaXuatBan());
+			statement.setString(4, qls.getNamXuatBan());
+			statement.setString(5, qls.getTheLoai());
+			statement.setString(6, qls.getSoLuong());
+			
+			statement.setString(7, qls.getMaSach());
 			int x = statement.executeUpdate();
 			if (x > 0) {
 				JOptionPane.showMessageDialog(null, "Bạn đã update thành công ");
@@ -121,12 +136,17 @@ public class TacGiaModel {
 	}
 
 	// thêm một phần tử vào database
-	public void add(TacGia tg) {
+	public void add(QuanLySach qls) {
 		try {
-			String queryString = "insert into tacgia(matacgia,tentacgia) values(?,?)";
+			String queryString = "insert into quanlysach(masach,tensach,tacgia,NXB,theloai,namXB,soluong) values(?,?,?,?,?,?,?)";
 			PreparedStatement statement = conn.prepareStatement(queryString);
-			statement.setString(1, tg.getMaTacGia());
-			statement.setString(2, tg.getTenTacGia());
+			statement.setString(1, qls.getMaSach());
+			statement.setString(2, qls.getTenSach());
+			statement.setString(3, qls.getTacGia());
+			statement.setString(4, qls.getNhaXuatBan());
+			statement.setString(5, qls.getNamXuatBan());
+			statement.setString(6, qls.getTheLoai());
+			statement.setString(7, qls.getSoLuong());
 
 			int x = statement.executeUpdate();
 			if (x > 0) {
