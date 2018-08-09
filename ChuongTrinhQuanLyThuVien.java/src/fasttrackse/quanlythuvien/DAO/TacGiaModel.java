@@ -17,7 +17,8 @@ public class TacGiaModel {
 	Connection conn = null;
 
 	public TacGiaModel() {
-		this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456"	 );
+		//this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456"	 );
+		this.getConnect("localhost", "team1_qlthuvien", "team1qltvdt", "team1qltvdt");
 //		if (this.getConn() != null) {
 //			System.err.println("Kết nối MYSQL thành công");
 //		} else {
