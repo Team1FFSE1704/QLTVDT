@@ -5,11 +5,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,19 +26,141 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import com.toedter.calendar.JMonthChooser;
-import com.toedter.calendar.JYearChooser;
+import fasttrackse.quanlythuvien.DAO.NhaXuatBanModel;
+import fasttrackse.quanlythuvien.DAO.QuanLySachModel;
+import fasttrackse.quanlythuvien.entity.QuanLySach;
 
 public class QuanLySachUI extends JPanel {
-	private JLabel lblCodeMTV1, lblHT1, lblDC1, lblP1, lblQ1, lblTP1, lblSDT1, lblEmail1;
-	private JButton btnreset1, btnsua1, btnthem1, btnxoa1;
-	private JTextField txtCodeMTV1, txtHT1, txtDC1, txtP1, txtQ1, txtTP1, txtSDT1, txtEmail1;
+	private JLabel lblCodeS, lblTS, lblTG, lblNSX, lblNXB, lblSL, lblTL;
+	private JButton btnreset, btnsua, btnthem, btnxoa;
+	private JTextField txtCodeS, txtTS, txtNXB, txtSL;
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
-	private JMonthChooser jmc;
-	private JYearChooser jyc;
+	private JComboBox<String> tacGia, nhaXuatBan, theLoai;
+
+	private NhaXuatBanModel listNXB = new NhaXuatBanModel();
+	private QuanLySachModel quanLySachDAO = new QuanLySachModel();
+	private ArrayList<QuanLySach> arr = new ArrayList<QuanLySach>();
+
+	// houver mouseListener
+	MouseListener tblUserClick = new MouseListener() {
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		public void mousePressed(MouseEvent e) {
+		}
+
+		public void mouseExited(MouseEvent e) {
+		}
+
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		public void mouseClicked(MouseEvent e) {
+
+			txtCodeS.setEditable(false);
+			int row = tbl.getSelectedRow();
+
+			String maSach = (String) tbl.getValueAt(row, 0);
+			txtCodeS.setText(maSach);
+
+			String tenSach = (String) tbl.getValueAt(row, 1);
+			txtTS.setText(tenSach);
+
+			String tenTacGia = (String) tbl.getValueAt(row, 2);
+			tacGia.setSelectedItem(tenTacGia);
+
+			String tennhaXuatBan = (String) tbl.getValueAt(row, 3);
+			nhaXuatBan.setSelectedItem(tennhaXuatBan);
+
+			String namXuatBan = (String) tbl.getValueAt(row, 4);
+			txtNXB.setText(namXuatBan);
+
+			String soLuong = (String) tbl.getValueAt(row, 6);
+			txtSL.setText(soLuong);
+
+			String tentheLoai = (String) tbl.getValueAt(row, 5);
+			theLoai.setSelectedItem(tentheLoai);
+
+			btnthem.setEnabled(false);
+			btnsua.setEnabled(true);
+			btnxoa.setEnabled(true);
+		}
+	};
+
+	// nhập thông tin mới
+	ActionListener btnResetClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			txtCodeS.setEditable(true);
+			btnthem.setEnabled(true);
+			btnsua.setEnabled(false);
+			btnxoa.setEnabled(false);
+
+			txtCodeS.setText("");
+			txtTS.setText("");
+			txtNXB.setText("");
+			txtSL.setText("");
+		}
+	};
+
+	// Sự kiện thêm một phần tử vào database
+	ActionListener btnAddClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+
+			// if (txtAD.getText().equals("") || txtPW.getText().equals("")) {
+			// JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			// } else {
+			// btnthem.setEnabled(true);
+			// btnsua.setEnabled(false);
+			// btnxoa.setEnabled(false);
+			// themAdmin();
+			//
+			// }
+
+			themSach();
+		}
+	};
+
+	// sửa một phần tử trong database
+	ActionListener btnEditClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+
+			// if (txtPW.getText().equals("")) {
+			// JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			// } else {
+			//
+			// suaAdmin();
+			//
+			// }
+
+			suaSach();
+		}
+	};
+
+	// xóa một phần tử trong database
+	ActionListener btnDeleteClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			xoaSach();
+		}
+	};
+
+	// phần add sự kiện
+	public void addEvents() {
+		// các menu chính
+		tbl.addMouseListener(tblUserClick);
+		btnreset.addActionListener(btnResetClick);
+		btnxoa.addActionListener(btnDeleteClick);
+		btnthem.addActionListener(btnAddClick);
+		btnsua.addActionListener(btnEditClick);
+
+	}
 
 	public QuanLySachUI() {
+		addControl();
+		addEvents();
+	}
+
+	public void addControl() {
 		// tạo container và boder chính
 		JPanel pnBorder = new JPanel();
 		pnBorder.setPreferredSize(new Dimension(820, 700));
@@ -57,55 +185,67 @@ public class QuanLySachUI extends JPanel {
 		JPanel pnLeft = new JPanel();
 		pnLeft.setLayout(new BoxLayout(pnLeft, BoxLayout.Y_AXIS));
 		JPanel pnCenterCon1 = new JPanel();
-		txtCodeMTV1 = new JTextField(15);
-		lblCodeMTV1 = new JLabel("        *Mã sách:");
-		pnCenterCon1.add(lblCodeMTV1);
-		pnCenterCon1.add(txtCodeMTV1);
+		txtCodeS = new JTextField(15);
+		lblCodeS = new JLabel("        *Mã sách:");
+		pnCenterCon1.add(lblCodeS);
+		pnCenterCon1.add(txtCodeS);
 
 		JPanel pnCenterCon2 = new JPanel();
-		txtHT1 = new JTextField(15);
-		lblHT1 = new JLabel("        *Tên sách:");
-		pnCenterCon2.add(lblHT1);
-		pnCenterCon2.add(txtHT1);
+		txtTS = new JTextField(15);
+		lblTS = new JLabel("        *Tên sách:");
+		pnCenterCon2.add(lblTS);
+		pnCenterCon2.add(txtTS);
 
 		JPanel pnCenterCon3 = new JPanel();
-		txtDC1 = new JTextField(15);
-		lblDC1 = new JLabel("            *Tác giả:");
-		pnCenterCon3.add(lblDC1);
-		pnCenterCon3.add(txtDC1);
+		lblTG = new JLabel("            *Tác giả:");
+		tacGia = new JComboBox<>();
+		tacGia.addItem("FFSE1701");
+		tacGia.addItem("FFSE1702");
+		tacGia.addItem("FFSE1703");
+		tacGia.addItem("FFSE1704");
+		tacGia.setPreferredSize(new Dimension(168, 25));
+		pnCenterCon3.add(lblTG);
+		pnCenterCon3.add(tacGia);
 
 		JPanel pnCenterCon4 = new JPanel();
-		txtP1 = new JTextField(15);
-		lblP1 = new JLabel("*Nhà sản xuất :");
-		pnCenterCon4.add(lblP1);
-		pnCenterCon4.add(txtP1);
+		lblNXB = new JLabel("*Nhà xuất bản :");
+		nhaXuatBan = new JComboBox<>();
+		nhaXuatBan.setPreferredSize(new Dimension(168, 25));
+		
+		pnCenterCon4.add(lblNXB);
+		pnCenterCon4.add(nhaXuatBan);
 
 		// bên phải
 		JPanel pnRight = new JPanel();
 		pnRight.setLayout(new BoxLayout(pnRight, BoxLayout.Y_AXIS));
 		JPanel pnCenterCon5 = new JPanel();
-		txtQ1 = new JTextField(15);
-		lblQ1 = new JLabel(" *Năm sản xuất :");
-		pnCenterCon5.add(lblQ1);
-		pnCenterCon5.add(txtQ1);
+		txtNXB = new JTextField(15);
+		lblNSX = new JLabel(" *Năm xuất bản:");
+		pnCenterCon5.add(lblNSX);
+		pnCenterCon5.add(txtNXB);
 
 		JPanel pnCenterCon6 = new JPanel();
-		txtTP1 = new JTextField(15);
-		lblTP1 = new JLabel("        *Số Lượng :");
-		pnCenterCon6.add(lblTP1);
-		pnCenterCon6.add(txtTP1);
+		txtSL = new JTextField(15);
+		lblSL = new JLabel("        *Số Lượng :");
+		pnCenterCon6.add(lblSL);
+		pnCenterCon6.add(txtSL);
 
 		JPanel pnCenterCon7 = new JPanel();
-		txtSDT1 = new JTextField(15);
-		lblSDT1 = new JLabel("             *Thể loại :");
-		pnCenterCon7.add(lblSDT1);
-		pnCenterCon7.add(txtSDT1);
+		lblTL = new JLabel("             *Thể loại :");
+		theLoai = new JComboBox<>();
+		theLoai.addItem("FFSE1701");
+		theLoai.addItem("FFSE1702");
+		theLoai.addItem("FFSE1703");
+		theLoai.addItem("FFSE1704");
+		theLoai.setPreferredSize(new Dimension(168, 25));
+		pnCenterCon7.add(lblTL);
+		pnCenterCon7.add(theLoai);
 
-		JPanel pnCenterCon8 = new JPanel();
-		txtEmail1 = new JTextField(15);
-		lblEmail1 = new JLabel("              *Ghi chú :");
-		pnCenterCon8.add(lblEmail1);
-		pnCenterCon8.add(txtEmail1);
+		// JPanel pnCenterCon8 = new JPanel();
+		// txtGC = new JTextField(15);
+		// lblGC = new JLabel(" *Ghi chú :");
+		// pnCenterCon8.add(lblGC);
+		// pnCenterCon8.add(txtGC);
 
 		// phần button thêm,sửa,xóa.....
 		JPanel pnButton = new JPanel();
@@ -115,23 +255,23 @@ public class QuanLySachUI extends JPanel {
 
 		ImageIcon update = new ImageIcon(
 				new ImageIcon("icon/them.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-		btnthem1 = new JButton("thêm ", update);
-		btnthem1.setMargin(new Insets(5, 10, 5, 10));
+		btnthem = new JButton("thêm ", update);
+		btnthem.setMargin(new Insets(5, 10, 5, 10));
 
 		ImageIcon update1 = new ImageIcon(
 				new ImageIcon("icon/sua.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-		btnsua1 = new JButton("sửa ", update1);
-		btnsua1.setMargin(new Insets(5, 10, 5, 10));
+		btnsua = new JButton("sửa ", update1);
+		btnsua.setMargin(new Insets(5, 10, 5, 10));
 
 		ImageIcon update2 = new ImageIcon(
 				new ImageIcon("icon/xoa.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-		btnxoa1 = new JButton("xóa ", update2);
-		btnxoa1.setMargin(new Insets(5, 10, 5, 10));
+		btnxoa = new JButton("xóa ", update2);
+		btnxoa.setMargin(new Insets(5, 10, 5, 10));
 
 		ImageIcon update3 = new ImageIcon(
 				new ImageIcon("icon/reset.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-		btnreset1 = new JButton("reset", update3);
-		btnreset1.setMargin(new Insets(5, 10, 5, 10));
+		btnreset = new JButton("reset", update3);
+		btnreset.setMargin(new Insets(5, 10, 5, 10));
 		JLabel lbkc7 = new JLabel("");
 		JLabel lbkc8 = new JLabel("        ");
 		JLabel lbkc9 = new JLabel("        ");
@@ -143,20 +283,20 @@ public class QuanLySachUI extends JPanel {
 		pnLeft.add(pnCenterCon3);
 		pnLeft.add(pnCenterCon4);
 		pnRight.add(pnCenterCon5);
-		pnRight.add(pnCenterCon6);
 		pnRight.add(pnCenterCon7);
-		pnRight.add(pnCenterCon8);
+		pnRight.add(pnCenterCon6);
+		// pnRight.add(pnCenterCon8);
 
 		// add các buttton them sửa xóa
 		// pnButton.add(ro);
 		pnButton.add(lbkc7);
-		pnButton.add(btnthem1);
+		pnButton.add(btnthem);
 		pnButton.add(lbkc8);
-		pnButton.add(btnsua1);
+		pnButton.add(btnsua);
 		pnButton.add(lbkc9);
-		pnButton.add(btnxoa1);
+		pnButton.add(btnxoa);
 		pnButton.add(lbkc10);
-		pnButton.add(btnreset1);
+		pnButton.add(btnreset);
 
 		// add và pannerCon
 		pnCenterCon.add(pnLeft);
@@ -177,18 +317,75 @@ public class QuanLySachUI extends JPanel {
 		table.addColumn("Năm xuất bản");
 		table.addColumn("Thể Loại");
 		table.addColumn("Số Lượng");
-		table.addColumn("Ghi chú");
+
+		this.getTable();
 		tbl = new JTable(table);
 		TableColumnModel columnModel = tbl.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(50);
 		columnModel.getColumn(1).setPreferredWidth(110);
-		// columnModel.getColumn(3).setPreferredWidth(50);
-		// columnModel.getColumn(4).setPreferredWidth(50);
+		columnModel.getColumn(5).setPreferredWidth(150);
+		columnModel.getColumn(6).setPreferredWidth(40);
 		JScrollPane sc = new JScrollPane(tbl);
 		pnSouth.add(sc);
 		pnBorder.add(pnSouth, BorderLayout.SOUTH);
 
 		// thêm vào main
 		this.add(pnBorder);
+	}
+
+	public void xoaSach() {
+		String maSach = txtCodeS.getText();
+		int[] rows = tbl.getSelectedRows();
+		for (int i = 0; i < rows.length; i++) {
+			quanLySachDAO.delete(maSach);
+			table.removeRow(rows[i] - i);
+
+		}
+	}
+
+	public void themSach() {
+		String maSach = txtCodeS.getText();
+		String tenSach = txtTS.getText();
+
+		String TG = tacGia.getSelectedItem().toString();
+		int vtTG = tacGia.getSelectedIndex() + 1;
+		String idTG = String.valueOf(vtTG);
+
+		String NXB = nhaXuatBan.getSelectedItem().toString();
+		int vtNXB = nhaXuatBan.getSelectedIndex() + 1;
+		String idNXB = String.valueOf(vtNXB);
+
+		String namXuatBan = txtNXB.getText();
+		String soLuong = txtSL.getText();
+
+		String TL = theLoai.getSelectedItem().toString();
+		int vtTL = theLoai.getSelectedIndex() + 1;
+		String idTL = String.valueOf(vtTL);
+
+		quanLySachDAO.add(new QuanLySach(maSach, tenSach, idTG, idNXB, namXuatBan, soLuong, idTL));
+		table.addRow(new String[] { maSach, tenSach, TG, NXB, TL, namXuatBan, soLuong });
+
+	}
+
+	public void suaSach() {
+		// String tenAdmin = txtCodeS.getText();
+		// String passWord = txtPW.getText();
+		// QuanLySach ad = new QuanLySach(tenAdmin, passWord);
+		// quanLySachDAO.edit(ad);
+		//
+		// int row = tbl.getSelectedRow();
+		// tbl.setValueAt(tenAdmin, row, 0);
+		// tbl.setValueAt(passWord, row, 1);
+
+	}
+
+	public void getTable() {
+		arr = quanLySachDAO.getDSQuanLySach();
+		for (int i = 0; i < arr.size(); i++) {
+
+			table.addRow(new String[] { arr.get(i).getMaSach(), arr.get(i).getTenSach(), arr.get(i).getTacGia(),
+					arr.get(i).getNhaXuatBan(), arr.get(i).getNamXuatBan(), arr.get(i).getTheLoai(),
+					arr.get(i).getSoLuong() });
+		}
 	}
 }

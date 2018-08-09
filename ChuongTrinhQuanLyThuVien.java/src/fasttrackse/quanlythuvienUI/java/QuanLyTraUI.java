@@ -33,7 +33,7 @@ import com.toedter.calendar.JYearChooser;
 public class QuanLyTraUI extends JPanel {
 	private JLabel lblCodeGD1, lblCodeTV1, lblCodeSL1, lblNT1, lblMS1, lbWestMS1;
 	private JTextField txtCodeTV1, txtCodeGD1, txtSL1, txtNT1;
-	private JButton btnSubmit1;
+	private JButton btnSubmit1,btnT;
 
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
@@ -78,7 +78,7 @@ public class QuanLyTraUI extends JPanel {
 		pnCenterCon2.add(txtCodeTV1);
 
 		JPanel pnCenterCon3 = new JPanel();
-		lblMS1 = new JLabel("         Mã sách: ");
+		lblMS1 = new JLabel("                       Mã sách:");
 		DefaultListModel fruitsName = new DefaultListModel();
 
 		fruitsName.addElement("Apple");
@@ -96,8 +96,15 @@ public class QuanLyTraUI extends JPanel {
 
 		fruitListScrollPane1 = new JScrollPane(fruitList);
 		fruitListScrollPane1.setPreferredSize(new Dimension(225, 55));
+		// button thêm mã sách
+		ImageIcon update10 = new ImageIcon(
+				new ImageIcon("icon/themmasach.png").getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+		btnT = new JButton(update10);
+		btnT.setMargin(new Insets(3, 5, 3, 5));
+
 		pnCenterCon3.add(lblMS1);
 		pnCenterCon3.add(fruitListScrollPane1);
+		pnCenterCon3.add(btnT);
 
 		JPanel pnCenterCon4 = new JPanel();
 		txtSL1 = new JTextField(20);
@@ -141,7 +148,7 @@ public class QuanLyTraUI extends JPanel {
 		table.addColumn("Ghi chú");
 		tbl = new JTable(table);
 		TableColumnModel columnModel = tbl.getColumnModel();
-		//columnModel.getColumn(0).setPreferredWidth(15);
+		// columnModel.getColumn(0).setPreferredWidth(15);
 		columnModel.getColumn(3).setPreferredWidth(4);
 		// columnModel.getColumn(4).setPreferredWidth(5);
 		// columnModel.getColumn(5).setPreferredWidth(5);

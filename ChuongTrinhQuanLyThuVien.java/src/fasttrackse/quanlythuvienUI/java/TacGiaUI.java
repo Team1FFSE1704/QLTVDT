@@ -30,7 +30,7 @@ import fasttrackse.quanlythuvien.DAO.TacGiaModel;
 import fasttrackse.quanlythuvien.entity.NhaXuatBan;
 import fasttrackse.quanlythuvien.entity.TacGia;
 
-public class QuanLyDanhMucUI extends JPanel {
+public class TacGiaUI extends JPanel {
 	private JLabel lblCodetg, lblTg;
 	private JButton btnreset, btnsua, btnthem, btnxoa;
 	private JTextField txtTg, txtCodetg;
@@ -140,7 +140,7 @@ public class QuanLyDanhMucUI extends JPanel {
 
 	}
 	
-	public QuanLyDanhMucUI() {
+	public TacGiaUI() {
 		addControls();
 		addEvents();
 	}
