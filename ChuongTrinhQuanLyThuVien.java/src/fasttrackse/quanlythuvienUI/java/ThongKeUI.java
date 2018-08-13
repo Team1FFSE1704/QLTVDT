@@ -17,6 +17,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
@@ -34,9 +35,9 @@ public class ThongKeUI extends JPanel {
 	private JScrollPane fruitListScrollPane;
 	private JComboBox<String> thanhpho = new JComboBox<String>();
 
-	
 	private Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
 	private QuanLySachModel quanLySachDAO = new QuanLySachModel();
+	private JTextField txtTV;
 
 	private ArrayList<QuanLySach> arr = new ArrayList<QuanLySach>();
 	ActionListener btnDeleteClick = new ActionListener() {
@@ -58,6 +59,7 @@ public class ThongKeUI extends JPanel {
 
 		JPanel pnBorder = new JPanel();
 		pnBorder.setLayout(new BorderLayout());
+		pnBorder.setPreferredSize(new Dimension(650, 650));
 		BorderLayout layout = new BorderLayout();
 		layout.setHgap(5);
 		layout.setVgap(5);
@@ -90,23 +92,10 @@ public class ThongKeUI extends JPanel {
 
 		JPanel pnNorthCon2 = new JPanel();
 		lblMS = new JLabel("         Mã thành viên: ");
-		DefaultListModel fruitsName = new DefaultListModel();
-		fruitsName.addElement("Apple");
-		fruitsName.addElement("Grapes");
-		fruitsName.addElement("Mango");
-		fruitsName.addElement("Peer");
-
-		final JList fruitList = new JList(fruitsName);
-		fruitList.setSelectionBackground(Color.RED);
-		fruitList.setSelectionForeground(Color.WHITE);
-		fruitList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		fruitList.setSelectedIndex(0);
-		fruitList.setVisibleRowCount(3);
-		fruitListScrollPane = new JScrollPane(fruitList);
-		fruitListScrollPane.setPreferredSize(new Dimension(225, 40));
+		txtTV = new JTextField(10);
 		pnTong.add(pnNorthCon1);
 		pnNorthCon2.add(lblMS);
-		pnNorthCon2.add(fruitListScrollPane);
+		pnNorthCon2.add(txtTV);
 		pnTong.add(pnNorthCon2);
 		pnNorthCon.add(pnTong);
 
@@ -148,7 +137,7 @@ public class ThongKeUI extends JPanel {
 		pnSouth.setLayout(new BoxLayout(pnSouth, BoxLayout.Y_AXIS));
 		pnSouth.setPreferredSize(new Dimension(820, 420));
 		// bảng table
-		table.addColumn("Stt");
+		
 		table.addColumn("Mã giao dịch");
 		table.addColumn("Mã thành viên");
 		table.addColumn("Họ tên");
@@ -157,7 +146,7 @@ public class ThongKeUI extends JPanel {
 		tbl = new JTable(table);
 		TableColumnModel columnModel = tbl.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(10);
-		// columnModel.getColumn(3).setPreferredWidth(4);
+		columnModel.getColumn(1).setPreferredWidth(30);
 		// columnModel.getColumn(4).setPreferredWidth(5);
 		// columnModel.getColumn(5).setPreferredWidth(5);
 

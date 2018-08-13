@@ -33,21 +33,16 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import com.toedter.calendar.JMonthChooser;
-import com.toedter.calendar.JYearChooser;
-
 public class QuanLyMuonUI extends JFrame {
 	private JLabel lblTitle, lblCodeGD, lblCodeTV, lblCodeSL, lblNM, lblNT, lblMS;
 	private JButton btntg, btnnxb, btnadmin, btntl, btnqltv, btnqlmt, btnqls, btnqldm, btnkt, btntk, btnSubmit, btnts,
-			btnms, btnT;
+			btnms, btnT, btnTKS, btnTKBD;
 	private JTextField txtCodeTV, txtCodeGD, txtSL, txtNM, txtNT;
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
 
-
-	
-//	private JMonthChooser jmc;
-//	private JYearChooser jyc;
+	// private JMonthChooser jmc;
+	// private JYearChooser jyc;
 
 	private DateFormat ngay;
 	private Date date, ngay1;
@@ -57,6 +52,7 @@ public class QuanLyMuonUI extends JFrame {
 	private Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
 
 	// các class UI
+	ThongKe1UI thongKeUI1 = new ThongKe1UI();
 	ThongKeUI thongKeUI = new ThongKeUI();
 	TacGiaUI quanLyDanhMucUI = new TacGiaUI();
 	QuanLySachUI quanLySachUI = new QuanLySachUI();
@@ -80,6 +76,8 @@ public class QuanLyMuonUI extends JFrame {
 	JPanel pnWestCon4;
 	JPanel pnWestCon5;
 	JPanel pnWestCon6;
+	JPanel pnWestCon7;
+	JPanel pnWestCon8;
 
 	// tạo console
 	public void addConTrol() {
@@ -169,6 +167,16 @@ public class QuanLyMuonUI extends JFrame {
 		btnadmin = new JButton("Admin");
 		btnadmin.setPreferredSize(new Dimension(110, 20));
 
+		pnWestCon7 = new JPanel();
+		pnWestCon7.setPreferredSize(new Dimension(130, 30));
+		btnTKS = new JButton("TK sách");
+		btnTKS.setPreferredSize(new Dimension(110, 20));
+
+		pnWestCon8 = new JPanel();
+		pnWestCon8.setPreferredSize(new Dimension(130, 30));
+		btnTKBD = new JButton("TK bạn đọc");
+		btnTKBD.setPreferredSize(new Dimension(110, 20));
+
 		pnWestCon.setBorder(borderTitlea);
 		pnWestCon1.add(btnms);
 		pnWestCon2.add(btnts);
@@ -176,6 +184,8 @@ public class QuanLyMuonUI extends JFrame {
 		pnWestCon4.add(btnnxb);
 		pnWestCon5.add(btntl);
 		pnWestCon6.add(btnadmin);
+		pnWestCon7.add(btnTKS);
+		pnWestCon8.add(btnTKBD);
 
 		pnWestCon.add(pnWestCon1);
 		pnWestCon.add(pnWestCon2);
@@ -183,6 +193,9 @@ public class QuanLyMuonUI extends JFrame {
 		pnWestCon.add(pnWestCon4);
 		pnWestCon.add(pnWestCon5);
 		pnWestCon.add(pnWestCon6);
+		pnWestCon.add(pnWestCon7);
+		pnWestCon.add(pnWestCon8);
+
 		pnWest.add(pnWestCon);
 		pnBorder.add(pnWest, BorderLayout.WEST);
 		// hết phần bên trái màn hình.
@@ -316,9 +329,7 @@ public class QuanLyMuonUI extends JFrame {
 		JPanel pnCenterCon4 = new JPanel();
 		txtSL = new JTextField(20);
 		lblCodeSL = new JLabel("       số lượng: ");
-		
-		
-		
+
 		pnCenterCon4.add(lblCodeSL);
 		pnCenterCon4.add(txtSL);
 
@@ -363,15 +374,18 @@ public class QuanLyMuonUI extends JFrame {
 		pnCenter.add(quanLyTraUI);
 		pnCenter.add(quanLySachUI);
 		pnCenter.add(thongKeUI);
+		pnCenter.add(thongKeUI1);
 		// phần quản lý danh mục
 		pnCenter.add(nhaXuatBan);
 		pnCenter.add(theloai);
 		pnCenter.add(admin);
 
+		// quan lý danh mục
 		theloai.setVisible(false);
 		nhaXuatBan.setVisible(false);
 		admin.setVisible(false);
 		// các trang quản lý chính
+		thongKeUI1.setVisible(false);
 		thongKeUI.setVisible(false);
 		quanLySachUI.setVisible(false);
 		quanLyThanhVienUI.setVisible(false);
@@ -383,7 +397,8 @@ public class QuanLyMuonUI extends JFrame {
 		pnWestCon4.setVisible(false);
 		pnWestCon5.setVisible(false);
 		pnWestCon6.setVisible(false);
-
+		pnWestCon7.setVisible(false);
+		pnWestCon8.setVisible(false);
 		// thêm vào main
 		con.add(pnBorder);
 	}
@@ -395,6 +410,7 @@ public class QuanLyMuonUI extends JFrame {
 			pnWest.setVisible(true);
 			pnCenterCon.setVisible(false);
 			thongKeUI.setVisible(false);
+			thongKeUI1.setVisible(false);
 			quanLySachUI.setVisible(false);
 			quanLyThanhVienUI.setVisible(false);
 			quanLyTraUI.setVisible(false);
@@ -406,6 +422,8 @@ public class QuanLyMuonUI extends JFrame {
 			// pnWestCon3.setVisible(true);
 			pnWestCon1.setVisible(false);
 			pnWestCon2.setVisible(false);
+			pnWestCon7.setVisible(false);
+			pnWestCon8.setVisible(false);
 			pnWestCon3.setVisible(true);
 			pnWestCon4.setVisible(true);
 			pnWestCon5.setVisible(true);
@@ -422,17 +440,64 @@ public class QuanLyMuonUI extends JFrame {
 	ActionListener btnThongKeClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			thongKeUI.setVisible(true);
+			thongKeUI1.setVisible(false);
 			pnCenterCon.setVisible(false);
 			quanLyTraUI.setVisible(false);
 			quanLySachUI.setVisible(false);
 			quanLyThanhVienUI.setVisible(false);
 			quanLyDanhMucUI.setVisible(false);
 			pnSouth.setVisible(false);
-			pnWest.setVisible(false);
+			pnWest.setVisible(true);
 
 			theloai.setVisible(false);
 			nhaXuatBan.setVisible(false);
 			admin.setVisible(false);
+
+			// bttton xám
+			btnTKBD.setEnabled(true);
+			btnTKS.setEnabled(false);
+
+			/////////////////////////
+			pnWestCon1.setVisible(false);
+			pnWestCon2.setVisible(false);
+			pnWestCon3.setVisible(false);
+			pnWestCon4.setVisible(false);
+			pnWestCon5.setVisible(false);
+			pnWestCon6.setVisible(false);
+			pnWestCon7.setVisible(true);
+			pnWestCon8.setVisible(true);
+		}
+	};
+
+	ActionListener btnThongKe1Click = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			thongKeUI.setVisible(false);
+			thongKeUI1.setVisible(true);
+			pnCenterCon.setVisible(false);
+			quanLyTraUI.setVisible(false);
+			quanLySachUI.setVisible(false);
+			quanLyThanhVienUI.setVisible(false);
+			quanLyDanhMucUI.setVisible(false);
+			pnSouth.setVisible(false);
+			pnWest.setVisible(true);
+
+			theloai.setVisible(false);
+			nhaXuatBan.setVisible(false);
+			admin.setVisible(false);
+
+			// bttton xám
+			btnTKBD.setEnabled(false);
+			btnTKS.setEnabled(true);
+
+			/////////////////////////
+			pnWestCon1.setVisible(false);
+			pnWestCon2.setVisible(false);
+			pnWestCon3.setVisible(false);
+			pnWestCon4.setVisible(false);
+			pnWestCon5.setVisible(false);
+			pnWestCon6.setVisible(false);
+			pnWestCon7.setVisible(true);
+			pnWestCon8.setVisible(true);
 		}
 	};
 
@@ -443,6 +508,7 @@ public class QuanLyMuonUI extends JFrame {
 			pnCenterCon.setVisible(false);
 			quanLySachUI.setVisible(false);
 			quanLyThanhVienUI.setVisible(false);
+			thongKeUI1.setVisible(false);
 			thongKeUI.setVisible(false);
 			pnSouth.setVisible(false);
 			theloai.setVisible(false);
@@ -460,6 +526,7 @@ public class QuanLyMuonUI extends JFrame {
 			quanLySachUI.setVisible(false);
 			quanLyThanhVienUI.setVisible(false);
 			thongKeUI.setVisible(false);
+			thongKeUI1.setVisible(false);
 
 			theloai.setVisible(false);
 			nhaXuatBan.setVisible(false);
@@ -483,6 +550,7 @@ public class QuanLyMuonUI extends JFrame {
 			pnWest.setVisible(false);
 			quanLyDanhMucUI.setVisible(false);
 			thongKeUI.setVisible(false);
+			thongKeUI1.setVisible(false);
 			quanLyTraUI.setVisible(false);
 
 			theloai.setVisible(false);
@@ -500,6 +568,7 @@ public class QuanLyMuonUI extends JFrame {
 			quanLyThanhVienUI.setVisible(false);
 			quanLyTraUI.setVisible(false);
 			thongKeUI.setVisible(false);
+			thongKeUI1.setVisible(false);
 
 			theloai.setVisible(false);
 			nhaXuatBan.setVisible(false);
@@ -511,6 +580,8 @@ public class QuanLyMuonUI extends JFrame {
 			pnWestCon4.setVisible(false);
 			pnWestCon5.setVisible(false);
 			pnWestCon6.setVisible(false);
+			pnWestCon7.setVisible(false);
+			pnWestCon8.setVisible(false);
 		}
 	};
 	ActionListener btnQuanLySachClick = new ActionListener() {
@@ -522,6 +593,7 @@ public class QuanLyMuonUI extends JFrame {
 			pnSouth.setVisible(false);
 			pnWest.setVisible(false);
 			thongKeUI.setVisible(false);
+			thongKeUI1.setVisible(false);
 
 			theloai.setVisible(false);
 			nhaXuatBan.setVisible(false);
@@ -552,6 +624,7 @@ public class QuanLyMuonUI extends JFrame {
 			quanLySachUI.setVisible(false);
 			quanLyThanhVienUI.setVisible(false);
 			thongKeUI.setVisible(false);
+			thongKeUI1.setVisible(false);
 
 			// setEnabled cho các button danhmuc
 			btnnxb.setEnabled(true);
@@ -573,6 +646,7 @@ public class QuanLyMuonUI extends JFrame {
 			quanLySachUI.setVisible(false);
 			quanLyThanhVienUI.setVisible(false);
 			thongKeUI.setVisible(false);
+			thongKeUI1.setVisible(false);
 
 			// setEnabled cho các button danhmuc
 			btnnxb.setEnabled(true);
@@ -594,6 +668,7 @@ public class QuanLyMuonUI extends JFrame {
 			quanLySachUI.setVisible(false);
 			quanLyThanhVienUI.setVisible(false);
 			thongKeUI.setVisible(false);
+			thongKeUI1.setVisible(false);
 
 			// setEnabled cho các button danh muc
 			btnnxb.setEnabled(false);
@@ -615,6 +690,7 @@ public class QuanLyMuonUI extends JFrame {
 			quanLySachUI.setVisible(false);
 			quanLyThanhVienUI.setVisible(false);
 			thongKeUI.setVisible(false);
+			thongKeUI1.setVisible(false);
 
 			// setEnabled cho các button danhmuc
 			btnnxb.setEnabled(true);
@@ -629,6 +705,8 @@ public class QuanLyMuonUI extends JFrame {
 		// các menu chính
 
 		btntk.addActionListener(btnThongKeClick);
+		btnTKS.addActionListener(btnThongKeClick);
+		btnTKBD.addActionListener(btnThongKe1Click);
 		btnqldm.addActionListener(btnQuanLyDanhMucClick);
 		btnqls.addActionListener(btnQuanLySachClick);
 		btnkt.addActionListener(btnExitClick);
@@ -644,7 +722,7 @@ public class QuanLyMuonUI extends JFrame {
 
 	}
 
-	// phương thức này truy�?n qua main
+	// phương thức này truyền qua main
 	public QuanLyMuonUI(String title) {
 		super(title);
 		addConTrol();
