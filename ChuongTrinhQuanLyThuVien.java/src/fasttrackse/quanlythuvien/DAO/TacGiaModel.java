@@ -18,7 +18,19 @@ public class TacGiaModel {
 
 	public TacGiaModel() {
 
+<<<<<<< HEAD
+		//this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456"	 );
+		this.getConnect("localhost", "team1_qlthuvien", "team1qltvdt", "team1qltvdt");
+//		if (this.getConn() != null) {
+//			System.err.println("Kết nối MYSQL thành công");
+//		} else {
+//			System.err.println("Kết nối MYSQL thất bại");
+//		}
+
+		this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");;
+=======
 		this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");
+>>>>>>> e29fafda0d8bbc4a19e84fe8c14c3805e7177a41
 		// if (this.getConn() != null) {
 		// System.err.println("Kết nối MYSQL thành công");
 		// } else {
