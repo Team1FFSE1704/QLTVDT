@@ -18,8 +18,7 @@ public class AdminModel {
 	Connection conn = null;
 
 	public AdminModel() {
-		//this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");
-		this.getConnect("localhost", "team1_qlthuvien", "team1qltvdt", "team1qltvdt");
+		this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");
 		// if (this.getConn() != null) {
 		// System.err.println("Kết nối MYSQL thành công");
 		// } else {
@@ -71,10 +70,10 @@ public class AdminModel {
 			ResultSet result = statement.executeQuery();
 
 			while (result.next()) {
-				//int id = result.getInt("id");
+				// int id = result.getInt("id");
 				String tenAdmin = result.getString("username");
 				String passWord = result.getString("password");
-				dsAdmin.add(new Admin(tenAdmin,passWord));
+				dsAdmin.add(new Admin(tenAdmin, passWord));
 			}
 
 		} catch (Exception e) {
@@ -83,58 +82,57 @@ public class AdminModel {
 
 		return dsAdmin;
 	}
-	
+
 	// xóa phần tử trong database
-		public void delete(String id) {
-			try {
-				String queryString = "delete from admin where username=?";
-				PreparedStatement statement = conn.prepareStatement(queryString);
-				statement.setString(1, id);
+	public void delete(String id) {
+		try {
+			String queryString = "delete from admin where username=?";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, id);
 
-				int x = statement.executeUpdate();
-				if (x > 0) {
-					JOptionPane.showMessageDialog(null, "Bạn đã xóa thành công ");
-				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
+			int x = statement.executeUpdate();
+			if (x > 0) {
+				JOptionPane.showMessageDialog(null, "Bạn đã xóa thành công ");
 			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
+	}
 
-		//thêm phần tử vào database
-		public void edit(Admin ad) {
-			try {
-				String queryString = "UPDATE admin SET password=? WHERE username=?";
-				PreparedStatement statement = conn.prepareStatement(queryString);
+	// thêm phần tử vào database
+	public void edit(Admin ad) {
+		try {
+			String queryString = "UPDATE admin SET password=? WHERE username=?";
+			PreparedStatement statement = conn.prepareStatement(queryString);
 
-
-				statement.setString(1, ad.getPassWord());
-				statement.setString(2, ad.getTenAdmin());				
-				int x = statement.executeUpdate();
-				if (x > 0) {
-					JOptionPane.showMessageDialog(null, "Bạn đã update thành công ");
-				} else {
-					System.out.println("chưa được");
-				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
+			statement.setString(1, ad.getPassWord());
+			statement.setString(2, ad.getTenAdmin());
+			int x = statement.executeUpdate();
+			if (x > 0) {
+				JOptionPane.showMessageDialog(null, "Bạn đã update thành công ");
+			} else {
+				System.out.println("chưa được");
 			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
+	}
 
-		// thêm một phần tử vào database
-		public void add(Admin ad) {
-			try {
-				String queryString = "insert into admin(username,password) values(?,?)";
-				PreparedStatement statement = conn.prepareStatement(queryString);
-				statement.setString(1, ad.getTenAdmin());
-				statement.setString(2, ad.getPassWord());
+	// thêm một phần tử vào database
+	public void add(Admin ad) {
+		try {
+			String queryString = "insert into admin(username,password) values(?,?)";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, ad.getTenAdmin());
+			statement.setString(2, ad.getPassWord());
 
-				int x = statement.executeUpdate();
-				if (x > 0) {
-					JOptionPane.showMessageDialog(null, "Bạn đã thêm thành công ");
-				}
-
-			} catch (Exception ex) {
-				ex.printStackTrace();
+			int x = statement.executeUpdate();
+			if (x > 0) {
+				JOptionPane.showMessageDialog(null, "Bạn đã thêm thành công ");
 			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
+	}
 }

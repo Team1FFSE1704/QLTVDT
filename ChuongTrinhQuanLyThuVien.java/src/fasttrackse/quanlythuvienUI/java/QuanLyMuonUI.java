@@ -33,17 +33,25 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import com.toedter.calendar.JMonthChooser;
+import com.toedter.calendar.JYearChooser;
+
 public class QuanLyMuonUI extends JFrame {
 	private JLabel lblTitle, lblCodeGD, lblCodeTV, lblCodeSL, lblNM, lblNT, lblMS;
 	private JButton btntg, btnnxb, btnadmin, btntl, btnqltv, btnqlmt, btnqls, btnqldm, btnkt, btntk, btnSubmit, btnts,
-			btnms,btnT;
+			btnms, btnT;
 	private JTextField txtCodeTV, txtCodeGD, txtSL, txtNM, txtNT;
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
 
+
+	
+//	private JMonthChooser jmc;
+//	private JYearChooser jyc;
+
 	private DateFormat ngay;
 	private Date date, ngay1;
-	
+
 	private JScrollPane fruitListScrollPane;
 	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
 	private Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
@@ -54,7 +62,7 @@ public class QuanLyMuonUI extends JFrame {
 	QuanLySachUI quanLySachUI = new QuanLySachUI();
 	QuanLyTraUI quanLyTraUI = new QuanLyTraUI();
 	QuanLyThanhVienUI quanLyThanhVienUI = new QuanLyThanhVienUI();
-	
+
 	AdminUI admin = new AdminUI();
 	TheLoaiUI theloai = new TheLoaiUI();
 	NhaXuatBanUI nhaXuatBan = new NhaXuatBanUI();
@@ -294,13 +302,13 @@ public class QuanLyMuonUI extends JFrame {
 
 		fruitListScrollPane = new JScrollPane(fruitList);
 		fruitListScrollPane.setPreferredSize(new Dimension(225, 55));
-		
-		//button thêm mã sách
+
+		// button thêm mã sách
 		ImageIcon update10 = new ImageIcon(
 				new ImageIcon("icon/themmasach.png").getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
 		btnT = new JButton(update10);
 		btnT.setMargin(new Insets(3, 5, 3, 5));
-		
+
 		pnCenterCon3.add(lblMS);
 		pnCenterCon3.add(fruitListScrollPane);
 		pnCenterCon3.add(btnT);
@@ -308,12 +316,16 @@ public class QuanLyMuonUI extends JFrame {
 		JPanel pnCenterCon4 = new JPanel();
 		txtSL = new JTextField(20);
 		lblCodeSL = new JLabel("       số lượng: ");
+		
+		
+		
 		pnCenterCon4.add(lblCodeSL);
 		pnCenterCon4.add(txtSL);
 
 		JPanel pnCenterCon5 = new JPanel();
 		txtNM = new JTextField(8);
 		lblNM = new JLabel("Ngày mượn: ");
+
 		ngay = new SimpleDateFormat("yyyy-MM-dd");
 		date = new Date();
 		txtNM.setText(ngay.format(date));
@@ -323,11 +335,11 @@ public class QuanLyMuonUI extends JFrame {
 		JPanel pnCenterCon6 = new JPanel();
 		txtNT = new JTextField(8);
 		lblNT = new JLabel("       Ngày trả: ");
-		
+
 		ngay = new SimpleDateFormat("yyyy-MM-dd");
 		ngay1 = new Date();
 		txtNT.setText(ngay.format(ngay1));
-		
+
 		pnCenterCon6.add(lblNT);
 		pnCenterCon6.add(txtNT);
 
@@ -398,7 +410,7 @@ public class QuanLyMuonUI extends JFrame {
 			pnWestCon4.setVisible(true);
 			pnWestCon5.setVisible(true);
 			pnWestCon6.setVisible(true);
-			
+
 			// setEnabled cho các button danhmuc
 			btnnxb.setEnabled(true);
 			btntl.setEnabled(true);
