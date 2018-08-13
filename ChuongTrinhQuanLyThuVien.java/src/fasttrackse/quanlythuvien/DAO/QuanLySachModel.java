@@ -67,7 +67,7 @@ public class QuanLySachModel {
 			String queryString = "SELECT quanlysach.masach, quanlysach.tensach, tacgia.tentacgia, theloaisach.theloaisach, nxb.tenNXB, quanlysach.namXB, quanlysach.soluong\r\n"
 					+ "FROM quanlysach\r\n" + "INNER JOIN tacgia\r\n" + "on quanlysach.tacgia = tacgia.matacgia\r\n"
 					+ "INNER JOIN theloaisach\r\n" + "ON quanlysach.theloai = theloaisach.matheloai\r\n"
-					+ "INNER JOIN nxb\r\n" + "on quanlysach.NXB = nxb.maNXB";
+					+ "INNER JOIN nxb\r\n" + "on quanlysach.NXB = nxb.maNXB ORDER BY `masach` ASC ";
 			PreparedStatement statement = conn.prepareStatement(queryString);
 
 			ResultSet result = statement.executeQuery();

@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -122,10 +123,17 @@ public class QuanLySachUI extends JPanel {
 	// Sự kiện thêm một phần tử vào database
 	ActionListener btnAddClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			if (tacGia.getSelectedItem().toString().equals("chọn tác giả")) {
+				JOptionPane.showMessageDialog(null, "Bạn chưa chọn tác giả ");
+			} else if (theLoai.getSelectedItem().toString().equals("chọn thể loại")) {
+				JOptionPane.showMessageDialog(null, "Bạn chưa chọn thể loại ");
+			} else if (nhaXuatBan.getSelectedItem().toString().equals("chọn nhà xuất bản")) {
+				JOptionPane.showMessageDialog(null, "Bạn chưa chọn nhà xuất bản ");
+			}else {
+				themSach();	
+			}
 
 			
-
-			themSach();
 		}
 	};
 
@@ -133,14 +141,7 @@ public class QuanLySachUI extends JPanel {
 	ActionListener btnEditClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 
-			// if (txtPW.getText().equals("")) {
-			// JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
-			// } else {
-			//
-			// suaAdmin();
-			//
-			// }
-
+			
 			suaSach();
 		}
 	};
@@ -332,7 +333,7 @@ public class QuanLySachUI extends JPanel {
 		table.addColumn("Thể Loại");
 		table.addColumn("Số Lượng");
 
-		this.sapXep();
+		this.getTable();
 		tbl = new JTable(table);
 		TableColumnModel columnModel = tbl.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(50);
@@ -386,15 +387,15 @@ public class QuanLySachUI extends JPanel {
 		String tenSach = txtTS.getText();
 
 		String TG = tacGia.getSelectedItem().toString();
-		int vtTG = tacGia.getSelectedIndex() + 1;
+		int vtTG = tacGia.getSelectedIndex() ;
 		String idTG = String.valueOf(vtTG);
 
 		String NXB = nhaXuatBan.getSelectedItem().toString();
-		int vtNXB = nhaXuatBan.getSelectedIndex() + 1;
+		int vtNXB = nhaXuatBan.getSelectedIndex() ;
 		String idNXB = String.valueOf(vtNXB);
 
 		String TL = theLoai.getSelectedItem().toString();
-		int vtTL = theLoai.getSelectedIndex() + 1;
+		int vtTL = theLoai.getSelectedIndex();
 		String idTL = String.valueOf(vtTL);
 
 		String namXuatBan = txtNXB.getText();
@@ -415,17 +416,9 @@ public class QuanLySachUI extends JPanel {
 
 	}
 
-	public void sapXep() {
+	public void getTable() {
 		arr = quanLySachDAO.getDSQuanLySach();
-		Collections.sort(arr, new Comparator<QuanLySach>() {
-			@Override
-			public int compare(QuanLySach VT2, QuanLySach VT1)
-
-			{
-				return VT1.getMaSach().compareTo(VT2.getMaSach());
-				
-			}
-		});
+		
 		for (int i = 0; i < arr.size(); i++)
 			table.addRow(new String[] { arr.get(i).getMaSach(), arr.get(i).getTenSach(), arr.get(i).getTacGia(),
 					arr.get(i).getNhaXuatBan(), arr.get(i).getNamXuatBan(), arr.get(i).getTheLoai(),

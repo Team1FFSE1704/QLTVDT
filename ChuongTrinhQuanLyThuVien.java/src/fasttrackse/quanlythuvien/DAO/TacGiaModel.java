@@ -78,7 +78,7 @@ public class TacGiaModel {
 		ArrayList<TacGia> dsTacGia = new ArrayList<TacGia>();
 
 		try {
-			String queryString = "SELECT * FROM tacgia";
+			String queryString = "SELECT * FROM tacgia ";
 			PreparedStatement statement = conn.prepareStatement(queryString);
 
 			ResultSet result = statement.executeQuery();

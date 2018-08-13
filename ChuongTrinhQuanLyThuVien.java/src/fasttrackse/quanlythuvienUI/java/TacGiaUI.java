@@ -165,7 +165,7 @@ public class TacGiaUI extends JPanel {
 		// table.addColumn("Ngày mượn");
 		// table.addColumn("Ngày trả");
 		// table.addColumn("Ghi chú");
-		this.sapXep();
+		this.getTable();
 		tbl = new JTable(table);
 
 		TableColumnModel columnModel = tbl.getColumnModel();
@@ -291,18 +291,6 @@ public class TacGiaUI extends JPanel {
 		}
 	}
 
-	public void sapXep() {
-		arr = tacGiaDAO.getDSTacGia();
-		Collections.sort(arr, new Comparator<TacGia>() {
-			@Override
-
-			public int compare(TacGia vt2, TacGia vt1) {
-
-				return vt1.getTenTacGia().compareTo(vt2.getTenTacGia());
-			}
-		});
-		for (int i = 0; i < arr.size(); i++)
-			table.addRow(new String[] { arr.get(i).getMaTacGia(), arr.get(i).getTenTacGia(), });
-	}
+	
 
 }
