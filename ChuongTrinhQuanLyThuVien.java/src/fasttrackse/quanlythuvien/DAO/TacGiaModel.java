@@ -17,22 +17,14 @@ public class TacGiaModel {
 	Connection conn = null;
 
 	public TacGiaModel() {
-<<<<<<< HEAD
-		//this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456"	 );
-		this.getConnect("localhost", "team1_qlthuvien", "team1qltvdt", "team1qltvdt");
-//		if (this.getConn() != null) {
-//			System.err.println("Kết nối MYSQL thành công");
-//		} else {
-//			System.err.println("Kết nối MYSQL thất bại");
-//		}
-=======
+
 		this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");
 		// if (this.getConn() != null) {
 		// System.err.println("Kết nối MYSQL thành công");
 		// } else {
 		// System.err.println("Kết nối MYSQL thất bại");
 		// }
->>>>>>> 9fee98fecc55b52394e3842d92d70b81a1e78c7e
+
 	}
 
 	//

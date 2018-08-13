@@ -17,8 +17,8 @@ public class NhaXuatBanModel {
 	Connection conn = null;
 
 	public NhaXuatBanModel() {
-		//this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");
-		this.getConnect("localhost", "team1_qlthuvien", "team1qltvdt", "team1qltvdt");
+		this.getConnect("localhost", "quanlythuvien", "truongquangminh", "quangminh123456");
+
 		// if (this.getConn() != null) {
 		// System.err.println("Kết nối MYSQL thành công");
 		// } else {
@@ -60,7 +60,7 @@ public class NhaXuatBanModel {
 
 	}
 
-	//show thông tin trong database 
+	// show thông tin trong database
 	public ArrayList<NhaXuatBan> getDSNhaXuatBan() {
 		ArrayList<NhaXuatBan> dsNhaXuatBan = new ArrayList<NhaXuatBan>();
 
@@ -107,7 +107,6 @@ public class NhaXuatBanModel {
 			String queryString = "UPDATE nxb SET  tenNXB=? WHERE maNXB=?";
 			PreparedStatement statement = conn.prepareStatement(queryString);
 
-			
 			statement.setString(1, nxb.getTenNhaXuatBan());
 			statement.setString(2, nxb.getMaNhaXuatBan());
 			int x = statement.executeUpdate();

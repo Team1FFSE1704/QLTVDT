@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -28,7 +30,12 @@ import javax.swing.table.TableColumnModel;
 
 import fasttrackse.quanlythuvien.DAO.NhaXuatBanModel;
 import fasttrackse.quanlythuvien.DAO.QuanLySachModel;
+import fasttrackse.quanlythuvien.DAO.TacGiaModel;
+import fasttrackse.quanlythuvien.DAO.TheLoaiModel;
+import fasttrackse.quanlythuvien.entity.NhaXuatBan;
 import fasttrackse.quanlythuvien.entity.QuanLySach;
+import fasttrackse.quanlythuvien.entity.TacGia;
+import fasttrackse.quanlythuvien.entity.TheLoai;
 
 public class QuanLySachUI extends JPanel {
 	private JLabel lblCodeS, lblTS, lblTG, lblNSX, lblNXB, lblSL, lblTL;
@@ -38,8 +45,17 @@ public class QuanLySachUI extends JPanel {
 	private JTable tbl;
 	private JComboBox<String> tacGia, nhaXuatBan, theLoai;
 
+	// private DateFormat year;
+	// private Date nam;
+
 	private NhaXuatBanModel listNXB = new NhaXuatBanModel();
+	private TacGiaModel listTG = new TacGiaModel();
+	private TheLoaiModel listTL = new TheLoaiModel();
 	private QuanLySachModel quanLySachDAO = new QuanLySachModel();
+
+	private ArrayList<NhaXuatBan> arrNXB = new ArrayList<NhaXuatBan>();
+	private ArrayList<TacGia> arrTG = new ArrayList<TacGia>();
+	private ArrayList<TheLoai> arrTL = new ArrayList<TheLoai>();
 	private ArrayList<QuanLySach> arr = new ArrayList<QuanLySach>();
 
 	// houver mouseListener
@@ -107,15 +123,7 @@ public class QuanLySachUI extends JPanel {
 	ActionListener btnAddClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 
-			// if (txtAD.getText().equals("") || txtPW.getText().equals("")) {
-			// JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
-			// } else {
-			// btnthem.setEnabled(true);
-			// btnsua.setEnabled(false);
-			// btnxoa.setEnabled(false);
-			// themAdmin();
-			//
-			// }
+			
 
 			themSach();
 		}
@@ -199,10 +207,12 @@ public class QuanLySachUI extends JPanel {
 		JPanel pnCenterCon3 = new JPanel();
 		lblTG = new JLabel("            *Tác giả:");
 		tacGia = new JComboBox<>();
-		tacGia.addItem("FFSE1701");
-		tacGia.addItem("FFSE1702");
-		tacGia.addItem("FFSE1703");
-		tacGia.addItem("FFSE1704");
+		arrTG = listTG.getDSTacGia();
+		for (int i = 0; i < arrTG.size(); i++) {
+			tacGia.addItem(arrTG.get(i).getTenTacGia());
+		}
+		;
+
 		tacGia.setPreferredSize(new Dimension(168, 25));
 		pnCenterCon3.add(lblTG);
 		pnCenterCon3.add(tacGia);
@@ -210,8 +220,12 @@ public class QuanLySachUI extends JPanel {
 		JPanel pnCenterCon4 = new JPanel();
 		lblNXB = new JLabel("*Nhà xuất bản :");
 		nhaXuatBan = new JComboBox<>();
+		arrNXB = listNXB.getDSNhaXuatBan();
+		for (int i = 0; i < arrNXB.size(); i++) {
+			nhaXuatBan.addItem(arrNXB.get(i).getTenNhaXuatBan());
+		}
+		;
 		nhaXuatBan.setPreferredSize(new Dimension(168, 25));
-		
 		pnCenterCon4.add(lblNXB);
 		pnCenterCon4.add(nhaXuatBan);
 
@@ -221,6 +235,9 @@ public class QuanLySachUI extends JPanel {
 		JPanel pnCenterCon5 = new JPanel();
 		txtNXB = new JTextField(15);
 		lblNSX = new JLabel(" *Năm xuất bản:");
+		// year = new SimpleDateFormat("yyyy");
+		// nam = new Date();
+		// txtNXB.setText(year.format(nam));
 		pnCenterCon5.add(lblNSX);
 		pnCenterCon5.add(txtNXB);
 
@@ -232,20 +249,15 @@ public class QuanLySachUI extends JPanel {
 
 		JPanel pnCenterCon7 = new JPanel();
 		lblTL = new JLabel("             *Thể loại :");
-		theLoai = new JComboBox<>();
-		theLoai.addItem("FFSE1701");
-		theLoai.addItem("FFSE1702");
-		theLoai.addItem("FFSE1703");
-		theLoai.addItem("FFSE1704");
+		theLoai = new JComboBox<String>();
+		arrTL = listTL.getDSTheLoai();
+		for (int i = 0; i < arrTL.size(); i++) {
+			theLoai.addItem(arrTL.get(i).getTenTheLoai());
+		}
+		;
 		theLoai.setPreferredSize(new Dimension(168, 25));
 		pnCenterCon7.add(lblTL);
 		pnCenterCon7.add(theLoai);
-
-		// JPanel pnCenterCon8 = new JPanel();
-		// txtGC = new JTextField(15);
-		// lblGC = new JLabel(" *Ghi chú :");
-		// pnCenterCon8.add(lblGC);
-		// pnCenterCon8.add(txtGC);
 
 		// phần button thêm,sửa,xóa.....
 		JPanel pnButton = new JPanel();
@@ -262,11 +274,13 @@ public class QuanLySachUI extends JPanel {
 				new ImageIcon("icon/sua.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		btnsua = new JButton("sửa ", update1);
 		btnsua.setMargin(new Insets(5, 10, 5, 10));
+		btnsua.setEnabled(false);
 
 		ImageIcon update2 = new ImageIcon(
 				new ImageIcon("icon/xoa.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		btnxoa = new JButton("xóa ", update2);
 		btnxoa.setMargin(new Insets(5, 10, 5, 10));
+		btnxoa.setEnabled(false);
 
 		ImageIcon update3 = new ImageIcon(
 				new ImageIcon("icon/reset.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
@@ -318,7 +332,7 @@ public class QuanLySachUI extends JPanel {
 		table.addColumn("Thể Loại");
 		table.addColumn("Số Lượng");
 
-		this.getTable();
+		this.sapXep();
 		tbl = new JTable(table);
 		TableColumnModel columnModel = tbl.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(50);
@@ -355,37 +369,66 @@ public class QuanLySachUI extends JPanel {
 		int vtNXB = nhaXuatBan.getSelectedIndex() + 1;
 		String idNXB = String.valueOf(vtNXB);
 
+		String TL = theLoai.getSelectedItem().toString();
+		int vtTL = theLoai.getSelectedIndex() + 1;
+		String idTL = String.valueOf(vtTL);
+
 		String namXuatBan = txtNXB.getText();
 		String soLuong = txtSL.getText();
+
+		quanLySachDAO.add(new QuanLySach(maSach, tenSach, idTG, idNXB, idTL, namXuatBan, soLuong));
+		table.addRow(new String[] { maSach, tenSach, TG, NXB, namXuatBan, TL, soLuong });
+
+	}
+
+	public void suaSach() {
+		String maSach = txtCodeS.getText();
+		String tenSach = txtTS.getText();
+
+		String TG = tacGia.getSelectedItem().toString();
+		int vtTG = tacGia.getSelectedIndex() + 1;
+		String idTG = String.valueOf(vtTG);
+
+		String NXB = nhaXuatBan.getSelectedItem().toString();
+		int vtNXB = nhaXuatBan.getSelectedIndex() + 1;
+		String idNXB = String.valueOf(vtNXB);
 
 		String TL = theLoai.getSelectedItem().toString();
 		int vtTL = theLoai.getSelectedIndex() + 1;
 		String idTL = String.valueOf(vtTL);
 
-		quanLySachDAO.add(new QuanLySach(maSach, tenSach, idTG, idNXB, namXuatBan, soLuong, idTL));
-		table.addRow(new String[] { maSach, tenSach, TG, NXB, TL, namXuatBan, soLuong });
+		String namXuatBan = txtNXB.getText();
+
+		String soLuong = txtSL.getText();
+
+		QuanLySach qls = new QuanLySach(maSach, tenSach, idTG, idNXB, idTL, namXuatBan, soLuong);
+		quanLySachDAO.edit(qls);
+
+		int row = tbl.getSelectedRow();
+		tbl.setValueAt(maSach, row, 0);
+		tbl.setValueAt(tenSach, row, 1);
+		tbl.setValueAt(TG, row, 2);
+		tbl.setValueAt(NXB, row, 3);
+		tbl.setValueAt(namXuatBan, row, 4);
+		tbl.setValueAt(TL, row, 5);
+		tbl.setValueAt(soLuong, row, 6);
 
 	}
 
-	public void suaSach() {
-		// String tenAdmin = txtCodeS.getText();
-		// String passWord = txtPW.getText();
-		// QuanLySach ad = new QuanLySach(tenAdmin, passWord);
-		// quanLySachDAO.edit(ad);
-		//
-		// int row = tbl.getSelectedRow();
-		// tbl.setValueAt(tenAdmin, row, 0);
-		// tbl.setValueAt(passWord, row, 1);
-
-	}
-
-	public void getTable() {
+	public void sapXep() {
 		arr = quanLySachDAO.getDSQuanLySach();
-		for (int i = 0; i < arr.size(); i++) {
+		Collections.sort(arr, new Comparator<QuanLySach>() {
+			@Override
+			public int compare(QuanLySach VT2, QuanLySach VT1)
 
+			{
+				return VT1.getMaSach().compareTo(VT2.getMaSach());
+				
+			}
+		});
+		for (int i = 0; i < arr.size(); i++)
 			table.addRow(new String[] { arr.get(i).getMaSach(), arr.get(i).getTenSach(), arr.get(i).getTacGia(),
 					arr.get(i).getNhaXuatBan(), arr.get(i).getNamXuatBan(), arr.get(i).getTheLoai(),
 					arr.get(i).getSoLuong() });
-		}
 	}
 }

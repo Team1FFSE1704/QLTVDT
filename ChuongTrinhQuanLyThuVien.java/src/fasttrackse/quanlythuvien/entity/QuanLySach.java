@@ -9,7 +9,6 @@ public class QuanLySach {
 	private String namXuatBan;
 	private String soLuong;
 
-
 	public QuanLySach(String maSach, String tenSach, String tacGia, String nhaXuatBan, String theLoai,
 			String namXuatBan, String soLuong) {
 
@@ -20,7 +19,7 @@ public class QuanLySach {
 		this.theLoai = theLoai;
 		this.namXuatBan = namXuatBan;
 		this.soLuong = soLuong;
-		
+
 	}
 
 	public String getMaSach() {
@@ -79,5 +78,4 @@ public class QuanLySach {
 		this.soLuong = soLuong;
 	}
 
-	
 }

@@ -93,7 +93,6 @@ public class QuanLySachModel {
 		return dsSach;
 	}
 
-	
 	// xóa một phần tử trong database
 	public void delete(String maSach) {
 		try {
@@ -110,19 +109,19 @@ public class QuanLySachModel {
 		}
 	}
 
-	// thêm phần tử vào database
+	// Sửa phần tử vào database
 	public void edit(QuanLySach qls) {
 		try {
-			String queryString = "UPDATE tacgia SET tensach=?, tacgia=?, NXB=?, theloai=?, soluong=?   WHERE matacgia=?";
+			String queryString = "UPDATE quanlysach SET tensach=?, tacgia=?, NXB=? , theloai=?, namXB=?, soluong=?   WHERE masach=?";
 			PreparedStatement statement = conn.prepareStatement(queryString);
 
 			statement.setString(1, qls.getTenSach());
 			statement.setString(2, qls.getTacGia());
 			statement.setString(3, qls.getNhaXuatBan());
-			statement.setString(4, qls.getNamXuatBan());
-			statement.setString(5, qls.getTheLoai());
+			statement.setString(4, qls.getTheLoai());
+			statement.setString(5, qls.getNamXuatBan());
 			statement.setString(6, qls.getSoLuong());
-			
+
 			statement.setString(7, qls.getMaSach());
 			int x = statement.executeUpdate();
 			if (x > 0) {
@@ -144,8 +143,8 @@ public class QuanLySachModel {
 			statement.setString(2, qls.getTenSach());
 			statement.setString(3, qls.getTacGia());
 			statement.setString(4, qls.getNhaXuatBan());
-			statement.setString(5, qls.getNamXuatBan());
-			statement.setString(6, qls.getTheLoai());
+			statement.setString(5, qls.getTheLoai());
+			statement.setString(6, qls.getNamXuatBan());
 			statement.setString(7, qls.getSoLuong());
 
 			int x = statement.executeUpdate();

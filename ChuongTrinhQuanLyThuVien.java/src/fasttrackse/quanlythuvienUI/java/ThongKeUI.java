@@ -3,7 +3,9 @@ package fasttrackse.quanlythuvienUI.java;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -15,13 +17,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+
+import fasttrackse.quanlythuvien.DAO.QuanLySachModel;
+import fasttrackse.quanlythuvien.entity.QuanLySach;
 
 public class ThongKeUI extends JPanel {
 	private JLabel lblMS, lblpnTitle;
@@ -29,12 +32,29 @@ public class ThongKeUI extends JPanel {
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
 	private JScrollPane fruitListScrollPane;
-	private JComboBox<String> cbo = new JComboBox<String>();
+	private JComboBox<String> thanhpho = new JComboBox<String>();
 
-	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
+	
 	private Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+	private QuanLySachModel quanLySachDAO = new QuanLySachModel();
+
+	private ArrayList<QuanLySach> arr = new ArrayList<QuanLySach>();
+	ActionListener btnDeleteClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			// xoaSach();
+		}
+	};
 
 	public ThongKeUI() {
+		addControl();
+		addEvents();
+	}
+
+	public void addEvents() {
+
+	}
+
+	public void addControl() {
 
 		JPanel pnBorder = new JPanel();
 		pnBorder.setLayout(new BorderLayout());
@@ -99,12 +119,14 @@ public class ThongKeUI extends JPanel {
 
 		JPanel pnCobcon2 = new JPanel();
 		JLabel lblCob = new JLabel("Thành phố:");
-		cbo.addItem("FFSE1701");
-		cbo.addItem("FFSE1702");
-		cbo.addItem("FFSE1703");
-		cbo.addItem("FFSE1704");
+		arr = quanLySachDAO.getDSQuanLySach();
+		for (int i = 0; i < arr.size(); i++) {
+			thanhpho.addItem(arr.get(i).getTenSach());
+		}
+		;
+		thanhpho.setPreferredSize(new Dimension(168, 25));
 		pnCobcon2.add(lblCob);
-		pnCobcon2.add(cbo);
+		pnCobcon2.add(thanhpho);
 		pnCob.add(pnCobcon1);
 		pnCob.add(pnCobcon2);
 		pnNorthCon.add(pnCob);

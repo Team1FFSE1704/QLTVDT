@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -27,7 +29,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import fasttrackse.quanlythuvien.DAO.TacGiaModel;
-import fasttrackse.quanlythuvien.entity.NhaXuatBan;
 import fasttrackse.quanlythuvien.entity.TacGia;
 
 public class TacGiaUI extends JPanel {
@@ -36,7 +37,6 @@ public class TacGiaUI extends JPanel {
 	private JTextField txtTg, txtCodetg;
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
-	
 
 	JPanel pnCenterCon = new JPanel();
 	JPanel pnCenter = new JPanel();
@@ -75,60 +75,58 @@ public class TacGiaUI extends JPanel {
 			btnxoa.setEnabled(true);
 		}
 	};
-	
 
-		// nhập thông tin mới
-		ActionListener btnResetClick = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				txtCodetg.setEditable(true);
+	// nhập thông tin mới
+	ActionListener btnResetClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			txtCodetg.setEditable(true);
+			btnthem.setEnabled(true);
+			btnsua.setEnabled(false);
+			btnxoa.setEnabled(false);
+
+			txtCodetg.setText("");
+			txtTg.setText("");
+		}
+	};
+
+	// Sự kiện thêm một phần tử vào database
+	ActionListener btnAddClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+
+			if (txtCodetg.getText().equals("") || txtTg.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			} else {
 				btnthem.setEnabled(true);
 				btnsua.setEnabled(false);
 				btnxoa.setEnabled(false);
-
-				txtCodetg.setText("");
-				txtTg.setText("");
-			}
-		};
-
-		// Sự kiện thêm một phần tử vào database
-		ActionListener btnAddClick = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				if (txtCodetg.getText().equals("") || txtTg.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
-				} else {
-					btnthem.setEnabled(true);
-					btnsua.setEnabled(false);
-					btnxoa.setEnabled(false);
-					themTacGia();
-
-				}
+				themTacGia();
 
 			}
-		};
 
-		// sửa một phần tử trong database
-		ActionListener btnEditClick = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		}
+	};
 
-				if (txtTg.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
-				} else {
+	// sửa một phần tử trong database
+	ActionListener btnEditClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
 
-					suaTacGia();
+			if (txtTg.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			} else {
 
-				}
+				suaTacGia();
+
 			}
-		};
+		}
+	};
 
-		// xóa một phần tử trong database
-		ActionListener btnDeleteClick = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				xoaTacGia();
-			}
-		};
-	
-	
+	// xóa một phần tử trong database
+	ActionListener btnDeleteClick = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			xoaTacGia();
+		}
+	};
+
 	// phần add sự kiện
 	public void addEvents() {
 		// các menu chính
@@ -139,7 +137,7 @@ public class TacGiaUI extends JPanel {
 		btnsua.addActionListener(btnEditClick);
 
 	}
-	
+
 	public TacGiaUI() {
 		addControls();
 		addEvents();
@@ -167,7 +165,7 @@ public class TacGiaUI extends JPanel {
 		// table.addColumn("Ngày mượn");
 		// table.addColumn("Ngày trả");
 		// table.addColumn("Ghi chú");
-		this.getTable();
+		this.sapXep();
 		tbl = new JTable(table);
 
 		TableColumnModel columnModel = tbl.getColumnModel();
@@ -256,7 +254,7 @@ public class TacGiaUI extends JPanel {
 	}
 
 	public void xoaTacGia() {
-		String maTacGia= txtCodetg.getText();
+		String maTacGia = txtCodetg.getText();
 		int[] rows = tbl.getSelectedRows();
 		for (int i = 0; i < rows.length; i++) {
 			tacGiaDAO.delete(maTacGia);
@@ -269,13 +267,13 @@ public class TacGiaUI extends JPanel {
 		String maTacGia = txtCodetg.getText();
 		String tenTacGia = txtTg.getText();
 		tacGiaDAO.add(new TacGia(maTacGia, tenTacGia));
-		table.addRow(new String[] { maTacGia, tenTacGia});
+		table.addRow(new String[] { maTacGia, tenTacGia });
 
 	}
 
 	public void suaTacGia() {
-		String maTacGia= txtCodetg.getText();
-		String tenTacGia= txtTg.getText();
+		String maTacGia = txtCodetg.getText();
+		String tenTacGia = txtTg.getText();
 		TacGia ad = new TacGia(maTacGia, tenTacGia);
 		tacGiaDAO.edit(ad);
 
@@ -292,8 +290,19 @@ public class TacGiaUI extends JPanel {
 			table.addRow(new String[] { arr.get(i).getMaTacGia(), arr.get(i).getTenTacGia(), });
 		}
 	}
-	
 
-	
+	public void sapXep() {
+		arr = tacGiaDAO.getDSTacGia();
+		Collections.sort(arr, new Comparator<TacGia>() {
+			@Override
+
+			public int compare(TacGia vt2, TacGia vt1) {
+
+				return vt1.getTenTacGia().compareTo(vt2.getTenTacGia());
+			}
+		});
+		for (int i = 0; i < arr.size(); i++)
+			table.addRow(new String[] { arr.get(i).getMaTacGia(), arr.get(i).getTenTacGia(), });
+	}
 
 }
