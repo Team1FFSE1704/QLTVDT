@@ -94,14 +94,42 @@ public class NhaXuatBanUI extends JPanel {
 	ActionListener btnAddClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 
-			if (txtCodeNXB.getText().equals("") || txtNXB.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			// tạo một biến để kiểm tra ban đầu bằng 0;
+			int ktTonTaiMaNhaXuatBan = 0;
+			int ktTonTaiTenNhaXuatBan = 0;
+
+			// kiểm tra ô jtext
+			String ktMaNhaXuatBan = txtCodeNXB.getText();
+			String ktTenNhaXuatBan = txtNXB.getText();
+
+			// đếm trong bộ nhớ có bao nhiêu phần tử
+			int maTacGia = ktMaNhaXuatBan.length();
+			int tenTacGia = ktTenNhaXuatBan.length();
+
+			// bắt lỗi mã và tên tác giả nếu trùng thì bắt nhập lại tên và mã khác
+			for (int i = 0; i < arr.size(); i++) {
+				if (ktMaNhaXuatBan.equals(arr.get(i).getMaNhaXuatBan())) {
+					ktTonTaiMaNhaXuatBan = 1;
+				} else if (ktTenNhaXuatBan.equals(arr.get(i).getTenNhaXuatBan())) {
+					ktTonTaiTenNhaXuatBan = 1;
+				}
+			}
+
+			// hiển thị thông báo
+			if (ktMaNhaXuatBan.isEmpty() || ktTenNhaXuatBan.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin! ");
+			} else if (ktTonTaiMaNhaXuatBan == 1) {
+				JOptionPane.showMessageDialog(null, "Mã nhà xuất bản đã bị trùng vui lòng nhập lại! ");
+
+			} else if (ktTonTaiTenNhaXuatBan == 1) {
+				JOptionPane.showMessageDialog(null,
+						"Tên nhà xuất bản đã bị trùng vui lòng nhập lại tên nhà xuất bản! ");
+
 			} else {
 				btnthem.setEnabled(true);
 				btnsua.setEnabled(false);
 				btnxoa.setEnabled(false);
 				themNhaXuatBan();
-
 			}
 
 		}
@@ -111,20 +139,44 @@ public class NhaXuatBanUI extends JPanel {
 	ActionListener btnEditClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 
-			if (txtNXB.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			// tạo một biến để kiểm tra ban đầu bằng 0;
+			int ktTonTaiTenNhaXuatBan = 0;
+
+			// kiểm tra ô jtext
+			String ktTenNhaXuatBan = txtNXB.getText();
+
+			// đếm trong bộ nhớ có bao nhiêu phần tử
+			int tenTacGia = ktTenNhaXuatBan.length();
+
+			// bắt lỗi mã và tên tác giả nếu trùng thì bắt nhập lại tên và mã khác
+			for (int i = 0; i < arr.size(); i++) {
+				if (ktTenNhaXuatBan.equals(arr.get(i).getTenNhaXuatBan())) {
+					ktTonTaiTenNhaXuatBan = 1;
+				}
+			}
+
+			// hiển thị thông báo
+			if (ktTenNhaXuatBan.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin! ");
+			} else if (ktTonTaiTenNhaXuatBan == 1) {
+				JOptionPane.showMessageDialog(null,
+						"Tên nhà xuất bản đã bị trùng vui lòng nhập lại tên nhà xuất bản! ");
 			} else {
 
 				suaNhaXuatBan();
-
 			}
+
 		}
 	};
 
 	// xóa một phần tử trong database
 	ActionListener btnDeleteClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			xoaNhaXuatBan();
+			int ret = JOptionPane.showConfirmDialog(null, "Bạn muốn xóa thông tin nhà xuất bản này ", "Thư Viện ",
+					JOptionPane.YES_NO_OPTION);
+			if (ret == JOptionPane.YES_OPTION) {
+				xoaNhaXuatBan();
+			}
 		}
 	};
 
@@ -211,7 +263,6 @@ public class NhaXuatBanUI extends JPanel {
 		btnsua.setMargin(new Insets(5, 10, 5, 10));
 		btnsua.setEnabled(false);
 
-		
 		ImageIcon update2 = new ImageIcon(
 				new ImageIcon("icon/xoa.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		btnxoa = new JButton("xóa ", update2);

@@ -3,9 +3,9 @@ package fasttrackse.quanlythuvienUI.java;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -17,7 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -25,23 +24,33 @@ import javax.swing.table.TableColumnModel;
 import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JYearChooser;
 
+import fasttrackse.quanlythuvien.DAO.QuanLyThanhVienDAO;
+import fasttrackse.quanlythuvien.entity.ThanhVien;
+
 public class QuanLyThanhVienUI extends JPanel {
 	private JLabel lblCodeMTV, lblHT, lblDC, lblP, lblQ, lblTP, lblSDT, lblEmail;
 	private JButton btnreset, btnsua, btnthem, btnxoa;
 	private JTextField txtCodeMTV, txtHT, txtDC, txtP, txtQ, txtTP, txtSDT, txtEmail;
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
-	private	JMonthChooser jmc;
+	private JMonthChooser jmc;
 	private JYearChooser jyc;
 
+	private QuanLyThanhVienDAO thanhVienDAO = new QuanLyThanhVienDAO();
+	private ArrayList<ThanhVien> arr = new ArrayList<ThanhVien>();
+
 	public QuanLyThanhVienUI() {
+		addControl();
+	}
+
+	public void addControl() {
 
 		// tạo container và boder chính
 		JPanel pnBorder = new JPanel();
 		pnBorder.setPreferredSize(new Dimension(820, 700));
 		pnBorder.setLayout(new BorderLayout());
-		//pnBorder.setLayout(new BoxLayout(pnBorder, BoxLayout.Y_AXIS));
-		
+		// pnBorder.setLayout(new BoxLayout(pnBorder, BoxLayout.Y_AXIS));
+
 		// phần trung tâm nhập thông tin
 		JPanel pnCenter = new JPanel();
 		pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
@@ -115,7 +124,7 @@ public class QuanLyThanhVienUI extends JPanel {
 		pnButton.setLayout(new BoxLayout(pnButton, BoxLayout.X_AXIS));
 		pnButton.setPreferredSize(new Dimension(1000, 50));
 		pnButton.setBackground(Color.LIGHT_GRAY);
- 
+
 		ImageIcon update = new ImageIcon(
 				new ImageIcon("icon/them.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		btnthem = new JButton("thêm ", update);
@@ -175,12 +184,13 @@ public class QuanLyThanhVienUI extends JPanel {
 		// bảng table
 		table.addColumn("Mã thành viên");
 		table.addColumn("Tên thành viên");
-		table.addColumn("�?ịa chỉ nhà");
-		table.addColumn("Phư�?ng");
+		table.addColumn("Địa chỉ nhà");
+		table.addColumn("Phường");
 		table.addColumn("Quận");
 		table.addColumn("Tỉnh/Thành phố");
-		table.addColumn("�?iện Thoại");
+		table.addColumn("Điện Thoại");
 		table.addColumn("Email");
+		this.getTable();
 		tbl = new JTable(table);
 		TableColumnModel columnModel = tbl.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(50);
@@ -195,4 +205,12 @@ public class QuanLyThanhVienUI extends JPanel {
 		this.add(pnBorder);
 	}
 
+	public void getTable() {
+		arr = thanhVienDAO.getDSThanhVien();
+		for (int i = 0; i < arr.size(); i++) {
+			table.addRow(new String[] { arr.get(i).getMaThanhVien(), arr.get(i).getTenThanhVien(),
+					arr.get(i).getDiaChiNha(), arr.get(i).getPhuong(), arr.get(i).getQuan(), arr.get(i).getTinh(),
+					arr.get(i).getSoDT(), arr.get(i).getEmail() });
+		}
+	}
 }

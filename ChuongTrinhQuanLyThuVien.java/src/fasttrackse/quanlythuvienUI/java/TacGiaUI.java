@@ -91,16 +91,42 @@ public class TacGiaUI extends JPanel {
 
 	// Sự kiện thêm một phần tử vào database
 	ActionListener btnAddClick = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
 
-			if (txtCodetg.getText().equals("") || txtTg.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+		public void actionPerformed(ActionEvent e) {
+			// tạo một biến để kiểm tra ban đầu bằng 0;
+			int ktTonTaiMaTacGia = 0;
+			int ktTonTaiTenTacGia = 0;
+
+			// kiểm tra ô jtext
+			String ktMaTacGia = txtCodetg.getText();
+			String ktTenTacGia = txtTg.getText();
+			// đếm trong bộ nhớ có bao nhiêu phần tử
+			int maTacGia = ktMaTacGia.length();
+			int tenTacGia = ktTenTacGia.length();
+
+			// bắt lỗi mã và tên tác giả nếu trùng thì bắt nhập lại tên và mã khác
+			for (int i = 0; i < arr.size(); i++) {
+				if (ktMaTacGia.equals(arr.get(i).getMaTacGia())) {
+					ktTonTaiMaTacGia = 1;
+				} else if (ktTenTacGia.equals(arr.get(i).getTenTacGia())) {
+					ktTonTaiTenTacGia = 1;
+				}
+			}
+			
+			// hiển thị thông báo
+			if (ktMaTacGia.isEmpty() || ktTenTacGia.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin! ");
+			} else if (ktTonTaiMaTacGia == 1) {
+				JOptionPane.showMessageDialog(null, "Mã tác giả đã bị trùng vui lòng nhập lại! ");
+
+			} else if (ktTonTaiTenTacGia == 1) {
+				JOptionPane.showMessageDialog(null, "Tên tác giả đã bị trùng vui lòng nhập lại tên tác giả! ");
+
 			} else {
 				btnthem.setEnabled(true);
 				btnsua.setEnabled(false);
 				btnxoa.setEnabled(false);
 				themTacGia();
-
 			}
 
 		}
@@ -110,20 +136,44 @@ public class TacGiaUI extends JPanel {
 	ActionListener btnEditClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 
-			if (txtTg.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			// tạo một biến để kiểm tra ban đầu bằng 0;
+
+			int ktTonTaiTenTacGia = 0;
+
+			// kiểm tra ô jtext
+			String ktTenTacGia = txtTg.getText();
+
+			// đếm trong bộ nhớ có bao nhiêu phần tử
+			int tenTacGia = ktTenTacGia.length();
+
+			// bắt lỗi mã và tên tác giả nếu trùng thì bắt nhập lại tên và mã khác
+			for (int i = 0; i < arr.size(); i++) {
+
+				if (ktTenTacGia.equals(arr.get(i).getTenTacGia())) {
+					ktTonTaiTenTacGia = 1;
+				}
+			}
+
+			// hiển thị thông báo
+			if (ktTonTaiTenTacGia == 1) {
+				JOptionPane.showMessageDialog(null, "Tên tác giả đã bị trùng vui lòng nhập lại tên tác giả! ");
+
 			} else {
 
 				suaTacGia();
-
 			}
+
 		}
 	};
 
 	// xóa một phần tử trong database
 	ActionListener btnDeleteClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			xoaTacGia();
+			int ret = JOptionPane.showConfirmDialog(null, "Bạn muốn xóa thông tin tác giả này ", "Thư Viện ",
+					JOptionPane.YES_NO_OPTION);
+			if (ret == JOptionPane.YES_OPTION) {
+				xoaTacGia();
+			}
 		}
 	};
 
@@ -266,6 +316,7 @@ public class TacGiaUI extends JPanel {
 	public void themTacGia() {
 		String maTacGia = txtCodetg.getText();
 		String tenTacGia = txtTg.getText();
+
 		tacGiaDAO.add(new TacGia(maTacGia, tenTacGia));
 		table.addRow(new String[] { maTacGia, tenTacGia });
 
@@ -290,7 +341,5 @@ public class TacGiaUI extends JPanel {
 			table.addRow(new String[] { arr.get(i).getMaTacGia(), arr.get(i).getTenTacGia(), });
 		}
 	}
-
-	
 
 }

@@ -94,14 +94,41 @@ public class TheLoaiUI extends JPanel {
 	ActionListener btnAddClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 
-			if (txtCodeTL.getText().equals("") || txtTL.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			// tạo một biến để kiểm tra ban đầu bằng 0;
+			int ktTonTaiMaTheLoai = 0;
+			int ktTonTaiTenTheLoai = 0;
+
+			// kiểm tra ô jtext
+			String ktMaTheLoai = txtCodeTL.getText();
+			String ktTenTheLoai = txtTL.getText();
+
+			// đếm trong bộ nhớ có bao nhiêu phần tử
+			int maTheLoai = ktMaTheLoai.length();
+			int tenTheLoai = ktTenTheLoai.length();
+
+			// bắt lỗi mã và tên tác giả nếu trùng thì bắt nhập lại tên và mã khác
+			for (int i = 0; i < arr.size(); i++) {
+				if (ktMaTheLoai.equals(arr.get(i).getMaTheLoai())) {
+					ktTonTaiMaTheLoai = 1;
+				} else if (ktTenTheLoai.equals(arr.get(i).getTenTheLoai())) {
+					ktTonTaiTenTheLoai = 1;
+				}
+			}
+
+			// hiển thị thông báo
+			if (ktMaTheLoai.isEmpty() || ktTenTheLoai.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin! ");
+			} else if (ktTonTaiMaTheLoai == 1) {
+				JOptionPane.showMessageDialog(null, "Mã thể loại đã bị trùng vui lòng nhập lại! ");
+
+			} else if (ktTonTaiTenTheLoai == 1) {
+				JOptionPane.showMessageDialog(null, "Tên thể loại đã bị trùng vui lòng nhập lại tên thể loại! ");
+
 			} else {
 				btnthem.setEnabled(true);
 				btnsua.setEnabled(false);
 				btnxoa.setEnabled(false);
 				themTheLoai();
-
 			}
 
 		}
@@ -111,12 +138,33 @@ public class TheLoaiUI extends JPanel {
 	ActionListener btnEditClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 
-			if (txtTL.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			// tạo một biến để kiểm tra ban đầu bằng 0;
+			int ktTonTaiTenTheLoai = 0;
+
+			// kiểm tra ô jtext
+			String ktTenTheLoai = txtTL.getText();
+
+			// đếm trong bộ nhớ có bao nhiêu phần tử
+			int tenTheLoai = ktTenTheLoai.length();
+
+			// bắt lỗi mã và tên tác giả nếu trùng thì bắt nhập lại tên và mã khác
+			for (int i = 0; i < arr.size(); i++) {
+				if (ktTenTheLoai.equals(arr.get(i).getTenTheLoai())) {
+					ktTonTaiTenTheLoai = 1;
+				}
+			}
+
+			// hiển thị thông báo
+			if (ktTenTheLoai.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin! ");
+			} else if (ktTonTaiTenTheLoai == 1) {
+				JOptionPane.showMessageDialog(null, "Tên thể loại đã bị trùng vui lòng nhập lại tên thể loại! ");
+
 			} else {
-
-				suaTheLoai();
-
+				btnthem.setEnabled(true);
+				btnsua.setEnabled(false);
+				btnxoa.setEnabled(false);
+				themTheLoai();
 			}
 		}
 	};
@@ -124,7 +172,11 @@ public class TheLoaiUI extends JPanel {
 	// xóa một phần tử trong database
 	ActionListener btnDeleteClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			xoaTheLoai();
+			int ret = JOptionPane.showConfirmDialog(null, "Bạn muốn xóa thông tin thể loại sách này ", "Thư Viện ",
+					JOptionPane.YES_NO_OPTION);
+			if (ret == JOptionPane.YES_OPTION) {
+				xoaTheLoai();
+			}
 		}
 	};
 

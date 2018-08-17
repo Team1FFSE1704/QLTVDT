@@ -64,10 +64,10 @@ public class QuanLySachModel {
 		ArrayList<QuanLySach> dsSach = new ArrayList<QuanLySach>();
 
 		try {
-			String queryString = "SELECT quanlysach.masach, quanlysach.tensach, tacgia.tentacgia, theloaisach.theloaisach, nxb.tenNXB, quanlysach.namXB, quanlysach.soluong\r\n"
-					+ "FROM quanlysach\r\n" + "INNER JOIN tacgia\r\n" + "on quanlysach.tacgia = tacgia.matacgia\r\n"
-					+ "INNER JOIN theloaisach\r\n" + "ON quanlysach.theloai = theloaisach.matheloai\r\n"
-					+ "INNER JOIN nxb\r\n" + "on quanlysach.NXB = nxb.maNXB ORDER BY `masach` ASC ";
+			String queryString = "SELECT quanlysach.masach, quanlysach.tensach, tacgia.tentacgia, theloaisach.theloaisach, nxb.tenNXB, quanlysach.namXB, quanlysach.soluong,quanlysach.tonkho\r\n"
+					+ "FROM quanlysach \r\n" + "INNER JOIN tacgia \r\n" + "on quanlysach.tacgia = tacgia.matacgia\r\n"
+					+ "INNER JOIN theloaisach\r\n" + "ON quanlysach.theloai = theloaisach.matheloai \r\n"
+					+ "INNER JOIN nxb on quanlysach.NXB = nxb.maNXB\r\n" + "ORDER BY `masach` ASC   ";
 			PreparedStatement statement = conn.prepareStatement(queryString);
 
 			ResultSet result = statement.executeQuery();
@@ -81,8 +81,9 @@ public class QuanLySachModel {
 				String theLoai = result.getString("theloaisach.theloaisach");
 				String namXuatBan = result.getString("namXB");
 				String soLuong = result.getString("soluong");
+				String tonKho = result.getString("TonKho");
 
-				dsSach.add(new QuanLySach(maSach, tenSach, tacGia, nhaXuatBan, theLoai, namXuatBan, soLuong));
+				dsSach.add(new QuanLySach(maSach, tenSach, tacGia, nhaXuatBan, theLoai, namXuatBan, soLuong, tonKho));
 			}
 
 		} catch (Exception e) {
@@ -102,11 +103,13 @@ public class QuanLySachModel {
 
 			int x = statement.executeUpdate();
 			if (x > 0) {
-				JOptionPane.showMessageDialog(null, "Bạn đã xóa thành công ");
+				JOptionPane.showConfirmDialog(null, "Bạn có thực sự muốn xóa sinh viên này?", "Xóa sinh viên",
+						JOptionPane.YES_NO_OPTION);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+
 	}
 
 	// Sửa phần tử vào database
@@ -156,4 +159,152 @@ public class QuanLySachModel {
 			ex.printStackTrace();
 		}
 	}
+
+	// tìm kiếm theo tên tác giả
+	public ArrayList<QuanLySach> getDSQuanLySachTG(String searchTacGia) {
+		ArrayList<QuanLySach> dsThongKeTG = new ArrayList<QuanLySach>();
+
+		try {
+			String queryString = "SELECT quanlysach.masach, quanlysach.tensach, tacgia.tentacgia, theloaisach.theloaisach, nxb.tenNXB, quanlysach.namXB, quanlysach.soluong,quanlysach.tonkho\r\n"
+					+ "FROM quanlysach \r\n" + "INNER JOIN tacgia \r\n" + "on quanlysach.tacgia = tacgia.matacgia\r\n"
+					+ "INNER JOIN theloaisach\r\n" + "ON quanlysach.theloai = theloaisach.matheloai \r\n"
+					+ "INNER JOIN nxb on quanlysach.NXB = nxb.maNXB\r\n" + "WHERE tacgia.tentacgia LIKE ? ";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, "%" + searchTacGia + "%");
+			ResultSet result = statement.executeQuery();
+
+			while (result.next()) {
+
+				String maSach = result.getString("masach");
+				String tenSach = result.getString("tensach");
+				String tacGia = result.getString("tacgia.tentacgia");
+				String nhaXuatBan = result.getString("nxb.tenNXB");
+				String theLoai = result.getString("theloaisach.theloaisach");
+				String namXuatBan = result.getString("namXB");
+				String soLuong = result.getString("soluong");
+				String tonKho = result.getString("TonKho");
+
+				dsThongKeTG
+						.add(new QuanLySach(maSach, tenSach, tacGia, nhaXuatBan, theLoai, namXuatBan, soLuong, tonKho));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "kết nối ko thành công ");
+		}
+
+		return dsThongKeTG;
+	}
+
+	// tìm kiếm theo tên thể loại
+	public ArrayList<QuanLySach> getDSQuanLySachTL(String searchTheLoai) {
+		ArrayList<QuanLySach> dsThongKeTL = new ArrayList<QuanLySach>();
+
+		try {
+			String queryString = "SELECT quanlysach.masach, quanlysach.tensach, tacgia.tentacgia, theloaisach.theloaisach, nxb.tenNXB, quanlysach.namXB, quanlysach.soluong,quanlysach.tonkho\r\n"
+					+ "FROM quanlysach \r\n" + "INNER JOIN tacgia \r\n" + "on quanlysach.tacgia = tacgia.matacgia\r\n"
+					+ "INNER JOIN theloaisach\r\n" + "ON quanlysach.theloai = theloaisach.matheloai \r\n"
+					+ "INNER JOIN nxb on quanlysach.NXB = nxb.maNXB\r\n" + "WHERE theloaisach.theloaisach LIKE ? ";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, "%" + searchTheLoai + "%");
+			ResultSet result = statement.executeQuery();
+
+			while (result.next()) {
+
+				String maSach = result.getString("masach");
+				String tenSach = result.getString("tensach");
+				String tacGia = result.getString("tacgia.tentacgia");
+				String nhaXuatBan = result.getString("nxb.tenNXB");
+				String theLoai = result.getString("theloaisach.theloaisach");
+				String namXuatBan = result.getString("namXB");
+				String soLuong = result.getString("soluong");
+				String tonKho = result.getString("TonKho");
+
+				dsThongKeTL
+						.add(new QuanLySach(maSach, tenSach, tacGia, nhaXuatBan, theLoai, namXuatBan, soLuong, tonKho));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "kết nối ko thành công ");
+		}
+
+		return dsThongKeTL;
+	}
+
+	// tìm kiếm theo tên Nhà xuất bản
+	public ArrayList<QuanLySach> getDSQuanLySachNXB(String searchNhaXuatBan) {
+		ArrayList<QuanLySach> dsThongKeNXB = new ArrayList<QuanLySach>();
+
+		try {
+			String queryString = "SELECT quanlysach.masach, quanlysach.tensach, tacgia.tentacgia, theloaisach.theloaisach, nxb.tenNXB, quanlysach.namXB, quanlysach.soluong,quanlysach.tonkho\r\n"
+					+ "FROM quanlysach \r\n" + "INNER JOIN tacgia \r\n" + "on quanlysach.tacgia = tacgia.matacgia\r\n"
+					+ "INNER JOIN theloaisach\r\n" + "ON quanlysach.theloai = theloaisach.matheloai \r\n"
+					+ "INNER JOIN nxb on quanlysach.NXB = nxb.maNXB\r\n" + "WHERE nxb.tenNXB LIKE ? ";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, "%" + searchNhaXuatBan + "%");
+			ResultSet result = statement.executeQuery();
+
+			while (result.next()) {
+
+				String maSach = result.getString("masach");
+				String tenSach = result.getString("tensach");
+				String tacGia = result.getString("tacgia.tentacgia");
+				String nhaXuatBan = result.getString("nxb.tenNXB");
+				String theLoai = result.getString("theloaisach.theloaisach");
+				String namXuatBan = result.getString("namXB");
+				String soLuong = result.getString("soluong");
+				String tonKho = result.getString("TonKho");
+
+				dsThongKeNXB
+						.add(new QuanLySach(maSach, tenSach, tacGia, nhaXuatBan, theLoai, namXuatBan, soLuong, tonKho));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "kết nối ko thành công ");
+		}
+
+		return dsThongKeNXB;
+	}
+
+	// tìm kiếm theo tên Nhà xuất bản
+	public ArrayList<QuanLySach> getDSQuanLySachTK(String searchNXB, String searchTL, String searchTG) {
+		ArrayList<QuanLySach> dsThongKeTK = new ArrayList<QuanLySach>();
+
+		try {
+			String queryString = "SELECT quanlysach.masach, quanlysach.tensach, tacgia.tentacgia, theloaisach.theloaisach, nxb.tenNXB, quanlysach.namXB, quanlysach.soluong,quanlysach.tonkho\r\n"
+					+ "FROM quanlysach \r\n" + "INNER JOIN tacgia \r\n" + "on quanlysach.tacgia = tacgia.matacgia\r\n"
+					+ "INNER JOIN theloaisach\r\n" + "ON quanlysach.theloai = theloaisach.matheloai \r\n"
+					+ "INNER JOIN nxb on quanlysach.NXB = nxb.maNXB\r\n"
+					+ "WHERE nxb.tenNXB LIKE ? AND tacgia.tentacgia LIKE ? AND theloaisach.theloaisach LIKE ?";
+			PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, "%" + searchNXB + "%");
+			statement.setString(2, "%" + searchTG + "%");
+			statement.setString(3, "%" + searchTL + "%");
+			ResultSet result = statement.executeQuery();
+
+			while (result.next()) {
+
+				String maSach = result.getString("masach");
+				String tenSach = result.getString("tensach");
+				String tacGia = result.getString("tacgia.tentacgia");
+				String nhaXuatBan = result.getString("nxb.tenNXB");
+				String theLoai = result.getString("theloaisach.theloaisach");
+				String namXuatBan = result.getString("namXB");
+				String soLuong = result.getString("soluong");
+				String tonKho = result.getString("TonKho");
+
+				dsThongKeTK
+						.add(new QuanLySach(maSach, tenSach, tacGia, nhaXuatBan, theLoai, namXuatBan, soLuong, tonKho));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "kết nối ko thành công ");
+		}
+
+		return dsThongKeTK;
+	}
+
 }

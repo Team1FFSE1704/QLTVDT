@@ -117,39 +117,136 @@ public class QuanLySachUI extends JPanel {
 			txtTS.setText("");
 			txtNXB.setText("");
 			txtSL.setText("");
+			tacGia.setSelectedIndex(0);
+			theLoai.setSelectedIndex(0);
+			nhaXuatBan.setSelectedIndex(0);
 		}
 	};
 
 	// Sự kiện thêm một phần tử vào database
 	ActionListener btnAddClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			if (tacGia.getSelectedItem().toString().equals("chọn tác giả")) {
-				JOptionPane.showMessageDialog(null, "Bạn chưa chọn tác giả ");
-			} else if (theLoai.getSelectedItem().toString().equals("chọn thể loại")) {
-				JOptionPane.showMessageDialog(null, "Bạn chưa chọn thể loại ");
-			} else if (nhaXuatBan.getSelectedItem().toString().equals("chọn nhà xuất bản")) {
-				JOptionPane.showMessageDialog(null, "Bạn chưa chọn nhà xuất bản ");
-			}else {
-				themSach();	
+			int ktNamXuatBan = 0;
+			int ktSoLuong = 0;
+			int ktTonTaiMaSach = 0;
+			int ktTonTaiTenSach = 0;
+
+			String ktMaSach = txtCodeS.getText();
+			String ktTenSach = txtTS.getText();
+			String ktNXB = txtNXB.getText();
+			String ktSL = txtSL.getText();
+
+			int maSach = ktMaSach.length();
+			int tenSach = ktTenSach.length();
+
+			// bắt lỗi mã sách và tên sách đã tồn tại hay chưa nếu tên sách trùng thì chỉ
+			// cộng số lượng lên .
+			for (int i = 0; i < arr.size(); i++) {
+				if (ktMaSach.equals(arr.get(i).getMaSach())) {
+					ktTonTaiMaSach = 1;
+				} else if (ktTenSach.equals(arr.get(i).getTenSach())) {
+
+					ktTonTaiTenSach = 1;
+				}
+			}
+			// bắt lỗi không cho nhập chữ trong năm xuất bản
+			try {
+				@SuppressWarnings("unused")
+				Double namXuatBan = Double.parseDouble(txtNXB.getText());
+
+			} catch (Exception ex) {
+				ktNamXuatBan = 1;
+
 			}
 
-			
+			// bắt lỗi ko cho nhập chữ trong ô số lượng
+			try {
+
+				@SuppressWarnings("unused")
+				Double soLuong = Double.parseDouble(txtSL.getText());
+			} catch (Exception ex) {
+
+				ktSoLuong = 1;
+			}
+			if (ktMaSach.isEmpty() || ktTenSach.isEmpty() || ktNXB.isEmpty() || ktSL.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin! ");
+			} else if (tacGia.getSelectedItem().toString().equals("chọn tác giả")) {
+				JOptionPane.showMessageDialog(null, "Bạn chưa chọn tác giả! ");
+			} else if (theLoai.getSelectedItem().toString().equals("chọn thể loại")) {
+				JOptionPane.showMessageDialog(null, "Bạn chưa chọn thể loại! ");
+			} else if (nhaXuatBan.getSelectedItem().toString().equals("chọn nhà xuất bản")) {
+				JOptionPane.showMessageDialog(null, "Bạn chưa chọn nhà xuất bản! ");
+			} else if (ktNamXuatBan == 1) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng năm xuất bản(VD: 2018)!");
+			} else if (ktSoLuong == 1) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng số lượng!");
+
+			} else if (ktTonTaiMaSach == 1) {
+				JOptionPane.showMessageDialog(null, "Mã đã bị trùng vui lòng đổi lại mã sách!");
+
+			} else if (ktTonTaiTenSach == 1) {
+
+			} else {
+				themSach();
+			}
+
 		}
 	};
 
 	// sửa một phần tử trong database
 	ActionListener btnEditClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			int ktNamXuatBan = 0;
+			int ktSoLuong = 0;
+			// bắt lỗi không cho nhập chữ trong năm xuất bản
+			try {
+				@SuppressWarnings("unused")
+				Double namXuatBan = Double.parseDouble(txtNXB.getText());
 
-			
-			suaSach();
+			} catch (Exception ex) {
+				ktNamXuatBan = 1;
+
+			}
+
+			// bắt lỗi ko cho nhập chữ trong ô số lượng
+			try {
+
+				@SuppressWarnings("unused")
+				Double soLuong = Double.parseDouble(txtSL.getText());
+			} catch (Exception ex) {
+
+				ktSoLuong = 1;
+			}
+
+			if (txtTS.getText().equals("") || txtSL.getText().equals("") || txtNXB.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin! ");
+			} else if (tacGia.getSelectedIndex() == 0) {
+				JOptionPane.showMessageDialog(null, "Bạn chưa chọn tác giả! ");
+			} else if (theLoai.getSelectedIndex() == 0) {
+				JOptionPane.showMessageDialog(null, "Bạn chưa chọn thể loại! ");
+			} else if (nhaXuatBan.getSelectedIndex() == 0) {
+				JOptionPane.showMessageDialog(null, "Bạn chưa chọn nhà xuất bản! ");
+			} else if (ktNamXuatBan == 1) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng năm xuất bản(VD: 2018)!");
+			} else if (ktSoLuong == 1) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng tên Sách!");
+
+			} else {
+				suaSach();
+			}
+
 		}
 	};
 
 	// xóa một phần tử trong database
 	ActionListener btnDeleteClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			xoaSach();
+			int ret = JOptionPane.showConfirmDialog(null, "Bạn muốn xóa thông tin quyển sách này ", "Thư Viện ",
+					JOptionPane.YES_NO_OPTION);
+			if (ret == JOptionPane.YES_OPTION) {
+				xoaSach();
+			}
+
 		}
 	};
 
@@ -356,6 +453,7 @@ public class QuanLySachUI extends JPanel {
 			table.removeRow(rows[i] - i);
 
 		}
+
 	}
 
 	public void themSach() {
@@ -363,21 +461,22 @@ public class QuanLySachUI extends JPanel {
 		String tenSach = txtTS.getText();
 
 		String TG = tacGia.getSelectedItem().toString();
-		int vtTG = tacGia.getSelectedIndex() + 1;
+		int vtTG = tacGia.getSelectedIndex();
 		String idTG = String.valueOf(vtTG);
 
 		String NXB = nhaXuatBan.getSelectedItem().toString();
-		int vtNXB = nhaXuatBan.getSelectedIndex() + 1;
+		int vtNXB = nhaXuatBan.getSelectedIndex();
 		String idNXB = String.valueOf(vtNXB);
 
 		String TL = theLoai.getSelectedItem().toString();
-		int vtTL = theLoai.getSelectedIndex() + 1;
+		int vtTL = theLoai.getSelectedIndex();
 		String idTL = String.valueOf(vtTL);
 
 		String namXuatBan = txtNXB.getText();
 		String soLuong = txtSL.getText();
+		String tonKho = txtSL.getText();
 
-		quanLySachDAO.add(new QuanLySach(maSach, tenSach, idTG, idNXB, idTL, namXuatBan, soLuong));
+		quanLySachDAO.add(new QuanLySach(maSach, tenSach, idTG, idNXB, idTL, namXuatBan, soLuong, tonKho));
 		table.addRow(new String[] { maSach, tenSach, TG, NXB, namXuatBan, TL, soLuong });
 
 	}
@@ -387,11 +486,11 @@ public class QuanLySachUI extends JPanel {
 		String tenSach = txtTS.getText();
 
 		String TG = tacGia.getSelectedItem().toString();
-		int vtTG = tacGia.getSelectedIndex() ;
+		int vtTG = tacGia.getSelectedIndex();
 		String idTG = String.valueOf(vtTG);
 
 		String NXB = nhaXuatBan.getSelectedItem().toString();
-		int vtNXB = nhaXuatBan.getSelectedIndex() ;
+		int vtNXB = nhaXuatBan.getSelectedIndex();
 		String idNXB = String.valueOf(vtNXB);
 
 		String TL = theLoai.getSelectedItem().toString();
@@ -401,8 +500,9 @@ public class QuanLySachUI extends JPanel {
 		String namXuatBan = txtNXB.getText();
 
 		String soLuong = txtSL.getText();
+		String tonKho = txtSL.getText();
 
-		QuanLySach qls = new QuanLySach(maSach, tenSach, idTG, idNXB, idTL, namXuatBan, soLuong);
+		QuanLySach qls = new QuanLySach(maSach, tenSach, idTG, idNXB, idTL, namXuatBan, soLuong, tonKho);
 		quanLySachDAO.edit(qls);
 
 		int row = tbl.getSelectedRow();
@@ -418,7 +518,7 @@ public class QuanLySachUI extends JPanel {
 
 	public void getTable() {
 		arr = quanLySachDAO.getDSQuanLySach();
-		
+
 		for (int i = 0; i < arr.size(); i++)
 			table.addRow(new String[] { arr.get(i).getMaSach(), arr.get(i).getTenSach(), arr.get(i).getTacGia(),
 					arr.get(i).getNhaXuatBan(), arr.get(i).getNamXuatBan(), arr.get(i).getTheLoai(),

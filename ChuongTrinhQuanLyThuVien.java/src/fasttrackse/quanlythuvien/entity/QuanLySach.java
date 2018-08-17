@@ -8,9 +8,10 @@ public class QuanLySach {
 	private String theLoai;
 	private String namXuatBan;
 	private String soLuong;
+	private String tonKho;
 
 	public QuanLySach(String maSach, String tenSach, String tacGia, String nhaXuatBan, String theLoai,
-			String namXuatBan, String soLuong) {
+			String namXuatBan, String soLuong, String tonKho) {
 
 		this.maSach = maSach;
 		this.tenSach = tenSach;
@@ -19,6 +20,24 @@ public class QuanLySach {
 		this.theLoai = theLoai;
 		this.namXuatBan = namXuatBan;
 		this.soLuong = soLuong;
+		this.tonKho = tonKho;
+
+	}
+
+//	public QuanLySach(String maSach, String tenSach, String tacGia, String nhaXuatBan, String theLoai,
+//			String namXuatBan, String soLuong) {
+//
+//		this.maSach = maSach;
+//		this.tenSach = tenSach;
+//		this.tacGia = tacGia;
+//		this.nhaXuatBan = nhaXuatBan;
+//		this.theLoai = theLoai;
+//		this.namXuatBan = namXuatBan;
+//		this.soLuong = soLuong;
+//		
+//
+//	}
+	public QuanLySach() {
 
 	}
 
@@ -76,6 +95,14 @@ public class QuanLySach {
 
 	public void setSoLuong(String soLuong) {
 		this.soLuong = soLuong;
+	}
+
+	public String getTonKho() {
+		return tonKho;
+	}
+
+	public void setTonKho(String tonKho) {
+		this.tonKho = tonKho;
 	}
 
 }

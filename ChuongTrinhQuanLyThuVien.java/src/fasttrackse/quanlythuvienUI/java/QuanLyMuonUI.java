@@ -439,8 +439,8 @@ public class QuanLyMuonUI extends JFrame {
 
 	ActionListener btnThongKeClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			thongKeUI.setVisible(true);
-			thongKeUI1.setVisible(false);
+			thongKeUI.setVisible(false);
+			thongKeUI1.setVisible(true);
 			pnCenterCon.setVisible(false);
 			quanLyTraUI.setVisible(false);
 			quanLySachUI.setVisible(false);
@@ -471,8 +471,8 @@ public class QuanLyMuonUI extends JFrame {
 
 	ActionListener btnThongKe1Click = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			thongKeUI.setVisible(false);
-			thongKeUI1.setVisible(true);
+			thongKeUI.setVisible(true);
+			thongKeUI1.setVisible(false);
 			pnCenterCon.setVisible(false);
 			quanLyTraUI.setVisible(false);
 			quanLySachUI.setVisible(false);

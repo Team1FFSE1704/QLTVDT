@@ -35,7 +35,7 @@ public class AdminUI extends JPanel {
 	private JTable tbl;
 	private JLabel lblAD, lblPW;
 	private JButton btnreset, btnsua, btnthem, btnxoa;
-	private JTextField txtCodeAD, txtPW, txtAD;
+	private JTextField txtPW, txtAD;
 	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
 
 	JPanel pnCenterCon = new JPanel();
@@ -99,14 +99,34 @@ public class AdminUI extends JPanel {
 	ActionListener btnAddClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 
-			if (txtAD.getText().equals("") || txtPW.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			// tạo một biến để kiểm tra ban đầu bằng 0;
+			int ktTonTaiTenAdmin = 0;
+
+			// kiểm tra ô jtext
+			String ktTenAdmin = txtAD.getText();
+			String ktPassWord = txtPW.getText();
+			
+			// đếm trong bộ nhớ có bao nhiêu phần tử
+			int tenAdmin = ktTenAdmin.length();
+
+			// bắt lỗi mã và tên tác giả nếu trùng thì bắt nhập lại tên 
+			for (int i = 0; i < arr.size(); i++) {
+				if (ktTenAdmin.equals(arr.get(i).getTenAdmin())) {
+					ktTonTaiTenAdmin = 1;
+				}
+			}
+
+			// hiển thị thông báo
+			if (ktTenAdmin.isEmpty() || ktPassWord.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin! ");
+			}else if (ktTonTaiTenAdmin == 1) {
+				JOptionPane.showMessageDialog(null, "Tên admin đã bị trùng vui lòng nhập lại tên admin! ");
+
 			} else {
 				btnthem.setEnabled(true);
 				btnsua.setEnabled(false);
 				btnxoa.setEnabled(false);
 				themAdmin();
-
 			}
 
 		}
@@ -116,8 +136,9 @@ public class AdminUI extends JPanel {
 	ActionListener btnEditClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 
-			if (txtPW.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin !");
+			if (txtPW.getText().isEmpty()) {
+				String msg = "Bạn chưa nhập đầy đủ thông tin ! ";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi nhập", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 
 				suaAdmin();
@@ -129,7 +150,11 @@ public class AdminUI extends JPanel {
 	// xóa một phần tử trong database
 	ActionListener btnDeleteClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			xoaAdmin();
+			int ret = JOptionPane.showConfirmDialog(null, "Bạn muốn xóa thông tin Admin này ", "Thư Viện ",
+					JOptionPane.YES_NO_OPTION);
+			if (ret == JOptionPane.YES_OPTION) {
+				xoaAdmin();
+			}
 		}
 	};
 

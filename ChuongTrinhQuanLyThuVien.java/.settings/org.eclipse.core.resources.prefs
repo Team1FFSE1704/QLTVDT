@@ -1,7 +1,10 @@
 eclipse.preferences.version=1
+encoding//src/fasttrackse/qualythuvien/until/LibaryUntil.java=UTF-8
 encoding//src/fasttrackse/quanlythuvien/DAO/AdminModel.java=UTF-8
 encoding//src/fasttrackse/quanlythuvien/DAO/NhaXuatBanModel.java=UTF-8
 encoding//src/fasttrackse/quanlythuvien/DAO/QuanLySachModel.java=UTF-8
+encoding//src/fasttrackse/quanlythuvien/DAO/QuanLyThanhVienDAO.java=UTF-8
+encoding//src/fasttrackse/quanlythuvien/DAO/QuanModel.java=UTF-8
 encoding//src/fasttrackse/quanlythuvien/DAO/TacGiaModel.java=UTF-8
 encoding//src/fasttrackse/quanlythuvien/DAO/TheLoaiModel.java=UTF-8
 encoding//src/fasttrackse/quanlythuvien/entity/TacGia.java=UTF-8
