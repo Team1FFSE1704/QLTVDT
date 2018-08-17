@@ -136,8 +136,8 @@ public class QuanLySachUI extends JPanel {
 			String ktNXB = txtNXB.getText();
 			String ktSL = txtSL.getText();
 
-			int maSach = ktMaSach.length();
-			int tenSach = ktTenSach.length();
+			ktMaSach.length();
+			ktTenSach.length();
 
 			// bắt lỗi mã sách và tên sách đã tồn tại hay chưa nếu tên sách trùng thì chỉ
 			// cộng số lượng lên .
@@ -185,7 +185,7 @@ public class QuanLySachUI extends JPanel {
 				JOptionPane.showMessageDialog(null, "Mã đã bị trùng vui lòng đổi lại mã sách!");
 
 			} else if (ktTonTaiTenSach == 1) {
-
+				JOptionPane.showMessageDialog(null, "Tên sách đã bị trùng vui lòng đổi lại tên sách!");
 			} else {
 				themSach();
 			}
@@ -196,8 +196,25 @@ public class QuanLySachUI extends JPanel {
 	// sửa một phần tử trong database
 	ActionListener btnEditClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			//
 			int ktNamXuatBan = 0;
 			int ktSoLuong = 0;
+			int ktTonTaiTenSach = 0;
+
+			String ktTenSach = txtTS.getText();
+			String ktNXB = txtNXB.getText();
+			String ktSL = txtSL.getText();
+
+			ktTenSach.length();
+
+			// bắt lỗi mã sách và tên sách đã tồn tại hay chưa nếu tên sách trùng thì chỉ
+			// cộng số lượng lên .
+			for (int i = 0; i < arr.size(); i++) {
+				if (ktTenSach.equals(arr.get(i).getTenSach())) {
+
+					ktTonTaiTenSach = 1;
+				}
+			}
 			// bắt lỗi không cho nhập chữ trong năm xuất bản
 			try {
 				@SuppressWarnings("unused")
@@ -217,22 +234,23 @@ public class QuanLySachUI extends JPanel {
 
 				ktSoLuong = 1;
 			}
-
-			if (txtTS.getText().equals("") || txtSL.getText().equals("") || txtNXB.getText().equals("")) {
+			if (ktTenSach.isEmpty() || ktNXB.isEmpty() || ktSL.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin! ");
-			} else if (tacGia.getSelectedIndex() == 0) {
+			} else if (tacGia.getSelectedItem().toString().equals("chọn tác giả")) {
 				JOptionPane.showMessageDialog(null, "Bạn chưa chọn tác giả! ");
-			} else if (theLoai.getSelectedIndex() == 0) {
+			} else if (theLoai.getSelectedItem().toString().equals("chọn thể loại")) {
 				JOptionPane.showMessageDialog(null, "Bạn chưa chọn thể loại! ");
-			} else if (nhaXuatBan.getSelectedIndex() == 0) {
+			} else if (nhaXuatBan.getSelectedItem().toString().equals("chọn nhà xuất bản")) {
 				JOptionPane.showMessageDialog(null, "Bạn chưa chọn nhà xuất bản! ");
 			} else if (ktNamXuatBan == 1) {
 				JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng năm xuất bản(VD: 2018)!");
 			} else if (ktSoLuong == 1) {
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng tên Sách!");
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng số lượng!");
 
+			} else if (ktTonTaiTenSach == 1) {
+				JOptionPane.showMessageDialog(null, "Tên sách đã bị trùng vui lòng đổi lại tên sách!");
 			} else {
-				suaSach();
+				themSach();
 			}
 
 		}
