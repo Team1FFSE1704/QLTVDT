@@ -158,6 +158,7 @@ public class QuanLySachUI extends JPanel {
 				ktNamXuatBan = 1;
 
 			}
+		
 
 			// bắt lỗi ko cho nhập chữ trong ô số lượng
 			try {
@@ -197,6 +198,7 @@ public class QuanLySachUI extends JPanel {
 	ActionListener btnEditClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			//
+			
 			int ktNamXuatBan = 0;
 			int ktSoLuong = 0;
 			int ktTonTaiTenSach = 0;
@@ -250,7 +252,7 @@ public class QuanLySachUI extends JPanel {
 			} else if (ktTonTaiTenSach == 1) {
 				JOptionPane.showMessageDialog(null, "Tên sách đã bị trùng vui lòng đổi lại tên sách!");
 			} else {
-				themSach();
+				suaSach();
 			}
 
 		}
@@ -494,6 +496,7 @@ public class QuanLySachUI extends JPanel {
 		String soLuong = txtSL.getText();
 		String tonKho = txtSL.getText();
 
+		
 		quanLySachDAO.add(new QuanLySach(maSach, tenSach, idTG, idNXB, idTL, namXuatBan, soLuong, tonKho));
 		table.addRow(new String[] { maSach, tenSach, TG, NXB, namXuatBan, TL, soLuong });
 

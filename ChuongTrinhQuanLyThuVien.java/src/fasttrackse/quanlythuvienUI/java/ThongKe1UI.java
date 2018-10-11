@@ -35,7 +35,6 @@ public class ThongKe1UI extends JPanel {
 	private DefaultTableModel table = new DefaultTableModel();
 	private JTable tbl;
 	private JButton btnSubmit, btnTC;
-	private String seach, searchTheLoai, searchNhaXuatBan, searchTacGia;
 
 	private Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
 	private JComboBox<String> tacGia, nhaXuatBan, theLoai;
@@ -193,7 +192,7 @@ public class ThongKe1UI extends JPanel {
 
 		if (tacGia.getSelectedIndex() != 0 && nhaXuatBan.getSelectedIndex() == 0 && theLoai.getSelectedIndex() == 0) {
 
-			seach = tacGia.getSelectedItem().toString();
+			String seach = tacGia.getSelectedItem().toString();
 			arrQLS = quanLySachDAO.getDSQuanLySachTG(seach);
 
 			for (int i = 0; i < arrQLS.size(); i++) {
@@ -203,7 +202,7 @@ public class ThongKe1UI extends JPanel {
 			}
 		}
 		if (tacGia.getSelectedIndex() == 0 && nhaXuatBan.getSelectedIndex() != 0 && theLoai.getSelectedIndex() == 0) {
-			seach = nhaXuatBan.getSelectedItem().toString();
+			String  seach = nhaXuatBan.getSelectedItem().toString();
 			arrQLS = quanLySachDAO.getDSQuanLySachNXB(seach);
 
 			for (int i = 0; i < arrQLS.size(); i++) {
@@ -214,7 +213,7 @@ public class ThongKe1UI extends JPanel {
 
 		}
 		if (tacGia.getSelectedIndex() == 0 && nhaXuatBan.getSelectedIndex() == 0 && theLoai.getSelectedIndex() != 0) {
-			seach = theLoai.getSelectedItem().toString();
+			String  seach = theLoai.getSelectedItem().toString();
 			arrQLS = quanLySachDAO.getDSQuanLySachTL(seach);
 
 			for (int i = 0; i < arrQLS.size(); i++) {
@@ -226,9 +225,9 @@ public class ThongKe1UI extends JPanel {
 		if (tacGia.getSelectedIndex() != 0 && nhaXuatBan.getSelectedIndex() != 0 && theLoai.getSelectedIndex() != 0)
 
 		{
-			searchTheLoai = theLoai.getSelectedItem().toString();
-			searchTacGia = tacGia.getSelectedItem().toString();
-			searchNhaXuatBan = nhaXuatBan.getSelectedItem().toString();
+			String  searchTheLoai = theLoai.getSelectedItem().toString();
+			String  searchTacGia = tacGia.getSelectedItem().toString();
+			String  searchNhaXuatBan = nhaXuatBan.getSelectedItem().toString();
 			arrQLS = quanLySachDAO.getDSQuanLySachTK(searchNhaXuatBan, searchTheLoai, searchTacGia);
 
 			for (int i = 0; i < arrQLS.size(); i++) {

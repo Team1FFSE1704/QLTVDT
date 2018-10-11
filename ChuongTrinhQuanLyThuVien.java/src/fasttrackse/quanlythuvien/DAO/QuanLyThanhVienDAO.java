@@ -16,7 +16,7 @@ import fasttrackse.quanlythuvien.entity.Quan;
 import fasttrackse.quanlythuvien.entity.ThanhVien;
 
 public class QuanLyThanhVienDAO {
-	
+
 	Connection conn = null;
 
 	public QuanLyThanhVienDAO() {
@@ -65,7 +65,6 @@ public class QuanLyThanhVienDAO {
 
 	}
 
-	
 	// danh sách thành viên
 	public ArrayList<ThanhVien> getDSThanhVien() {
 		ArrayList<ThanhVien> dsTV = new ArrayList<ThanhVien>();
@@ -101,117 +100,115 @@ public class QuanLyThanhVienDAO {
 		return dsTV;
 	}
 
-	
-
-	
-
 	// tìm theo quận
-		public ArrayList<ThanhVien> getDSSearchQuan(String SearchQuan) {
-			ArrayList<ThanhVien> dsSearchQuan = new ArrayList<ThanhVien>();
+	public ArrayList<ThanhVien> getDSSearchQuan(String SearchQuan) {
+		ArrayList<ThanhVien> dsSearchQuan = new ArrayList<ThanhVien>();
 
-			try {
-				String queryString = "SELECT thanhvien.MaThanhVien, thanhvien.HoTenThanhVien, thanhvien.DiaChi, phuong.tenphuong, quan.tenquan, tinh_thanhpho.tentinh, thanhvien.SDT, thanhvien.Mail \r\n"
-						+ "FROM thanhvien\r\n" + "INNER JOIN phuong\r\n"
-						+ "ON (thanhvien.Phuong = phuong.maphuong and thanhvien.quan = phuong.quan and thanhvien.tp = phuong.thanhpho)\r\n"
-						+ "INNER JOIN quan\r\n" + "ON (thanhvien.Quan = quan.maquan and thanhvien.TP = quan.thanhpho)\r\n"
-						+ "INNER JOIN tinh_thanhpho\r\n" + "ON thanhvien.TP = tinh_thanhpho.matinh WHERE quan.tenquan LIKE ?";
-				java.sql.PreparedStatement statement = conn.prepareStatement(queryString);
-				statement.setString(1, "%" + SearchQuan + "%");
-				ResultSet result = statement.executeQuery();
+		try {
+			String queryString = "SELECT thanhvien.MaThanhVien, thanhvien.HoTenThanhVien, thanhvien.DiaChi, phuong.tenphuong, quan.tenquan, tinh_thanhpho.tentinh, thanhvien.SDT, thanhvien.Mail \r\n"
+					+ "FROM thanhvien\r\n" + "INNER JOIN phuong\r\n"
+					+ "ON (thanhvien.Phuong = phuong.maphuong and thanhvien.quan = phuong.quan and thanhvien.tp = phuong.thanhpho)\r\n"
+					+ "INNER JOIN quan\r\n" + "ON (thanhvien.Quan = quan.maquan and thanhvien.TP = quan.thanhpho)\r\n"
+					+ "INNER JOIN tinh_thanhpho\r\n"
+					+ "ON thanhvien.TP = tinh_thanhpho.matinh WHERE quan.tenquan LIKE ?";
+			java.sql.PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, "%" + SearchQuan + "%");
+			ResultSet result = statement.executeQuery();
 
-				while (result.next()) {
+			while (result.next()) {
 
-					String maTV = result.getString("MaThanhVien");
-					String tenTV = result.getString("HoTenThanhVien");
-					String soNha = result.getString("thanhvien.DiaChi");
-					String phuong = result.getString("tenphuong");
-					String quan = result.getString("tenquan");
-					String tinh = result.getString("tentinh");
-					String sdt = result.getString("SDT");
-					String email = result.getString("Mail");
+				String maTV = result.getString("MaThanhVien");
+				String tenTV = result.getString("HoTenThanhVien");
+				String soNha = result.getString("thanhvien.DiaChi");
+				String phuong = result.getString("tenphuong");
+				String quan = result.getString("tenquan");
+				String tinh = result.getString("tentinh");
+				String sdt = result.getString("SDT");
+				String email = result.getString("Mail");
 
-					dsSearchQuan.add(new ThanhVien(maTV, tenTV, soNha, phuong, quan, tinh, sdt, email));
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
+				dsSearchQuan.add(new ThanhVien(maTV, tenTV, soNha, phuong, quan, tinh, sdt, email));
 			}
 
-			return dsSearchQuan;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		//tìm theo mã thành viên
-		public ArrayList<ThanhVien> getDSSearchThanhVien(String SearchMaThanhVien ) {
-			ArrayList<ThanhVien> dsSearchMaThanhVien = new ArrayList<ThanhVien>();
 
-			try {
-				String queryString = "SELECT thanhvien.MaThanhVien, thanhvien.HoTenThanhVien, thanhvien.DiaChi, phuong.tenphuong, quan.tenquan, tinh_thanhpho.tentinh, thanhvien.SDT, thanhvien.Mail \r\n"
-						+ "FROM thanhvien\r\n" + "INNER JOIN phuong\r\n"
-						+ "ON (thanhvien.Phuong = phuong.maphuong and thanhvien.quan = phuong.quan and thanhvien.tp = phuong.thanhpho)\r\n"
-						+ "INNER JOIN quan\r\n" + "ON (thanhvien.Quan = quan.maquan and thanhvien.TP = quan.thanhpho)\r\n"
-						+ "INNER JOIN tinh_thanhpho\r\n" + "ON thanhvien.TP = tinh_thanhpho.matinh WHERE quan.tenquan LIKE ?";
-				java.sql.PreparedStatement statement = conn.prepareStatement(queryString);
-				statement.setString(1, "%" + SearchMaThanhVien + "%");
-				
-				
-				ResultSet result = statement.executeQuery();
+		return dsSearchQuan;
+	}
 
-				while (result.next()) {
+	// tìm theo mã thành viên
+	public ArrayList<ThanhVien> getDSSearchThanhVien(String SearchMaThanhVien) {
+		ArrayList<ThanhVien> dsSearchMaThanhVien = new ArrayList<ThanhVien>();
 
-					String maTV = result.getString("MaThanhVien");
-					String tenTV = result.getString("HoTenThanhVien");
-					String soNha = result.getString("thanhvien.DiaChi");
-					String phuong = result.getString("tenphuong");
-					String quan = result.getString("tenquan");
-					String tinh = result.getString("tentinh");
-					String sdt = result.getString("SDT");
-					String email = result.getString("Mail");
+		try {
+			String queryString = "SELECT thanhvien.MaThanhVien, thanhvien.HoTenThanhVien, thanhvien.DiaChi, phuong.tenphuong, quan.tenquan, tinh_thanhpho.tentinh, thanhvien.SDT, thanhvien.Mail \r\n"
+					+ "FROM thanhvien\r\n" + "INNER JOIN phuong\r\n"
+					+ "ON (thanhvien.Phuong = phuong.maphuong and thanhvien.quan = phuong.quan and thanhvien.tp = phuong.thanhpho)\r\n"
+					+ "INNER JOIN quan\r\n" + "ON (thanhvien.Quan = quan.maquan and thanhvien.TP = quan.thanhpho)\r\n"
+					+ "INNER JOIN tinh_thanhpho\r\n"
+					+ "ON thanhvien.TP = tinh_thanhpho.matinh WHERE thanhvien.MaThanhVien LIKE ?";
+			java.sql.PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(1, "%" + SearchMaThanhVien + "%");
 
-					dsSearchMaThanhVien.add(new ThanhVien(maTV, tenTV, soNha, phuong, quan, tinh, sdt, email));
-				}
+			ResultSet result = statement.executeQuery();
 
-			} catch (Exception e) {
-				e.printStackTrace();
+			while (result.next()) {
+
+				String maTV = result.getString("MaThanhVien");
+				String tenTV = result.getString("HoTenThanhVien");
+				String soNha = result.getString("thanhvien.DiaChi");
+				String phuong = result.getString("tenphuong");
+				String quan = result.getString("tenquan");
+				String tinh = result.getString("tentinh");
+				String sdt = result.getString("SDT");
+				String email = result.getString("Mail");
+
+				dsSearchMaThanhVien.add(new ThanhVien(maTV, tenTV, soNha, phuong, quan, tinh, sdt, email));
 			}
 
-			return dsSearchMaThanhVien;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		//tìm theo mã thành viên và quận
-		public ArrayList<ThanhVien> getDSSearchTK(String SearchMaThanhVien,String SearchQuan ) {
-			ArrayList<ThanhVien> dsSearchTK = new ArrayList<ThanhVien>();
 
-			try {
-				String queryString = "SELECT thanhvien.MaThanhVien, thanhvien.HoTenThanhVien, thanhvien.DiaChi, phuong.tenphuong, quan.tenquan, tinh_thanhpho.tentinh, thanhvien.SDT, thanhvien.Mail \r\n"
-						+ "FROM thanhvien\r\n" + "INNER JOIN phuong\r\n"
-						+ "ON (thanhvien.Phuong = phuong.maphuong and thanhvien.quan = phuong.quan and thanhvien.tp = phuong.thanhpho)\r\n"
-						+ "INNER JOIN quan\r\n" + "ON (thanhvien.Quan = quan.maquan and thanhvien.TP = quan.thanhpho)\r\n"
-						+ "INNER JOIN tinh_thanhpho\r\n" + "ON thanhvien.TP = tinh_thanhpho.matinh WHERE quan.tenquan LIKE ?";
-				java.sql.PreparedStatement statement = conn.prepareStatement(queryString);
-				statement.setString(1, "%" + SearchMaThanhVien + "%");
-				statement.setString(1, "%" + SearchQuan + "%");
-				
-				ResultSet result = statement.executeQuery();
+		return dsSearchMaThanhVien;
+	}
 
-				while (result.next()) {
+	// tìm theo mã thành viên và quận
+	public ArrayList<ThanhVien> getDSSearchTK(String SearchMaThanhVien, String SearchQuan) {
+		ArrayList<ThanhVien> dsSearchTK = new ArrayList<ThanhVien>();
 
-					String maTV = result.getString("MaThanhVien");
-					String tenTV = result.getString("HoTenThanhVien");
-					String soNha = result.getString("thanhvien.DiaChi");
-					String phuong = result.getString("tenphuong");
-					String quan = result.getString("tenquan");
-					String tinh = result.getString("tentinh");
-					String sdt = result.getString("SDT");
-					String email = result.getString("Mail");
+		try {
+			String queryString = "SELECT thanhvien.MaThanhVien, thanhvien.HoTenThanhVien, thanhvien.DiaChi, phuong.tenphuong, quan.tenquan, tinh_thanhpho.tentinh, thanhvien.SDT, thanhvien.Mail \r\n"
+					+ "FROM thanhvien\r\n" + "INNER JOIN phuong\r\n"
+					+ "ON (thanhvien.Phuong = phuong.maphuong and thanhvien.quan = phuong.quan and thanhvien.tp = phuong.thanhpho)\r\n"
+					+ "INNER JOIN quan\r\n" + "ON (thanhvien.Quan = quan.maquan and thanhvien.TP = quan.thanhpho)\r\n"
+					+ "INNER JOIN tinh_thanhpho\r\n"
+					+ "ON thanhvien.TP = tinh_thanhpho.matinh WHERE quan.tenquan LIKE ? AND thanhvien.MaThanhVien LIKE ?";
+			java.sql.PreparedStatement statement = conn.prepareStatement(queryString);
+			statement.setString(2, "%" + SearchMaThanhVien + "%");
+			statement.setString(1, "%" + SearchQuan + "%");
 
-					dsSearchTK.add(new ThanhVien(maTV, tenTV, soNha, phuong, quan, tinh, sdt, email));
-				}
+			ResultSet result = statement.executeQuery();
 
-			} catch (Exception e) {
-				e.printStackTrace();
+			while (result.next()) {
+
+				String maTV = result.getString("MaThanhVien");
+				String tenTV = result.getString("HoTenThanhVien");
+				String soNha = result.getString("thanhvien.DiaChi");
+				String phuong = result.getString("tenphuong");
+				String quan = result.getString("tenquan");
+				String tinh = result.getString("tentinh");
+				String sdt = result.getString("SDT");
+				String email = result.getString("Mail");
+
+				dsSearchTK.add(new ThanhVien(maTV, tenTV, soNha, phuong, quan, tinh, sdt, email));
 			}
 
-			return dsSearchTK;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
+		return dsSearchTK;
+	}
 
 }

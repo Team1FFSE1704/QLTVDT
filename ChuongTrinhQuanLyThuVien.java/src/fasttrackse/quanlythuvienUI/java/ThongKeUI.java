@@ -22,7 +22,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import fasttrackse.quanlythuvien.DAO.QuanLySachModel;
 import fasttrackse.quanlythuvien.DAO.QuanLyThanhVienDAO;
 import fasttrackse.quanlythuvien.DAO.QuanModel;
 import fasttrackse.quanlythuvien.entity.Quan;
@@ -35,9 +34,9 @@ public class ThongKeUI extends JPanel {
 	private JTable tbl;
 	private JComboBox<String> quan;
 	private Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
-	private QuanLySachModel quanLySachDAO = new QuanLySachModel();
+
 	private JTextField txtTV;
-	private String searchQuan, SearchMaThanhVien;
+
 	private QuanModel quanDAO = new QuanModel();
 	private QuanLyThanhVienDAO thanhVienDAO = new QuanLyThanhVienDAO();
 	private ArrayList<ThanhVien> arr = new ArrayList<ThanhVien>();
@@ -169,13 +168,15 @@ public class ThongKeUI extends JPanel {
 		}
 	}
 
+	
+	//tìm kiếm 
 	public void seach() {
 		table.setRowCount(0);
 
 		int count = txtTV.getText().length();
 
-		if (quan.getSelectedIndex() != 1 && count == 0) {
-			searchQuan = quan.getSelectedItem().toString();
+		if (quan.getSelectedIndex() != 0 && count == 0) {
+			String searchQuan = quan.getSelectedItem().toString();
 			arr = thanhVienDAO.getDSSearchQuan(searchQuan);
 			for (int i = 0; i < arr.size(); i++) {
 				table.addRow(new String[] { arr.get(i).getMaThanhVien(), arr.get(i).getTenThanhVien(),
@@ -183,16 +184,16 @@ public class ThongKeUI extends JPanel {
 			}
 		}
 		if (quan.getSelectedIndex() == 0 && count > 0) {
-			SearchMaThanhVien = quan.getSelectedItem().toString();
-			arr = thanhVienDAO.getDSSearchThanhVien(SearchMaThanhVien);
+			String maTV = txtTV.getText();
+			arr = thanhVienDAO.getDSSearchThanhVien(maTV);
 			for (int i = 0; i < arr.size(); i++) {
 				table.addRow(new String[] { arr.get(i).getMaThanhVien(), arr.get(i).getTenThanhVien(),
 						arr.get(i).getSoDT() });
 			}
 		}
-		if (quan.getSelectedIndex() != 1 && count > 0) {
-			searchQuan = quan.getSelectedItem().toString();
-			SearchMaThanhVien = txtTV.getText();
+		if (quan.getSelectedIndex() != 0 && count > 0) {
+			String searchQuan = quan.getSelectedItem().toString();
+			String SearchMaThanhVien = txtTV.getText();
 			arr = thanhVienDAO.getDSSearchTK(SearchMaThanhVien, searchQuan);
 			for (int i = 0; i < arr.size(); i++) {
 				table.addRow(new String[] { arr.get(i).getMaThanhVien(), arr.get(i).getTenThanhVien(),
@@ -201,5 +202,4 @@ public class ThongKeUI extends JPanel {
 		}
 
 	}
-
 }

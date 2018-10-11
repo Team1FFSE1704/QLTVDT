@@ -282,7 +282,7 @@ public class QuanLySachModel {
 			statement.setString(1, "%" + searchNXB + "%");
 			statement.setString(2, "%" + searchTG + "%");
 			statement.setString(3, "%" + searchTL + "%");
-			ResultSet result = statement.executeQuery();
+			ResultSet result = statement.executeQuery(); 
 
 			while (result.next()) {
 
